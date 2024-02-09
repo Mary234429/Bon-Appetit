@@ -40,3 +40,7 @@ app.listen(PORT, ()=> {
 app.get('/', (req, res) => {
     res.render('main'/*, variables*/)
 });
+
+app.get('/dietTracker', (req, res) => {
+    res.render('dietTracker', { title: 'Diet Tracker' });
+});
