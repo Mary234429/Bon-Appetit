@@ -15,11 +15,11 @@ const babel= require('@babel/register');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Import Database Models
-//const { } = require('./model');
+const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes } = require('./model');
 
 //Database Connection
-//const {getDb, connectToDb } = require('./db');
-//const { Server } = require('net');
+const {getDb, connectToDb } = require('./db');
+const { Server } = require('net');
 
 //Configure views and view engine
 app.set('views', __dirname + '/views');
