@@ -1,12 +1,13 @@
-import React from 'react';
+const React = require('react');
 
-const MainComponent = () => {
-    return (
-        <div>
-            <h1>TESTING</h1>
-            {}
-        </div>
-    );
-};
+const Main = ({ title }) => (
+    <div>
+        <h1>{title}</h1>
+        <p>Welcome to the home page!</p>
+        <form action="/dietTracker" method="get">
+            <button type="submit">Go to Diet Tracker</button>
+        </form>
+    </div>
+);
 
-export default MainComponent;
+module.exports = Main;
