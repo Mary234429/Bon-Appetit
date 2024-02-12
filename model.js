@@ -60,12 +60,12 @@ var ingredientSchema = new mongoose.Schema({
 });
 var Ingredients = mongoose.model("ingredients", ingredientSchema);
 
-//recipies
+//recipes
 var recipeSchema = new mongoose.Schema({
     name: {type: String},
     description: {type: String},
     ingredients: {type: Array},
-    ingredientAmmounts: {type:Array},
+    ingredientAmounts: {type:Array},
     instructions: {type:Array},
     tags: {type:Array},
     publicity: {type:String}

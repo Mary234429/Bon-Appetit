@@ -4,6 +4,7 @@ const app = express();
 const server = require('http').createServer(app);
 const passport = require('passport');
 const path = require('path');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const React = require('react');
 const babel= require('@babel/register');
@@ -115,4 +116,29 @@ passport.use(new GoogleStrategy({
 
 app.get('/dietTracker', (req, res) => {
     res.render('dietTracker', { title: 'Diet Tracker' });
+});
+
+app.get('/recipeCreate', (req, res) => {
+    res.render('recipeCreate', {title: 'Recipe Creator'});
+});
+
+app.post('/recipeCreate', (req, res) =>{
+    console.log(req);
+    var recipeName = req.body.recipeName;
+    var recipeDescription = req.body.description;
+    var ingredients = req.body.ingredient;
+    var ingredientAmounts = req.body.ingredientAmounts;
+    var instructions = req.body.instructions;
+    var tags = req.body.recipeTags
+
+    const recipe = new Recipes({
+        name: recipeName,
+        description: recipeDescription,
+        ingredients: ingredients,
+        ingredientAmounts: ingredientAmounts,
+        instructions: instructions,
+        tags: tags,
+        publicity: "Public"
+    });
+    recipe.save();
 });
