@@ -123,8 +123,9 @@ app.get('/recipeCreate', (req, res) => {
 });
 
 app.post('/recipeCreate', (req, res) =>{
+    //console.log(res);
     console.log(req);
-    var recipeName = req.body.recipeName;
+    /*var recipeName = req.body.recipeName;
     var recipeDescription = req.body.description;
     var ingredients = req.body.ingredient;
     var ingredientAmounts = req.body.ingredientAmounts;
@@ -140,5 +141,5 @@ app.post('/recipeCreate', (req, res) =>{
         tags: tags,
         publicity: "Public"
     });
-    recipe.save();
+    recipe.save();*/
 });
