@@ -1,6 +1,6 @@
 const React = require('react');
 
-const MainComponent = () => {
+const Main = () => {
   return (
     <div>
       <h1>LOGIN</h1>
@@ -35,7 +35,7 @@ const MainComponent = () => {
   );
 };
 
-const Main = ({ title }) => (
+/*const Main = ({ title }) => (
     <div>
         <h1>{title}</h1>
         <p>Welcome to the home page!</p>
@@ -43,7 +43,7 @@ const Main = ({ title }) => (
             <button type="submit">Go to Diet Tracker</button>
         </form>
     </div>
-);
+);*/
 
 
 module.exports = Main;
