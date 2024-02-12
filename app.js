@@ -45,6 +45,7 @@ app.get('/', (req, res) => {
     res.render('main'/*, variables*/)
 });
 
+
 app.get('/success', (req, res) => {
     res.render('success'/*, variables*/)
 });
@@ -111,3 +112,7 @@ passport.use(new GoogleStrategy({
 *** END GOOGLE OAUTH PASSPORT CODE :) ***
 *****************************************
 */
+
+app.get('/dietTracker', (req, res) => {
+    res.render('dietTracker', { title: 'Diet Tracker' });
+});
