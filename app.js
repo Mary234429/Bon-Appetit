@@ -9,6 +9,15 @@ const mongoose = require('mongoose');
 const React = require('react');
 const babel= require('@babel/register');
 
+
+
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({ extended: true }));
+
 //serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -124,7 +133,8 @@ app.get('/recipeCreate', (req, res) => {
 
 app.post('/recipeCreate', (req, res) =>{
     //console.log(res);
-    console.log(req);
+    console.log("data received");
+    console.log(req.body);
     /*var recipeName = req.body.recipeName;
     var recipeDescription = req.body.description;
     var ingredients = req.body.ingredient;
