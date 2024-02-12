@@ -11,14 +11,66 @@ var templateSchema = new mongoose.Schema({
 var Template = mongoose.model("template", announcementSchema);
 */
 
-//communityMembers
+// comments for recipes
+var commentSchema = new mongoose.Schema({
+
+});
+var Comment = mongoose.model("comment", commentSchema);
+
+//communityMembers / all types of users
 var memberSchema = new mongoose.Schema({
     googleID: {type: String},
     gender: {type: String},
     dietType: {type: String},
     firstName: {type: String},
     lastName: {type: String},
-    dietplan: {type: ObjectId},
-    dietitian: {type: ObjectId},
+    dietitian: {type: String},
+    userType: {type: String},
+    subscribedPlans: {Type: Array}
 });
 var Member = mongoose.model("member", memberSchema);
+
+// dietPlans
+var dietSchema = new mongoose.Schema({
+
+});
+var DietPlan = mongoose.model("diet", dietSchema);
+
+
+//dietTracker Data
+var dietTrackerSchema = new mongoose.Schema({
+    timeOfDay: {type: String},
+    typeOfMeal: {type: String},
+    recipe: {type: String},
+    user: {type: String}
+});
+var DietTracker = mongoose.model("dietTracker", dietTrackerSchema);
+
+// foodJokes
+var jokeSchema = new mongoose.Schema({
+
+});
+var Joke = mongoose.model("joke", jokeSchema);
+
+// ingrediance
+var ingredientSchema = new mongoose.Schema({
+    name: {type: String},
+    unit: {type: String},
+    caloriesPerUnit: {type: String}
+});
+var Ingredients = mongoose.model("ingredients", ingredientSchema);
+
+//recipies
+var recipeSchema = new mongoose.Schema({
+    name: {type: String},
+    description: {type: String},
+    ingredients: {type: Array},
+    ingredientAmmounts: {type:Array},
+    instructions: {type:Array},
+    tags: {type:Array},
+    publicity: {type:String}
+});
+var Recipes = mongoose.model("recipes", recipeSchema);
+
+
+module.exports = { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes };

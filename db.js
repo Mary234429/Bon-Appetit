@@ -13,7 +13,7 @@ const uri = "mongodb+srv://application:" + dbPassword + "@primarycluster.ghipbr2
 
 // Connect to MongoDB using mongoose
 mongoose.connect(uri, {
-    useNewUrlParser: true
+    //useNewUrlParser: true
 }).then(function() {
     // Log a message if the database connection is successful
     console.log("Database connection successful.");
