@@ -17,9 +17,7 @@ const ContactForm = ({ title }) => {
             });
             if (response.ok) {
                 console.log('Success:', await response.text());
-                // Handle success response, maybe clear form or show a success message
             } else {
-                // Handle server errors or invalid responses
                 console.error('Server responded with a non-OK status:', response.status);
             }
         } catch (error) {
