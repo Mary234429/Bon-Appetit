@@ -42,7 +42,7 @@ app.listen(PORT, ()=> {
 });
 
 app.get('/', (req, res) => {
-    res.render('main'/*, variables*/)
+    res.render('success'/*, variables*/)
 });
 
 
@@ -114,5 +114,6 @@ passport.use(new GoogleStrategy({
 */
 
 app.get('/dietTracker', (req, res) => {
-    res.render('dietTracker', { title: 'Diet Tracker' });
+    const stylesPath = path.join(__dirname, '/styles.css'); // Provide your dynamic path here
+    res.render('dietTracker', { title: 'Diet Tracker', stylesPath });
 });

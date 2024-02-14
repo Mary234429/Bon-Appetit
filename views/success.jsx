@@ -1,12 +1,15 @@
 import React from 'react';
 
 const MainComponent = () => {
-    return (
+   return (
         <div>
-            <h1>SUCCESS</h1>
-            {}
+            <h1>SNEAKY LOGIN</h1>
+            <p>Welcome to the home page!</p>
+            <form action="/dietTracker" method="get">
+                <button type="submit">Go to Diet Tracker</button>
+            </form>
         </div>
     );
-};
+}
 
-export default MainComponent;
+module.exports = MainComponent;
