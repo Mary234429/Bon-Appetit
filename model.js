@@ -72,5 +72,13 @@ var recipeSchema = new mongoose.Schema({
 });
 var Recipes = mongoose.model("recipes", recipeSchema);
 
+// Contact Form
+const formSchema = new mongoose.Schema({
+    name: {type: String},
+    email: {type: String},
+    message: {type: String},
+});
 
-module.exports = { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes };
+const Form = mongoose.model('contactForm', formSchema);
+
+module.exports = { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form};

@@ -8,11 +8,12 @@ const mongoose = require('mongoose');
 const React = require('react');
 const babel= require('@babel/register');
 
+
 //serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Import Database Models
-const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes } = require('./model');
+const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form } = require('./model.js');
 
 //Database Connection
 const {getDb, connectToDb } = require('./db');
@@ -116,3 +117,24 @@ passport.use(new GoogleStrategy({
 app.get('/dietTracker', (req, res) => {
     res.render('dietTracker', { title: 'Diet Tracker' });
 });
+
+//Contact Form
+app.get('/contact', (req, res) => {
+    res.render('contact', { title: 'Contact Page' });
+});
+
+app.post('/submit-form', async (req, res) => {
+    console.log("Received request at /submit-form with data:", req.body);
+    try {
+        const newContactForm = new Form(req.body);
+        //await newContactForm.save();
+        console.log("SAVED")
+        console.log("Form data saved to MongoDB");
+        res.status(200).send('Form data saved to MongoDB');
+    } catch (error) {
+        console.error("Error saving form data:", error);
+        res.status(500).send('Error saving form data');
+    }
+});
+
+
