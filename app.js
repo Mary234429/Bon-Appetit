@@ -123,7 +123,7 @@ app.get('/recipeCreate', (req, res) => {
 });
 
 app.post('/recipeCreate', (req, res) =>{
-    //console.log(res);
+    //console.log(req.FormData);
     console.log(req);
     /*var recipeName = req.body.recipeName;
     var recipeDescription = req.body.description;
