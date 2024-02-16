@@ -133,15 +133,19 @@ app.get('/recipeCreate', (req, res) => {
 
 app.post('/recipeCreate', (req, res) =>{
     //console.log(res);
-    console.log("data received");
-    console.log(req.body);
-    /*var recipeName = req.body.recipeName;
+    //console.log("data received");
+    //console.log(req.body);
+
+    //retrieve variables from request
+    var recipeName = req.body.recipeName;
     var recipeDescription = req.body.description;
-    var ingredients = req.body.ingredient;
+    var ingredients = req.body.ingredients;
     var ingredientAmounts = req.body.ingredientAmounts;
     var instructions = req.body.instructions;
-    var tags = req.body.recipeTags
-
+    var tags = req.body.recipeTags;
+    var privacy = req.body.privacyLevel;
+    
+    //Create a recipe object from submitted data
     const recipe = new Recipes({
         name: recipeName,
         description: recipeDescription,
@@ -149,7 +153,10 @@ app.post('/recipeCreate', (req, res) =>{
         ingredientAmounts: ingredientAmounts,
         instructions: instructions,
         tags: tags,
-        publicity: "Public"
+        publicity: privacy
     });
-    recipe.save();*/
+    console.log(recipe);
+    //Save the recipe to the database
+    recipe.save();
+    res.redirect('/recipeCreate');
 });

@@ -12,12 +12,12 @@ const RecipeCreate = ({ title }) => (
             <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br/>
             <ul id="ingredients">
                 <li>
-                    <input class="ingredientAmount" placeholder="Amount" id="ingredientAmount1" name="ingredientAmounts[]"></input>
-                    <input class="ingredient" id="ingredient1" name="ingredients[]" placeholder="Ingredient 1"></input>
+                    <input className="ingredientAmount" placeholder="Amount" id="ingredientAmount1" name="ingredientAmounts[]"></input>
+                    <input className="ingredient" id="ingredient1" name="ingredients[]" placeholder="Ingredient 1"></input>
                 </li>
                 <li>
-                    <input class="ingredientAmount" placeholder="Amount" id="ingredientAmount2" name="ingredientAmounts[]"></input>
-                    <input class="ingredient" id="ingredient2" name="ingredients[]" placeholder="Ingredient 2"></input>
+                    <input className="ingredientAmount" placeholder="Amount" id="ingredientAmount2" name="ingredientAmounts[]"></input>
+                    <input className="ingredient" id="ingredient2" name="ingredients[]" placeholder="Ingredient 2"></input>
                 </li>
             </ul>
 
@@ -29,6 +29,12 @@ const RecipeCreate = ({ title }) => (
                 <li><input id="tag1" name="recipeTags[]" placeholder="Recipe Tag"></input></li>
                 <li><input id="tag2" name="recipeTags[]" placeholder='Recipe Tag'></input></li>
             </ul>
+
+            <select id='privacyLevel' name='privacyLevel'>
+                <option value="Public">Public</option>
+                <option value="Friends Only">Friends Only</option>
+                <option value="Private" selected>Private</option>
+            </select>
 
             <input type="submit" value="Submit"/>
         </form>
