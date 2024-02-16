@@ -32,6 +32,29 @@ app.use(require('express-session')({
 //Babel middleware to transpile JSX
 app.engine('jsx', require('express-react-views').createEngine());
 
+//Listen to the server
+server.listen(process.env.PORT);
+
+//Set up application port
+const PORT = 3000;
+app.listen(PORT, ()=> {
+    console.log("Server has started on port " + PORT);
+});
+
+app.get('/', (req, res) => {
+    res.render('main'/*, variables*/)
+});
+
+
+app.get('/success', (req, res) => {
+    res.render('success'/*, variables*/)
+});
+
+app.get('/login', (req, res) => {
+    res.render('login'/*, variables*/)
+});
+
+
 /*
 *****************************************
 ***BEGIN GOOGLE OAUTH PASSPORT CODE :)***
@@ -110,25 +133,6 @@ function ensureAuthenticated(req, res, next) {
 *****************************************
 */
 
-//Listen to the server
-server.listen(process.env.PORT);
-
-//Set up application port
-const PORT = 3000;
-app.listen(PORT, ()=> {
-    console.log("Server has started on port " + PORT);
+app.get('/dietTracker', (req, res) => {
+    res.render('dietTracker', { title: 'Diet Tracker' });
 });
-
-app.get('/', (req, res) => {
-    res.render('main', { user: req.user }/*, variables*/)
-});
-
-app.get('/success', ensureAuthenticated, function (req, res) {
-    res.render('success', { user: req.user }/*, variables*/)
-});
-
-app.get('/failure', function (req, res) {
-    console.log(req);
-    res.render('failure', { user: req.user }/*, variables*/)
-});
-
