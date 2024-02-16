@@ -13,41 +13,41 @@ var Template = mongoose.model("template", announcementSchema);
 
 // comments for recipes
 var commentSchema = new mongoose.Schema({
-    recipeID: {Type: String},
-    authorID: {Type: String},
-    comment: {Type: String},
-    timestamp: {Type: Date}
+    recipeID: {type: String},
+    authorID: {type: String},
+    comment: {type: String},
+    timestamp: {type: Date}
 });
 var Comment = mongoose.model("comment", commentSchema);
 
 //communityMembers / all types of users
 var memberSchema = new mongoose.Schema({
-    googleID: {Type: String},
-    gender: {Type: String},
-    dietType: {Type: String},
-    firstName: {Type: String},
-    lastName: {Type: String},
-    dietitian: {Type: String},
-    userType: {Type: String},
-    subscribedPlans: {Type: Array}
+    googleID: {type: String},
+    gender: {type: String},
+    diettype: {type: String},
+    firstName: {type: String},
+    lastName: {type: String},
+    dietitian: {type: String},
+    usertype: {type: String},
+    subscribedPlans: {type: Array}
 });
-var Member = mongoose.model("member", memberSchema);
+var Member = mongoose.model("communitymember", memberSchema);
 
 //contactForm
 var contactFormSchema = new mongoose.Schema({
-    name: {Type: String},
-    email: {Type: String},
-    message: {Type: String}
+    name: {type: String},
+    email: {type: String},
+    message: {type: String}
 });
-var contactForm = mongoose.model("contactForm", contactFormSchema);
+var contactForm = mongoose.model("contactform", contactFormSchema);
 
 //created recipies
 var createdRecipeSchema = new mongoose.Schema({
-    googleID: {Type: String},
-    recipeID: {Type: String},
-    timestamp: {Type: Date}
+    googleID: {type: String},
+    recipeID: {type: String},
+    timestamp: {type: Date}
 });
-var createdRecipes = mongoose.model("createdRecipes", createdRecipeSchema);
+var createdRecipes = mongoose.model("createdrecipe", createdRecipeSchema);
 
 // dietPlans
 var dietSchema = new mongoose.Schema({
@@ -58,46 +58,46 @@ var DietPlan = mongoose.model("diet", dietSchema);
 
 //dietTracker Data
 var dietTrackerSchema = new mongoose.Schema({
-    timeOfDay: {Type: String},
-    typeOfMeal: {Type: String},
-    recipe: {Type: String},
-    user: {Type: String}
+    timeOfDay: {type: String},
+    typeOfMeal: {type: String},
+    recipe: {type: String},
+    user: {type: String}
 });
-var DietTracker = mongoose.model("dietTracker", dietTrackerSchema);
+var DietTracker = mongoose.model("diettracker", dietTrackerSchema);
 
 // foodJokes
 var jokeSchema = new mongoose.Schema({
-    joke: {Type: String},
+    joke: {type: String},
 });
-var Joke = mongoose.model("joke", jokeSchema);
+var Joke = mongoose.model("foodjoke", jokeSchema);
 
 // ingrediance
 var ingredientSchema = new mongoose.Schema({
-    name: {Type: String},
-    unit: {Type: String},
-    caloriesPerUnit: {Type: String}
+    name: {type: String},
+    unit: {type: String},
+    caloriesPerUnit: {type: String}
 });
-var Ingredients = mongoose.model("ingredients", ingredientSchema);
+var Ingredients = mongoose.model("ingredient", ingredientSchema);
 
 //recipies
 var recipeSchema = new mongoose.Schema({
-    name: {Type: String},
-    description: {Type: String},
-    ingredients: {Type: Array},
-    ingredientAmmounts: {Type:Array},
-    instructions: {Type:Array},
-    tags: {Type:Array},
-    publicity: {Type:String}
+    name: {type: String},
+    description: {type: String},
+    ingredients: {type: Array},
+    ingredientAmmounts: {type:Array},
+    instructions: {type:Array},
+    tags: {type:Array},
+    publicity: {type:String}
 });
-var Recipes = mongoose.model("recipes", recipeSchema);
+var Recipes = mongoose.model("recipe", recipeSchema);
 
 //saved recipies
 var savedRecipeSchema = new mongoose.Schema({
-    googleID: {Type: String},
-    recipeID: {Type: String},
-    timestamp: {Type: Date}
+    googleID: {type: String},
+    recipeID: {type: String},
+    timestamp: {type: Date}
 });
-var SavedRecipes = mongoose.model("savedRecipes", savedRecipeSchema);
+var SavedRecipes = mongoose.model("savedrecipe", savedRecipeSchema);
 
 
 module.exports = { Comment, createdRecipes, contactForm, Member, DietPlan, 

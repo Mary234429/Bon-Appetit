@@ -1,6 +1,6 @@
 const React = require('react');
 
-const MainComponent = () => {
+const Main = () => {
   return (
     <div>
       <h1>LOGIN</h1>
@@ -13,7 +13,7 @@ const MainComponent = () => {
         />
         <span size="20">Login with Google</span>
       </a>
-      <a className="registerButton" href="/register">
+      <a className="registerButton" href="/auth/google">
         <img
           height="20"
           src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -59,16 +59,6 @@ const MainComponent = () => {
     </div>
   );
 };
-
-const Main = ({ title }) => (
-    <div>
-        <h1>{title}</h1>
-        <p>Welcome to the home page!</p>
-        <form action="/dietTracker" method="get">
-            <button type="submit">Go to Diet Tracker</button>
-        </form>
-    </div>
-);
 
 
 module.exports = Main;
