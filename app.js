@@ -54,6 +54,37 @@ app.get('/login', (req, res) => {
     res.render('login'/*, variables*/)
 });
 
+app.get('/register', (req, res) => {
+    app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+    if (req.isAuthenticated()) {
+        // Check if googleID exists in the database
+        Member.findOne({ googleID: req.user.id }).then(function (logins) {
+            if (logins == null) {
+                const newMember = new Member({
+                    id,
+                    gender,
+                    dietType: 0,
+                    displayName,
+                    displayName,
+                    dietitian: 0,
+                    userType: 0,
+                    subscribedPlans: 0
+                })
+                // If it doesn't exist, redirect to contact us page with notice
+                //res.redirect('/');
+            } else {
+                // If it exists, proceed to the next middleware
+                return next();
+            }
+        });
+    } else {
+        // Redirect if not logged in
+        res.redirect('/failure');
+    }
+
+    res.render('login'/*, variables*/)
+});
+
 
 /*
 *****************************************

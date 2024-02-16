@@ -9,7 +9,7 @@ let dbConnection;
 const dbPassword = "RZ6m6q6mQHNmqcKY";
 
 // Construct the MongoDB connection URI
-const uri = "mongodb+srv://application:" + dbPassword + "@primarycluster.ghipbr2.mongodb.net/?retryWrites=true&w=majority"
+const uri = "mongodb+srv://application:" + dbPassword + "@primarycluster.ghipbr2.mongodb.net/General?retryWrites=true&w=majority"
 
 // Connect to MongoDB using mongoose
 mongoose.connect(uri, {
