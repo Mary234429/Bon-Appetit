@@ -32,10 +32,15 @@ var Member = mongoose.model("member", memberSchema);
 
 // dietPlans
 var dietSchema = new mongoose.Schema({
-
+    name: {type: String},
+    description: {type: String},
+    recipes: {type: Array},
+    recipesPerWeek: {type: Array},
+    tags: {type: Array},
+    publicity: {type: String},
+    author: {type: String}
 });
-var DietPlan = mongoose.model("diet", dietSchema);
-
+var DietPlan = mongoose.model("dietplan", dietSchema);
 
 //dietTracker Data
 var dietTrackerSchema = new mongoose.Schema({

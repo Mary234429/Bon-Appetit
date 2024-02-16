@@ -160,3 +160,30 @@ app.post('/recipeCreate', (req, res) =>{
     recipe.save();
     res.redirect('/recipeCreate');
 });
+
+app.get('/dietPlanCreate', (req, res) =>{
+    res.render('dietPlan', {title: 'Diet Plan Creator'});
+});
+
+app.post('/dietPlanCreate', (req, res) =>{
+    //retrieve variables from request
+    var name = req.body.dietPlanName;
+    var description = req.body.description;
+    var recipes = req.body.recipes;
+    var recipeAmounts = req.body.recipeAmounts;
+    var tags = req.body.dietPlanTags;
+    var privacyLevel = req.body.privacyLevel;
+    var author = "Me";
+
+    const dietPlan = new DietPlan({
+        name: name,
+        description: description,
+        recipes: recipes,
+        recipesPerWeek: recipeAmounts,
+        tags: tags,
+        publicity: privacyLevel,
+        author: author
+    });
+    dietPlan.save();
+    res.redirect('/dietPlanCreate');
+});
