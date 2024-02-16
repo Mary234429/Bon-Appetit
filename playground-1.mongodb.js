@@ -9,10 +9,10 @@
 // For more documentation on playgrounds please refer to
 // https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
 
-const { ObjectId } = require("mongodb");
+// const { ObjectId } = require("mongodb");
 
-// Select the database to use.
-use('General');
+// // Select the database to use.
+// use('General');
 
 // Insert a few documents into the communityMembers collection.
 // db.getCollection('communityMembers').insertMany([
