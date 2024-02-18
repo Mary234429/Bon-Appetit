@@ -26,7 +26,48 @@ const MainComponent = ({ title }) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>{title}</title>
                 <style jsx>{`
-          /* Your styles here */
+            body {
+                        display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100vh;
+                    margin: 60px 0 0; /* Add top margin */
+            }
+
+                    .container {
+                        text - align: center;
+                    max-width: 600px;
+                    width: 100%;
+                    padding: 0 20px;
+                    margin: 60px 0 0; /*Add top margin*/
+            }
+
+                    h1 {
+                        color: black;
+                    margin-left: 20px;
+            }
+
+                    p {
+                        margin - bottom: 20px;
+            }
+
+                    button {
+                        display: inline-block;
+                    padding: 10px 20px;
+                    background-color: #ccc;
+                    color: #fff;
+                    text-decoration: none;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+            }
+
+                    /* Hover effect for the button */
+                    button:hover {
+                        background - color: #999;
+            }
+          
         `}</style>
             </head>
             <body>
