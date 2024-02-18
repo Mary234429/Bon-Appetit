@@ -42,7 +42,7 @@ app.listen(PORT, ()=> {
 });
 
 app.get('/', (req, res) => {
-    res.render('success'/*, variables*/)
+    res.render('main'/*, variables*/)
 });
 
 
@@ -118,7 +118,6 @@ app.get('/recipes', (req, res) => {
         { id: 2, name: 'Recipe 2', ingredients: ['Ingredient 3', 'Ingredient 4'] },
         // Add more recipe objects as needed
     ];
-
     res.json(recipes);
 });
 
