@@ -1,0 +1,47 @@
+const React = require('react');
+
+const DietPlan = ({ title }) => (
+    <div>
+        <h1>{title}</h1>
+        <form action="/" method="get">
+            <button type="submit">Go to Main Page</button>
+        </form>
+        <p>Fill out the form below to create a diet plan:</p>
+        <form action="/dietPlanCreate" method="post">
+            <input type="text" placeholder="Diet Plan Name" name="dietPlanName" id="dietPlanName"></input><br/>
+            <textarea id="description" name="description" placeholder="Diet Plan Description"></textarea><br/>
+            <ul id="recipes">
+                <li>
+                    <input className="recipeAmounts" placeholder="# per Week:" id="recipeAmount1" name="recipeAmounts[]"></input>
+                    <select className="recipes" id="recipe1" name="recipes[]">
+                        <option value="Water">Water</option>
+                        <option value="Lasagna">Lasagna</option>
+                    </select>
+                </li>
+                <li>
+                    <input className="recipeAmounts" placeholder="# per Week:" id="recipeAmount2" name="recipeAmounts[]"></input>
+                    <select className="recipes" id="recipe2" name="recipes[]">
+                        <option value="Pizza">Pizza</option>
+                        <option value="Salad">Salad</option>
+                    </select>
+                </li>
+            </ul>
+
+            <ul id="dietPlanTags">
+                <li><input id="tag1" name="dietPlanTags[]" placeholder="Diet Plan Tag"></input></li>
+                <li><input id="tag2" name="dietPlanTags[]" placeholder='Diet Plan Tag'></input></li>
+            </ul>
+
+            <select id='privacyLevel' name='privacyLevel'>
+                <option value="Public">Public</option>
+                <option value="Friends Only">Friends Only</option>
+                <option value="Private" selected>Private</option>
+            </select>
+
+            <input type="submit" value="Submit"/>
+        </form>
+        
+    </div>
+);
+
+module.exports = DietPlan;
