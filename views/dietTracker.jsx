@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const MainComponent = ({ title }) => { 
+const MainComponent = ({ title }) => {
     return (
         <div className="center-container">
             <div className="container">
