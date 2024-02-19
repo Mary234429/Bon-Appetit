@@ -27,7 +27,7 @@ const { Server } = require('net');
 
 //Configure views and view engine
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jsx');
+app.set('view engine', 'ejs');
 
 // Setting up express-session
 app.use(require('express-session')({
@@ -36,8 +36,6 @@ app.use(require('express-session')({
     saveUninitialized: true
 }));
 
-//Babel middleware to transpile JSX
-app.engine('jsx', require('express-react-views').createEngine());
 
 //Listen to the server
 server.listen(process.env.PORT);
@@ -297,7 +295,17 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    res.render('profile', { title: 'Profile Page' });
+    // Assuming you have default values or you fetch the actual data here
+    const defaultData = {
+        title: 'Member Information',
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'Male',
+        dietType: 'Vegetarian',
+        dietitian: 'Dr. Smith',
+    };
+
+    res.render('profile', defaultData);
 });
 
 app.get('/members/:id', async (req, res) => {
