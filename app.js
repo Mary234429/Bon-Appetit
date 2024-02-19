@@ -4,9 +4,19 @@ const app = express();
 const server = require('http').createServer(app);
 const passport = require('passport');
 const path = require('path');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const React = require('react');
 const babel= require('@babel/register');
+
+
+
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({ extended: true }));
 
 //serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -115,4 +125,65 @@ passport.use(new GoogleStrategy({
 
 app.get('/dietTracker', (req, res) => {
     res.render('dietTracker', { title: 'Diet Tracker' });
+});
+
+app.get('/recipeCreate', (req, res) => {
+    res.render('recipeCreate', {title: 'Recipe Creator'});
+});
+
+app.post('/recipeCreate', (req, res) =>{
+    //console.log(res);
+    //console.log("data received");
+    //console.log(req.body);
+
+    //retrieve variables from request
+    var recipeName = req.body.recipeName;
+    var recipeDescription = req.body.description;
+    var ingredients = req.body.ingredients;
+    var ingredientAmounts = req.body.ingredientAmounts;
+    var instructions = req.body.instructions;
+    var tags = req.body.recipeTags;
+    var privacy = req.body.privacyLevel;
+    
+    //Create a recipe object from submitted data
+    const recipe = new Recipes({
+        name: recipeName,
+        description: recipeDescription,
+        ingredients: ingredients,
+        ingredientAmounts: ingredientAmounts,
+        instructions: instructions,
+        tags: tags,
+        publicity: privacy
+    });
+    console.log(recipe);
+    //Save the recipe to the database
+    recipe.save();
+    res.redirect('/recipeCreate');
+});
+
+app.get('/dietPlanCreate', (req, res) =>{
+    res.render('dietPlan', {title: 'Diet Plan Creator'});
+});
+
+app.post('/dietPlanCreate', (req, res) =>{
+    //retrieve variables from request
+    var name = req.body.dietPlanName;
+    var description = req.body.description;
+    var recipes = req.body.recipes;
+    var recipeAmounts = req.body.recipeAmounts;
+    var tags = req.body.dietPlanTags;
+    var privacyLevel = req.body.privacyLevel;
+    var author = "Me";
+
+    const dietPlan = new DietPlan({
+        name: name,
+        description: description,
+        recipes: recipes,
+        recipesPerWeek: recipeAmounts,
+        tags: tags,
+        publicity: privacyLevel,
+        author: author
+    });
+    dietPlan.save();
+    res.redirect('/dietPlanCreate');
 });
