@@ -11,6 +11,12 @@ const MainComponent = () => {
            <form action="/recipeCreate" method="get">
                 <button type="submit">Go to Recipe Create</button>
            </form>
+           <form action="/contact" method="get">
+               <button type="submit">Go to contact Page</button>
+           </form>
+           <form action="/dietPlanCreate" method="get">
+               <button type="submit">Go to diet Plan Create</button>
+           </form>
         </div>
     );
 }
