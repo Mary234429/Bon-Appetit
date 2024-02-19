@@ -9,9 +9,6 @@ const mongoose = require('mongoose');
 const React = require('react');
 const babel= require('@babel/register');
 
-
-
-
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -22,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Import Database Models
-const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes } = require('./model');
+const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form } = require('./model.js');
 
 //Database Connection
 const {getDb, connectToDb } = require('./db');
@@ -153,7 +150,7 @@ app.post('/recipeCreate', (req, res) =>{
     var instructions = req.body.instructions;
     var tags = req.body.recipeTags;
     var privacy = req.body.privacyLevel;
-    
+
     //Create a recipe object from submitted data
     const recipe = new Recipes({
         name: recipeName,
@@ -172,6 +169,26 @@ app.post('/recipeCreate', (req, res) =>{
 
 app.get('/dietPlanCreate', (req, res) =>{
     res.render('dietPlan', {title: 'Diet Plan Creator'});
+});
+
+//Contact Form
+app.get('/contact', (req, res) => {
+    res.render('contact', { title: 'Contact Page' });
+});
+
+app.post('/contactSubmit', async (req, res) => {
+    console.log("Received request at /contactSubmit with data:", req.body);
+    var name = req.body.name;
+    var email = req.body.email;
+    var message = req.body.message;
+
+    const contactForm = new Form({
+        name: name,
+        email: email,
+        message: message,
+    });
+    contactForm.save();
+    res.redirect('/contact');
 });
 
 app.post('/dietPlanCreate', (req, res) =>{
@@ -196,3 +213,29 @@ app.post('/dietPlanCreate', (req, res) =>{
     dietPlan.save();
     res.redirect('/dietPlanCreate');
 });
+
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'About Us Page' });
+});
+
+app.get('/profile', (req, res) => {
+    res.render('profile', { title: 'Profile Page' });
+});
+
+app.get('/members/:id', async (req, res) => {
+    console.log("Received request at /members with ID:", req.params.id);
+    try {
+        const member = await Member.findById(req.params.id);
+        if (!member) {
+            console.log("No member found with ID:", req.params.id);
+            return res.status(404).send('Member not found');
+        }
+        console.log("Member data found:", member);
+        res.json(member);
+    } catch (error) {
+        console.error("Error fetching member data:", error);
+        res.status(500).send('Server error');
+    }
+});
+
+
