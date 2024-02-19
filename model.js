@@ -52,9 +52,15 @@ var createdRecipes = mongoose.model("createdrecipe", createdRecipeSchema);
 // dietPlans
 var dietSchema = new mongoose.Schema({
     
+    name: {type: String},
+    description: {type: String},
+    recipes: {type: Array},
+    recipesPerWeek: {type: Array},
+    tags: {type: Array},
+    publicity: {type: String},
+    author: {type: String}
 });
-var DietPlan = mongoose.model("diet", dietSchema);
-
+var DietPlan = mongoose.model("dietplan", dietSchema);
 
 //dietTracker Data
 var dietTrackerSchema = new mongoose.Schema({
@@ -84,7 +90,7 @@ var recipeSchema = new mongoose.Schema({
     name: {type: String},
     description: {type: String},
     ingredients: {type: Array},
-    ingredientAmmounts: {type:Array},
+    ingredientAmounts: {type:Array},
     instructions: {type:Array},
     tags: {type:Array},
     publicity: {type:String}
@@ -99,6 +105,12 @@ var savedRecipeSchema = new mongoose.Schema({
 });
 var SavedRecipes = mongoose.model("savedrecipe", savedRecipeSchema);
 
+// Contact Form
+const formSchema = new mongoose.Schema({
+    name: {type: String},
+    email: {type: String},
+    message: {type: String},
+});
+const Form = mongoose.model('contactForm', formSchema);
 
-module.exports = { Comment, createdRecipes, contactForm, Member, DietPlan, 
-    DietTracker, Joke, Ingredients, Recipes, SavedRecipes };
+module.exports = { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form};
