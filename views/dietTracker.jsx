@@ -8,7 +8,7 @@ const MainComponent = ({ title }) => {
                 <form action="/" method="get">
                     <button type="submit">Go to Main Page</button>
                 </form>
-                <h1>Calories 0/2000</h1>
+                <h1>Calories pulltest</h1>
                 <h2>Breakfast</h2>
                 <form action="/recipes" method="get">
                     <button type="submit">Add food</button>
