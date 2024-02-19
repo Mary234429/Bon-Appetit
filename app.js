@@ -42,26 +42,6 @@ app.engine('jsx', require('express-react-views').createEngine());
 //Listen to the server
 server.listen(process.env.PORT);
 
-//Set up application port
-const PORT = 3000;
-app.listen(PORT, ()=> {
-    console.log("Server has started on port " + PORT);
-});
-
-app.get('/', (req, res) => {
-    res.render('main'/*, variables*/)
-});
-
-
-app.get('/success', (req, res) => {
-    res.render('success'/*, variables*/)
-});
-
-app.get('/login', (req, res) => {
-    res.render('login'/*, variables*/)
-});
-
-
 /*
 *****************************************
 ***BEGIN GOOGLE OAUTH PASSPORT CODE :)***
@@ -72,10 +52,9 @@ app.get('/login', (req, res) => {
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 // Google OAuth2 credentials
-const GOOGLE_CLIENT_ID = '561772897520-tnutq8fiveghj9a08n2fqm79n05du763.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-//const CALLBACK_URL = 'https://jellyfish-app-c56xb.ondigitalocean.app/auth/google/callback';
-const CALLBACK_URL = 'http://localhost:3000/success';
+const GOOGLE_CLIENT_ID = '1045442076562-7vtmju1qqq6aahdjrqpnesusknidfirr.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
+const CALLBACK_URL = 'http://localhost:3000/auth/google/callback';
 
 // Initializing passport and session middleware
 app.use(passport.initialize());
@@ -88,7 +67,7 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'em
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         // change landing page after (un)successful logins
-        failureRedirect: '/login',
+        failureRedirect: '/register',
         // if you are not Max and changing the redirect below ask him to change it in the google api dashbaord :)
         // for Max: https://console.cloud.google.com/apis/credentials?project=sacred-armor-399615
         successRedirect: '/success'
@@ -109,11 +88,32 @@ passport.use(new GoogleStrategy({
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: CALLBACK_URL,
     passreqToCallback: true
-}, function (token, tokenSecret, profile, done) {
+}, 
+function(request, accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-        return done(null, profile);
+      return done(null, profile);
     });
-}));
+  }
+));
+
+// Middleware to ensure user is authenticated
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        // Check if googleID exists in the database
+        Member.findOne({ googleID: req.user.id }).then(function (logins) {
+            if (logins == null) {
+                // If it doesn't exist, redirect to contact us page with notice
+                res.redirect('/register');
+            } else {
+                // If it exists, proceed to the next middleware
+                return next();
+            }
+        });
+    } else {
+        // Redirect if not logged in
+        res.redirect('main');
+    }
+}
 /*
 *****************************************
 *** END GOOGLE OAUTH PASSPORT CODE :) ***
@@ -128,11 +128,89 @@ app.get('/recipes', (req, res) => {
     res.json(recipes);
 });
 
+//Set up application port
+const PORT = 3000;
+app.listen(PORT, ()=> {
+    console.log("Server has started on port " + PORT);
+});
+
+app.get('/', (req, res) => {
+    res.render('main'/*, variables*/)
+});
+
+
+app.get('/success', ensureAuthenticated, function(req, res) {
+    res.render('success'/*, variables*/)
+});
+
+app.get('/login', (req, res) => {
+    res.render('login'/*, variables*/)
+});
+
 app.get('/dietTracker', (req, res) => {
     const stylesPath = path.join(__dirname, '/styles.css'); // Provide your dynamic path here
     res.render('dietTracker', { title: 'Diet Tracker', stylesPath });
 });
 
+app.get('/register', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log(req.user.id);
+        // Check if googleID exists in the database
+        Member.findOne({ googleID: req.user.id }).then(function (logins) {
+            if (logins == null) {
+                if (req.user.gender == undefined){
+                    const newMember = new Member({
+                        googleID: req.user.id,
+                        gender: String(0),
+                        diettype: String(0),
+                        firstName: req.user.displayName,
+                        lastName: req.user.displayName,
+                        dietitian: String(0),
+                        usertype: "member",
+                        subscribedPlans: []
+                    });
+                    console.log(newMember);
+                    newMember.save() 
+                    .then(() => {
+                        console.log("New Member saved successfully");
+                        res.redirect('/');
+                    })
+                    .catch((err) => {
+                        console.log("Error creating new member: ", err);
+                        res.status(500).send('Error registering new member');
+                    })
+                } else {
+                    const newMember = new Member({
+                        googleID: req.user.id,
+                        gender: req.user.gender,
+                        diettype: String(0),
+                        firstName: req.user.displayName,
+                        lastName: req.user.displayName,
+                        dietitian: String(0),
+                        usertype: String(0),
+                        subscribedPlans: []
+                    });
+                    console.log(newMember);
+                    newMember.save() 
+                    .then(() => {
+                        console.log("New Member saved successfully");
+                        res.redirect('/');
+                    })
+                    .catch((err) => {
+                        console.log("Error creating new member: ", err);
+                        res.status(500).send('Error registering new member');
+                    })
+                }
+            } else {
+                // If it exists, proceed to the next middleware
+                return next();
+            }
+        });
+    } else {
+        // Redirect if not logged in
+        res.redirect('/failure');
+    }
+});
 app.get('/recipeCreate', (req, res) => {
     res.render('recipeCreate', {title: 'Recipe Creator'});
 });
