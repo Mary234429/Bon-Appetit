@@ -1,15 +1,12 @@
-const React = require('react');
-
-const DietPlan = ({ title }) => (
     <div>
-        <h1>{title}</h1>
+        <h1><%= title %></h1>
         <form action="/" method="get">
             <button type="submit">Go to Main Page</button>
         </form>
         <p>Fill out the form below to create a diet plan:</p>
         <form action="/dietPlanCreate" method="post">
-            <input type="text" placeholder="Diet Plan Name" name="dietPlanName" id="dietPlanName"></input><br/>
-            <textarea id="description" name="description" placeholder="Diet Plan Description"></textarea><br/>
+            <input type="text" placeholder="Diet Plan Name" name="dietPlanName" id="dietPlanName"></input><br />
+            <textarea id="description" name="description" placeholder="Diet Plan Description"></textarea><br />
             <ul id="recipes">
                 <li>
                     <input className="recipeAmounts" placeholder="# per Week:" id="recipeAmount1" name="recipeAmounts[]"></input>
@@ -38,10 +35,6 @@ const DietPlan = ({ title }) => (
                 <option value="Private" selected>Private</option>
             </select>
 
-            <input type="submit" value="Submit"/>
+            <input type="submit" value="Submit" />
         </form>
-        
     </div>
-);
-
-module.exports = DietPlan;
