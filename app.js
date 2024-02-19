@@ -176,18 +176,19 @@ app.get('/contact', (req, res) => {
     res.render('contact', { title: 'Contact Page' });
 });
 
-app.post('/submit-form', async (req, res) => {
-    console.log("Received request at /submit-form with data:", req.body);
-    try {
-        const newContactForm = new Form(req.body);
-        //await newContactForm.save();
-        console.log("SAVED")
-        console.log("Form data saved to MongoDB");
-        res.status(200).send('Form data saved to MongoDB');
-    } catch (error) {
-        console.error("Error saving form data:", error);
-        res.status(500).send('Error saving form data');
-    }
+app.post('/contactSubmit', async (req, res) => {
+    console.log("Received request at /contactSubmit with data:", req.body);
+    var name = req.body.name;
+    var email = req.body.email;
+    var message = req.body.message;
+
+    const contactForm = new Form({
+        name: name,
+        email: email,
+        message: message,
+    });
+    contactForm.save();
+    res.redirect('/contact');
 });
 
 app.post('/dietPlanCreate', (req, res) =>{
@@ -212,3 +213,29 @@ app.post('/dietPlanCreate', (req, res) =>{
     dietPlan.save();
     res.redirect('/dietPlanCreate');
 });
+
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'About Us Page' });
+});
+
+app.get('/profile', (req, res) => {
+    res.render('profile', { title: 'Profile Page' });
+});
+
+app.get('/members/:id', async (req, res) => {
+    console.log("Received request at /members with ID:", req.params.id);
+    try {
+        const member = await Member.findById(req.params.id);
+        if (!member) {
+            console.log("No member found with ID:", req.params.id);
+            return res.status(404).send('Member not found');
+        }
+        console.log("Member data found:", member);
+        res.json(member);
+    } catch (error) {
+        console.error("Error fetching member data:", error);
+        res.status(500).send('Server error');
+    }
+});
+
+
