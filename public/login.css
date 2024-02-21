@@ -1,3 +1,40 @@
+body {
+  background-color: #6c8347;
+  padding: 100px;
+  font-family: Lustria;
+}
+#box {
+  width: 846px;
+  height: 700px;
+  flex-shrink: 0;
+  border-radius: 40px;
+  background: #fff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#bowl {
+  width: 375px;
+  height: 375px;
+  flex-shrink: 0;
+  display: block;
+  position: absolute;
+  top: 300px;
+  left: 600px;
+}
+#label {
+  color: #000;
+
+  position: absolute;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  top: 225px;
+  left: 310px;
+  flex-shrink: 0;
+}
+
 .googleButton {
   display: inline-block;
   background-color: #4285f4;
