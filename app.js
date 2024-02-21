@@ -145,9 +145,8 @@ app.get('/login', (req, res) => {
     res.render('login'/*, variables*/)
 });
 
-app.get('/dietTracker', (req, res) => {
-    const stylesPath = path.join(__dirname, '/styles.css'); // Provide your dynamic path here
-    res.render('dietTracker', { title: 'Diet Tracker', stylesPath });
+app.get('/dietTracker',ensureAuthenticated, function(req, res) {
+    res.render('dietTracker', { title: 'Diet Tracker'});
 });
 
 app.get('/register', (req, res) => {
