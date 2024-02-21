@@ -68,7 +68,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/register',
         // if you are not Max and changing the redirect below ask him to change it in the google api dashbaord :)
         // for Max: https://console.cloud.google.com/apis/credentials?project=sacred-armor-399615
-        successRedirect: '/success'
+        successRedirect: '/dashboard'
     }));
 
 // Passport serialization and deserialization
@@ -109,7 +109,7 @@ function ensureAuthenticated(req, res, next) {
         });
     } else {
         // Redirect if not logged in
-        res.redirect('main');
+        res.redirect('login');
     }
 }
 /*
@@ -133,12 +133,12 @@ app.listen(PORT, ()=> {
 });
 
 app.get('/', (req, res) => {
-    res.render('main'/*, variables*/)
+    res.render('login'/*, variables*/)
 });
 
 
-app.get('/success', ensureAuthenticated, function(req, res) {
-    res.render('success'/*, variables*/)
+app.get('/dashboard', ensureAuthenticated, function(req, res) {
+    res.render('dashboard'/*, variables*/)
 });
 
 app.get('/login', (req, res) => {

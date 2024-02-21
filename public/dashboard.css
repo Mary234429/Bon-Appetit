@@ -1,0 +1,119 @@
+.black-rectangle-top {
+  width: 100%;
+  height: 30px; /* Adjust height as needed */
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* Ensure it appears above other content */
+}
+.dashboard-page {
+  background-color: #d9d9d9;
+  /* font-family: Lustria; */
+}
+/* dashboard.css */
+
+/* Navbar styles */
+.navbar {
+  background-color: #d9d9d9; /* Navbar background color */
+  padding: 10px; /* Padding around navbar */
+  margin-top: 30px;
+  text-align: center;
+  /* position: fixed; */
+}
+
+.navbar ul {
+  list-style-type: none; /* Remove default bullet points */
+  margin-top: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  display: inline; /* Display list items horizontally */
+  margin-right: 20px; /* Spacing between list items */
+}
+
+.navbar ul li a {
+  color: rgb(0, 0, 0); /* Text color of navbar links */
+  font-family: Lustria;
+  font-size: 18px;
+
+  font-weight: 400;
+}
+.topPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  /* max-width: 2400px; */
+  height: 290px;
+  background-color: #d9d9d9;
+}
+
+.wheat_1 {
+  width: 200px;
+  height: 200px;
+  /* position: absolute; */
+  background-size: contain;
+  background: url("wheat_1.png") center center/cover no-repeat;
+  background-size: cover;
+  /* margin-top: 5%; Adjust the margin-top to keep the element in its original position */
+  margin-left: -15%;
+}
+
+.wheat_2 {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  background: url("wheat_2.png") center center no-repeat;
+  background-size: cover;
+  background-size: contain;
+  /* margin-top: -10.5%; */
+  margin-left: 8%;
+}
+header {
+  text-align: center; /* Center-align the header */
+  /* margin-top: 10x; */
+}
+
+h1 {
+  margin-bottom: -20px;
+  margin-top: -45px;
+  font-family: Lustria;
+  font-size: 76px; /* Adjust the font size */
+  font-weight: lighter; /* Make the font weight lighter */
+  letter-spacing: 2px; /* Add letter spacing */
+  line-height: 1.5; /* Adjust the line height */
+}
+t {
+  color: #6c8347;
+  /* margin-top: 2px; */
+  /* font-family: Lucida Handwriting; */
+  font-family: Brush Script MT;
+  font-size: 60px;
+  font-weight: 50;
+  font-style: italic;
+  line-height: normal;
+}
+.bottomPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  /* max-width: 2400px; */
+  height: 220px;
+  background-color: rgb(59, 21, 21);
+  /* border-top-right-radius: 20px;
+  border-bottom-right-radius: 60px; */
+}
+.dashboard_pic {
+  width: 100%; /* Set width to 100% to fill the container */
+  height: 100%; /* Set height to 100% to fill the container */
+  background: rgba(255, 255, 255, 0.8) url("dashboard_pic.png") center
+    center/cover no-repeat;
+  background-size: cover;
+}
