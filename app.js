@@ -185,11 +185,12 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     console.log(lunchRecipes);
     console.log(dinnerRecipes);
     res.render(
-      "dashboard",
-      breakfastRecipes,
-      lunchRecipes,
-      dinnerRecipes,
-      snackRecipes /*, variables*/
+        "dashboard", {
+        breakfastRecipes,
+        lunchRecipes,
+        dinnerRecipes,
+        snackRecipes
+    } /*, variables*/
     );
   });
 });
