@@ -154,15 +154,48 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("login" /*, letiables*/);
+  res.render("login" /*, variables*/);
 });
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
-  res.render("dashboard" /*, letiables*/);
+  Recipes.find().then((recipes) => {
+    let breakfastRecipes = [];
+    const breakfastRegex = new RegExp("Breakfast");
+    let lunchRecipes = [];
+    const lunchRegex = new RegExp("Lunch");
+    let dinnerRecipes = [];
+    const dinnerRegex = new RegExp("Dinner");
+    let snackRecipes = [];
+    const snackRegex = new RegExp("Snack");
+    console.log(recipes.at(0).mealType.at(0));
+    for (let i = 0; i < recipes.length; i++) {
+      for (let j = 0; j < recipes.at(i).mealType.length; j++) {
+        if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
+          breakfastRecipes.push(recipes.at(i));
+        } else if (lunchRegex.test(recipes.at(i).mealType.at(j))) {
+          lunchRecipes.push(recipes.at(i));
+        } else if (dinnerRegex.test(recipes.at(i).mealType.at(j))) {
+          dinnerRecipes.push(recipes.at(i));
+        } else if (snackRegex.test(recipes.at(i).mealType.at(j))) {
+          snackRecipes.push(recipes.at(i));
+        }
+      }
+    }
+    console.log(breakfastRecipes);
+    console.log(lunchRecipes);
+    console.log(dinnerRecipes);
+    res.render(
+      "dashboard",
+      breakfastRecipes,
+      lunchRecipes,
+      dinnerRecipes,
+      snackRecipes /*, variables*/
+    );
+  });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login" /*, letiables*/);
+  res.render("login" /*, variables*/);
 });
 
 app.get('/dietTracker',ensureAuthenticated, function(req, res) {
@@ -298,7 +331,7 @@ app.post("/contactSubmit", async (req, res) => {
 });
 
 app.post("/dietPlanCreate", ensureAuthenticated, function (req, res) {
-  //retrieve letiables from request
+  //retrieve variables from request
   let name = req.body.dietPlanName;
   let description = req.body.description;
   let recipes = req.body.recipes;
