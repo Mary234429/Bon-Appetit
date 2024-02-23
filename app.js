@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Import Database Models
-const { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form } = require('./model.js');
+const { Comment, Member, contactForm, createdRecipes, DietPlan, DietTracker, Joke, Ingredients, Recipes , SavedRecipes,  Form } = require('./model.js');
 
 //Database Connection
 const {getDb, connectToDb } = require('./db');
@@ -104,6 +104,8 @@ function ensureAuthenticated(req, res, next) {
                 res.redirect('/register');
             } else {
                 // If it exists, proceed to the next middleware
+                // var loggedInMember = logins;
+                // console.log(loggedInMember);
                 return next();
             }
         });
@@ -112,6 +114,14 @@ function ensureAuthenticated(req, res, next) {
         res.redirect('login');
     }
 }
+
+// Logging out and redirecting to the home page
+app.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+        res.redirect('/');
+    });
+});
+
 /*
 *****************************************
 *** END GOOGLE OAUTH PASSPORT CODE :) ***
@@ -156,13 +166,14 @@ app.get('/register', (req, res) => {
         // Check if googleID exists in the database
         Member.findOne({ googleID: req.user.id }).then(function (logins) {
             if (logins == null) {
+                let nameArray = req.user.displayName.split(" ");
                 if (req.user.gender == undefined){
                     const newMember = new Member({
                         googleID: req.user.id,
                         gender: String(0),
                         diettype: String(0),
-                        firstName: req.user.displayName,
-                        lastName: req.user.displayName,
+                        firstName: nameArray[0],
+                        lastName: nameArray[1],
                         dietitian: String(0),
                         usertype: "member",
                         subscribedPlans: []
@@ -182,8 +193,8 @@ app.get('/register', (req, res) => {
                         googleID: req.user.id,
                         gender: req.user.gender,
                         diettype: String(0),
-                        firstName: req.user.displayName,
-                        lastName: req.user.displayName,
+                        firstName: nameArray[0],
+                        lastName: nameArray[1],
                         dietitian: String(0),
                         usertype: String(0),
                         subscribedPlans: []
@@ -295,17 +306,16 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    // Assuming you have default values or you fetch the actual data here
-    const defaultData = {
-        title: 'Member Information',
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'Male',
-        dietType: 'Vegetarian',
-        dietitian: 'Dr. Smith',
-    };
-
-    res.render('profile', defaultData);
+    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+        res.render('profile', {
+            title: 'Member Information',
+            firstName: loggedInMember.firstName,
+            lastName: loggedInMember.lastName,
+            gender: loggedInMember.gender,
+            dietType: loggedInMember.dietType,
+            dietitian: loggedInMember.dietitian,
+        });
+    })   
 });
 
 app.get('/members/:id', async (req, res) => {

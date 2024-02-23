@@ -33,14 +33,6 @@ var memberSchema = new mongoose.Schema({
 });
 var Member = mongoose.model("communitymember", memberSchema);
 
-//contactForm
-var contactFormSchema = new mongoose.Schema({
-    name: {type: String},
-    email: {type: String},
-    message: {type: String}
-});
-var contactForm = mongoose.model("contactform", contactFormSchema);
-
 //created recipies
 var createdRecipeSchema = new mongoose.Schema({
     googleID: {type: String},
@@ -113,4 +105,4 @@ const formSchema = new mongoose.Schema({
 });
 const Form = mongoose.model('contactForm', formSchema);
 
-module.exports = { Comment, Member, DietPlan, DietTracker, Joke, Ingredients, Recipes , Form};
+module.exports = { Comment, Member, createdRecipes, DietPlan, DietTracker, Joke, Ingredients, Recipes , SavedRecipes,  Form};
