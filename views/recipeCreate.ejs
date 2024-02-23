@@ -1,42 +1,110 @@
-//recipe Create page
-
+<!--recipe Create page-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
     <div>
-        <h1><%= title %></h1>
-        <form action="/dashboard" method="get">
-            <button type="submit">Go to Main Page</button>
-        </form>
-        <p>Fill out the form below to create a custom recipe:</p>
-        <form action="/recipeCreate" method="post">
-            <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName"><br>
-                <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br>
+      <h1><%= title %></h1>
+      <form action="/dashboard" method="get">
+        <button type="submit">Go to Main Page</button>
+      </form>
+      <p>Fill out the form below to create a custom recipe:</p>
+      <form action="/recipeCreate" method="post">
+        <input
+          type="text"
+          placeholder="Recipe Name"
+          name="recipeName"
+          id="recipeName"
+        /><br />
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Recipe Description"
+        ></textarea
+        ><br />
 
-                    <ul id="ingredients">
-                        <li>
-                            <input class="ingredientAmount" placeholder="Amount" id="ingredientAmount1" name="ingredientAmounts[]">
-                                <input class="ingredient" id="ingredient1" name="ingredients[]" placeholder="Ingredient 1">
-                                </li>
-                                <li>
-                                    <input class="ingredientAmount" placeholder="Amount" id="ingredientAmount2" name="ingredientAmounts[]">
-                                        <input class="ingredient" id="ingredient2" name="ingredients[]" placeholder="Ingredient 2">
-                                        </li>
-                                    </ul>
+        <ul id="ingredients">
+          <li>
+            <input
+              class="ingredientAmount"
+              placeholder="Amount"
+              id="ingredientAmount1"
+              name="ingredientAmounts[]"
+            />
+            <input
+              class="ingredient"
+              id="ingredient1"
+              name="ingredients[]"
+              placeholder="Ingredient 1"
+            />
+          </li>
+          <li>
+            <input
+              class="ingredientAmount"
+              placeholder="Amount"
+              id="ingredientAmount2"
+              name="ingredientAmounts[]"
+            />
+            <input
+              class="ingredient"
+              id="ingredient2"
+              name="ingredients[]"
+              placeholder="Ingredient 2"
+            />
+          </li>
+        </ul>
 
-                                    <ol id="instructions">
-                                        <li><input id="instruction1" name="instructions[]" placeholder="Instruction"></input></li>
-                                        <li><input id="instruction2" name="instructions[]" placeholder="Instruction"></input></li>
-                                    </ol>
+        <ol id="instructions">
+          <li>
+            <input
+              id="instruction1"
+              name="instructions[]"
+              placeholder="Instruction"
+            />
+          </li>
+          <li>
+            <input
+              id="instruction2"
+              name="instructions[]"
+              placeholder="Instruction"
+            />
+          </li>
+        </ol>
 
-                                    <ul id="recipeTags">
-                                        <li><input id="tag1" name="recipeTags[]" placeholder="Recipe Tag"></input></li>
-                                        <li><input id="tag2" name="recipeTags[]" placeholder='Recipe Tag'></input></li>
-                                    </ul>
+        <ul id="recipeTags">
+          <li>
+            <input id="tag1" name="recipeTags[]" placeholder="Recipe Tag" />
+          </li>
+          <li>
+            <input id="tag2" name="recipeTags[]" placeholder="Recipe Tag" />
+          </li>
+        </ul>
+        <label for="breakfast">Breakfast</label>
+        <input
+          id="breakfast"
+          type="checkbox"
+          value="Breakfast"
+          name="mealType[]"
+        />
+        <label for="lunch">Lunch</label>
+        <input type="checkbox" id="lunch" value="Lunch" name="mealType[]" />
+        <label for="dinner">Dinner</label>
+        <input type="checkbox" id="dinner" value="Dinner" name="mealType[]" />
+        <label for="snack">Snack</label>
+        <input type="checkbox" id="snack" value="Snack" name="mealType[]" />
+        <br />
+        <select id="privacyLevel" name="privacyLevel">
+          <option value="Public">Public</option>
+          <option value="Friends Only">Friends Only</option>
+          <option value="Private" selected>Private</option>
+        </select>
 
-                                    <select id='privacyLevel' name='privacyLevel'>
-                                        <option value="Public">Public</option>
-                                        <option value="Friends Only">Friends Only</option>
-                                        <option value="Private" selected>Private</option>
-                                    </select>
-
-                                    <input type="submit" value="Submit">
-                                    </form>
-                                </div>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
