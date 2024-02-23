@@ -154,7 +154,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
@@ -188,13 +188,13 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         lunchRecipes,
         dinnerRecipes,
         snackRecipes,
-      } /*, variables*/
+      } /*, {variables}*/
     );
   });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
 app.get("/dietTracker", ensureAuthenticated, function (req, res) {
