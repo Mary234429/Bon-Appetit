@@ -181,9 +181,6 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         }
       }
     }
-    console.log(breakfastRecipes);
-    console.log(lunchRecipes);
-    console.log(dinnerRecipes);
     res.render(
       "dashboard",
       {
