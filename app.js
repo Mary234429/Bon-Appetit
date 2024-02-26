@@ -154,7 +154,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
@@ -181,28 +181,25 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         }
       }
     }
-    console.log(breakfastRecipes);
-    console.log(lunchRecipes);
-    console.log(dinnerRecipes);
     res.render(
-        "dashboard", {
+      "dashboard",
+      {
         breakfastRecipes,
         lunchRecipes,
         dinnerRecipes,
-        snackRecipes
-    } /*, variables*/
+        snackRecipes,
+      } /*, {variables}*/
     );
   });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
-app.get('/dietTracker',ensureAuthenticated, function(req, res) {
-    const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
-    res.render('dietTracker', { title: 'Diet Tracker', stylesPath });
-
+app.get("/dietTracker", ensureAuthenticated, function (req, res) {
+  const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
+  res.render("dietTracker", { title: "Diet Tracker", stylesPath });
 });
 
 app.get("/register", (req, res) => {
