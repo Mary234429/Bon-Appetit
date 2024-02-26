@@ -18,28 +18,29 @@
         const age = Math.abs(ageDate.getUTCFullYear() - 1970);
     %>
 </div>
-
-<div>
-  <h2>Member Information</h2>
-  <p>First Name: <%= loggedInMember.firstName %></p>
-  <p>Last Name: <%= loggedInMember.lastName %></p>
+<h2>Edit Member Information</h2>
+<form action="editProfile", method="post">
+  <input type="hidden", name="ID", id="ID" value=<%= loggedInMember.googleId %>></br>
+  <label for="FN">First Name:</label>
+  <input type="text", name="FN", id="FN" value=<%= loggedInMember.firstName %>></br>
+  <label for="LN">Last Name:</label>
+  <input type="text", name="LN", id="LN" value=<%= loggedInMember.lastName %>></br>
   <p>Gender: <%= loggedInMember.gender %></p>
   <p>Diet Type: <%= loggedInMember.dietType %></p>
   <p>Dietitian: <%= loggedInMember.dietitian %></p>
-  <p>Age: <%= age %> </p>
-  <p>email: <%= loggedInMember.email %></p>
+  <label for="AGE">Age:</label>
+  <input type="text", name="AGE", id="AGE" value=<%= age %>></br>
+  <label for="EMAIL">Email:</label>
+  <input type="text", name="EMAIL", id="EMAIL" value=<%= loggedInMember.email %>></br>
   <p>userType: <%= loggedInMember.usertype %></p>
   <p>cuisines: <%= loggedInMember.cuisines %></p>
-  <p>aboutMe: <%= loggedInMember.aboutMe %> </p>
-</div>
+  <p>aboutMe: <input type="text" id="aboutMe" name="aboutMe" value="<%= loggedInMember.aboutMe %>" > </p>
+  <input type="submit">
+</form>
 
-
-
-<button id="edit" onclick="edit()">Edit Profile</button>
+    
 <script>
-  function edit() {
-      window.location.href = "/profileEdit";
-  }
+
 </script>
 </body>
 </html>

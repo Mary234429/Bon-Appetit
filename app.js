@@ -117,22 +117,30 @@ passport.use(
 
 // Middleware to ensure user is authenticated
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    // Check if googleID exists in the database
-    Member.findOne({ googleID: req.user.id }).then(function (logins) {
-      if (logins == null) {
-        // If it doesn't exist, redirect to contact us page with notice
-        res.redirect("/register");
-      } else {
-        // If it exists, proceed to the next middleware
-        return next();
-      }
-    });
-  } else {
-    // Redirect if not logged in
-    res.redirect("login");
-  }
+    if (req.isAuthenticated()) {
+        // Check if googleID exists in the database
+        Member.findOne({ googleID: req.user.id }).then(function (logins) {
+            if (logins == null) {
+                // If it doesn't exist, redirect to contact us page with notice
+                res.redirect('/register');
+            } else {
+                // If it exists, proceed to the next middleware
+                return next();
+            }
+        });
+    } else {
+        // Redirect if not logged in
+        res.redirect('login');
+    }
 }
+
+// Logging out and redirecting to the home page
+app.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+        res.redirect('/');
+    });
+});
+
 /*
  *****************************************
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
@@ -154,7 +162,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
@@ -181,90 +189,94 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         }
       }
     }
-    console.log(breakfastRecipes);
-    console.log(lunchRecipes);
-    console.log(dinnerRecipes);
     res.render(
-        "dashboard", {
-        breakfastRecipes,
-        lunchRecipes,
-        dinnerRecipes,
-        snackRecipes
-    } /*, variables*/
-    );
+
+      "dashboard", {
+      breakfastRecipes,
+      lunchRecipes,
+      dinnerRecipes,
+      snackRecipes /*, variables*/
+      });
+
   });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login" /*, variables*/);
+  res.render("login" /*, {variables}*/);
 });
 
-app.get('/dietTracker',ensureAuthenticated, function(req, res) {
-    const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
-    res.render('dietTracker', { title: 'Diet Tracker', stylesPath });
-
+app.get("/dietTracker", ensureAuthenticated, function (req, res) {
+  const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
+  res.render("dietTracker", { title: "Diet Tracker", stylesPath });
 });
 
-app.get("/register", (req, res) => {
-  if (req.isAuthenticated()) {
-    console.log(req.user.id);
-    // Check if googleID exists in the database
-    Member.findOne({ googleID: req.user.id }).then(function (logins) {
-      if (logins == null) {
-        if (req.user.gender == undefined) {
-          const newMember = new Member({
-            googleID: req.user.id,
-            gender: String(0),
-            diettype: String(0),
-            firstName: req.user.displayName,
-            lastName: req.user.displayName,
-            dietitian: String(0),
-            usertype: "member",
-            subscribedPlans: [],
-          });
-          console.log(newMember);
-          newMember
-            .save()
-            .then(() => {
-              console.log("New Member saved successfully");
-              res.redirect("/");
-            })
-            .catch((err) => {
-              console.log("Error creating new member: ", err);
-              res.status(500).send("Error registering new member");
-            });
-        } else {
-          const newMember = new Member({
-            googleID: req.user.id,
-            gender: req.user.gender,
-            diettype: String(0),
-            firstName: req.user.displayName,
-            lastName: req.user.displayName,
-            dietitian: String(0),
-            usertype: String(0),
-            subscribedPlans: [],
-          });
-          console.log(newMember);
-          newMember
-            .save()
-            .then(() => {
-              console.log("New Member saved successfully");
-              res.redirect("/");
-            })
-            .catch((err) => {
-              console.log("Error creating new member: ", err);
-              res.status(500).send("Error registering new member");
-            });
-        }
-      } else {
-        // If it exists, proceed to the next middleware
-        return next();
-      }
-    });
-  } else {
-    // Redirect if not logged in
-    res.redirect("/failure");
-  }
+app.get('/register', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log(req.user.id);
+        // Check if googleID exists in the database
+        Member.findOne({ googleID: req.user.id }).then(function (logins) {
+            if (logins == null) {
+                let nameArray = req.user.displayName.split(" ");
+                if (req.user.gender == undefined){
+                    const newMember = new Member({
+                        googleID: req.user.id,
+                        gender: String(0),
+                        diettype: String(0),
+                        firstName: nameArray[0],
+                        lastName: nameArray[1],
+                        dietitian: String(0),
+                        usertype: "member",
+                        subscribedPlans: [],
+                        birthday: (req.user.birthday || 0),
+                        cuisines: [],
+                        email: req.user.emails[0].value,
+                        aboutMe: "About Me"
+                    });
+                    console.log(newMember);
+                    newMember.save() 
+                    .then(() => {
+                        console.log("New Member saved successfully");
+                        res.redirect('/');
+                    })
+                    .catch((err) => {
+                        console.log("Error creating new member: ", err);
+                        res.status(500).send('Error registering new member');
+                    })
+                } else {
+                    const newMember = new Member({
+                        googleID: req.user.id,
+                        gender: req.user.gender,
+                        diettype: String(0),
+                        firstName: nameArray[0],
+                        lastName: nameArray[1],
+                        dietitian: String(0),
+                        usertype: String(0),
+                        subscribedPlans: [],
+                        age: calculateAge(),
+                        cuisines: [],
+                        email: req.user.emails[0].value,
+                        aboutMe: "About Me"
+                    });
+                    console.log(newMember);
+                    newMember.save() 
+                    .then(() => {
+                        console.log("New Member saved successfully");
+                        res.redirect('/');
+                    })
+                    .catch((err) => {
+                        console.log("Error creating new member: ", err);
+                        res.status(500).send('Error registering new member');
+                    })
+                }
+            } else {
+                // If it exists, proceed to the next middleware
+                return next();
+            }
+        });
+    } else {
+        // Redirect if not logged in
+        res.redirect('/failure');
+    }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
   res.render("recipeCreate", { title: "Recipe Creator" });
@@ -358,18 +370,20 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get("/profile", (req, res) => {
-  // Assuming you have default values or you fetch the actual data here
-  const defaultData = {
-    title: "Member Information",
-    firstName: "John",
-    lastName: "Doe",
-    gender: "Male",
-    dietType: "Vegetarian",
-    dietitian: "Dr. Smith",
-  };
+app.get('/profile', ensureAuthenticated, function(req, res)  {
+    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+        res.render('profile', {
+            loggedInMember: loggedInMember
+        });
+    })   
+});
 
-  res.render("profile", defaultData);
+app.get('/profileEdit', ensureAuthenticated, function(req, res) {
+  Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+    res.render('profileEdit', {
+        loggedInMember: loggedInMember
+    });
+  })
 });
 
 app.get("/members/:id", async (req, res) => {
