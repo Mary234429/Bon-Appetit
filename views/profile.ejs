@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Profile</title>
+</head>
+<body>
+<div>
+	<form action="/dashboard" method="get">
+		<button type="submit">Go to Main Page</button>
+	</form>
+  <% 
+        // Server-side code to calculate age
+        const currentDate = new Date();
+        const diff = currentDate - loggedInMember.birthday;
+        const ageDate = new Date(diff);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    %>
+</div>
+
+<div>
+  <h2>Member Information</h2>
+  <p>First Name: <%= loggedInMember.firstName %></p>
+  <p>Last Name: <%= loggedInMember.lastName %></p>
+  <p>Gender: <%= loggedInMember.gender %></p>
+  <p>Diet Type: <%= loggedInMember.dietType %></p>
+  <p>Dietitian: <%= loggedInMember.dietitian %></p>
+  <p>Age: <%= age %> </p>
+  <p>email: <%= loggedInMember.email %></p>
+  <p>userType: <%= loggedInMember.usertype %></p>
+  <p>cuisines: <%= loggedInMember.cuisines %></p>
+  <p>aboutMe: <%= loggedInMember.aboutMe %> </p>
+</div>
+
+
+
+<button id="edit" onclick="edit()">Edit Profile</button>
+<script>
+  function edit() {
+      window.location.href = "/profileEdit";
+  }
+</script>
+</body>
+</html>
