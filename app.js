@@ -125,8 +125,6 @@ function ensureAuthenticated(req, res, next) {
                 res.redirect('/register');
             } else {
                 // If it exists, proceed to the next middleware
-                // var loggedInMember = logins;
-                // console.log(loggedInMember);
                 return next();
             }
         });
@@ -195,12 +193,12 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     console.log(lunchRecipes);
     console.log(dinnerRecipes);
     res.render(
-      "dashboard",
+      "dashboard", {
       breakfastRecipes,
       lunchRecipes,
       dinnerRecipes,
       snackRecipes /*, variables*/
-    );
+      });
   });
 });
 
@@ -230,7 +228,11 @@ app.get('/register', (req, res) => {
                         lastName: nameArray[1],
                         dietitian: String(0),
                         usertype: "member",
-                        subscribedPlans: []
+                        subscribedPlans: [],
+                        birthday: (req.user.birthday || 0),
+                        cuisines: [],
+                        email: req.user.emails[0].value,
+                        aboutMe: "About Me"
                     });
                     console.log(newMember);
                     newMember.save() 
@@ -251,7 +253,11 @@ app.get('/register', (req, res) => {
                         lastName: nameArray[1],
                         dietitian: String(0),
                         usertype: String(0),
-                        subscribedPlans: []
+                        subscribedPlans: [],
+                        age: calculateAge(),
+                        cuisines: [],
+                        email: req.user.emails[0].value,
+                        aboutMe: "About Me"
                     });
                     console.log(newMember);
                     newMember.save() 
@@ -366,17 +372,20 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', ensureAuthenticated, function(req, res)  {
     Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
         res.render('profile', {
-            title: 'Member Information',
-            firstName: loggedInMember.firstName,
-            lastName: loggedInMember.lastName,
-            gender: loggedInMember.gender,
-            dietType: loggedInMember.dietType,
-            dietitian: loggedInMember.dietitian,
+            loggedInMember: loggedInMember
         });
     })   
+});
+
+app.get('/profileEdit', ensureAuthenticated, function(req, res) {
+  Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+    res.render('profileEdit', {
+        loggedInMember: loggedInMember
+    });
+  })
 });
 
 app.get("/members/:id", async (req, res) => {
