@@ -3,6 +3,6 @@ Welcome to our GitHub repository for Bon Appetit - a comprehensive platform desi
 
 This repository contains the source code and documentation for the Bon Appetit platform, including the frontend and backend components
 
-To Terminate the Server if errors Occur
+To Terminate the Server if errors occur:
 netstat -ano | findstr :3000
 taskkill /F /PID ##### end of netstat -ano

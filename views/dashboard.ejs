@@ -1,39 +1,78 @@
 <!-- dashboard.ejs -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="dashboard.css" />
-  </head>
 
-  <body class="dashboard-page">
-    <div class="black-rectangle-top"></div>
-    <div class = "topPanel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="dashboard.css" />
+</head>
+<body class="dashboard-page">
+  <div class="black-rectangle-top"></div>
+  <div class="topPanel">
+    <div class="wheat_1"></div>
+    <div class="wheat_2"></div>
+  </div>
 
-      <div class="wheat_1"></div>
-      <div class="wheat_2"></div>
+  <header>
+    <h1>B o n&nbsp;&nbsp;&nbsp;A p p e t i t</h1>
+    <t> healthy cooking</t>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="/dietTracker">Diet Tracker</a></li>
+      <li><a href="/recipeCreate">Recipe Create</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/dietPlanCreate">Diet Plan Create</a></li>
+	  <li><a href="/about">About Us</a></li>
+	  <li><a href="/profile">My Profile</a></li>
+    </ul>
+  </nav>
+
+  <div class="bottomPanel">
+    <div class="dashboard_pic"></div>
+  </div>
+
+  <h2>LET'S GET</h2>
+  <h3>Cooking</h3>
+
+  <!-- Search bar for recipe -->
+  <div class="inputContainer">
+    <div class="inputField">
+      <input type="text" class="SearchTextBox" placeholder="Search for recipe" name="search" id="search" />
     </div>
-    
-    <header>
-      <h1>B o n&nbsp;&nbsp;&nbsp;A p p e t i t</h1>
-      <t> healthy cooking</t>
-    </header>
+  </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-      <ul>
-        <li><a href="/dietTracker">Diet Tracker</a></li>
-        <li><a href="/recipeCreate">Recipe Create</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/dietPlanCreate">Diet Plan Create</a></li>
-      </ul>
-    </nav>
-      
-      <div class="bottomPanel">
-        <div class="dashboard_pic"></div>
-        <!-- Placeholder for the desired logo -->
-      </div>
-    </div>
-  </body>
-</html>
+  <!-- Recipe container -->
+	<div class="recipeContainer">
+		<!-- Breakfast recipes -->
+		<div class="breakfastContainer">
+			<h4> Breakfast</h4>
+			<div class="recipeBreakfast"> </div>
+			<div class="recipeBreakfastPic"> </div>
+			<!-- Placeholder for the desired logo -->
+		</div>
+
+
+		<!-- Lunch recipes -->
+		<div class="lunchContainer">
+			<h4> Lunch</h4>
+			<div class="recipeLunch"> </div>
+			<div class="recipeLunchPic"> </div>
+		</div>
+
+		<!-- Dinner recipes -->
+		<div class="dinnerContainer">
+			<h4> Dinner</h4>
+			<div class="recipeDinner"> </div>
+			<div class="recipeDinnerPic"> </div>
+		</div>
+
+		<!-- Snacks recipes -->
+		<div class="snacksContainer">
+			<h4> Snacks</h4>
+			<div class="recipeSnacks"> </div>
+			<div class="recipeSnacksPic"> </div>
+		</div>
+	</div>
+</body>
