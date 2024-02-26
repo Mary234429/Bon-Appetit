@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Profile</title>
+</head>
+<body>
+<div>
+	<form action="/dashboard" method="get">
+		<button type="submit">Go to Main Page</button>
+	</form>
+  <% 
+        // Server-side code to calculate age
+        const currentDate = new Date();
+        const diff = currentDate - loggedInMember.birthday;
+        const ageDate = new Date(diff);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    %>
+</div>
+<h2>Edit Member Information</h2>
+<form action="editProfile", method="post">
+  <input type="hidden", name="ID", id="ID" value=<%= loggedInMember.googleId %>></br>
+  <label for="FN">First Name:</label>
+  <input type="text", name="FN", id="FN" value=<%= loggedInMember.firstName %>></br>
+  <label for="LN">Last Name:</label>
+  <input type="text", name="LN", id="LN" value=<%= loggedInMember.lastName %>></br>
+  <p>Gender: <%= loggedInMember.gender %></p>
+  <p>Diet Type: <%= loggedInMember.dietType %></p>
+  <p>Dietitian: <%= loggedInMember.dietitian %></p>
+  <label for="AGE">Age:</label>
+  <input type="text", name="AGE", id="AGE" value=<%= age %>></br>
+  <label for="EMAIL">Email:</label>
+  <input type="text", name="EMAIL", id="EMAIL" value=<%= loggedInMember.email %>></br>
+  <p>userType: <%= loggedInMember.usertype %></p>
+  <p>cuisines: <%= loggedInMember.cuisines %></p>
+  <p>aboutMe: <input type="text" id="aboutMe" name="aboutMe" value="<%= loggedInMember.aboutMe %>" > </p>
+  <input type="submit">
+</form>
+
+    
+<script>
+
+</script>
+</body>
+</html>
+

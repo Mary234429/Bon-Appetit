@@ -10,10 +10,6 @@
 	<form action="/dashboard" method="get">
 		<button type="submit">Go to Main Page</button>
 	</form>
-
-</div>
-
-<div>
   <h2>Member Information</h2>
   <p>First Name: <%= loggedInMember.firstName %></p>
   <p>Last Name: <%= loggedInMember.lastName %></p>
@@ -26,14 +22,3 @@
   <p>cuisines: <%= loggedInMember.cuisines %></p>
   <p>aboutMe: <%= loggedInMember.aboutMe %> </p>
 </div>
-
-
-
-<button id="edit" onclick="edit()">Edit Profile</button>
-<script>
-  function edit() {
-      window.location.href = "/profileEdit";
-  }
-</script>
-</body>
-</html>
