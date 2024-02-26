@@ -10,6 +10,16 @@
 	<form action="/dashboard" method="get">
 		<button type="submit">Go to Main Page</button>
 	</form>
+  <% 
+        // Server-side code to calculate age
+        const currentDate = new Date();
+        const diff = currentDate - loggedInMember.birthday;
+        const ageDate = new Date(diff);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    %>
+</div>
+
+<div>
   <h2>Member Information</h2>
   <p>First Name: <%= loggedInMember.firstName %></p>
   <p>Last Name: <%= loggedInMember.lastName %></p>
@@ -22,3 +32,15 @@
   <p>cuisines: <%= loggedInMember.cuisines %></p>
   <p>aboutMe: <%= loggedInMember.aboutMe %> </p>
 </div>
+
+
+
+<button id="edit" onclick="edit()">Edit Profile</button>
+<script>
+  function edit() {
+      window.location.href = "/profileEdit";
+  }
+</script>
+</body>
+</html>
+
