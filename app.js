@@ -358,19 +358,13 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get("/profile", (req, res) => {
-  // Assuming you have default values or you fetch the actual data here
-  const defaultData = {
-    title: "Member Information",
-    firstName: "John",
-    lastName: "Doe",
-    gender: "Male",
-    dietType: "Vegetarian",
-    dietitian: "Dr. Smith",
-  };
-
-  res.render("profile", defaultData);
-});
+app.get("/profile", ensureAuthenticated, function(req, res) {
+    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+      res.render('profile', {
+        loggedInMember: loggedInMember
+      });
+    })
+  });
 
 app.get("/members/:id", async (req, res) => {
   console.log("Received request at /members with ID:", req.params.id);
