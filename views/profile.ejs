@@ -1,13 +1,18 @@
-
-<div>
+<head>
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
   <h1><%= title %></h1>
-	<form action="/dashboard" method="get">
-		<button type="submit">Go to Main Page</button>
-	</form>
-  <h2>Member Information</h2>
-  <p>First Name: <%= firstName || 'N/A' %></p>
-  <p>Last Name: <%= lastName || 'N/A' %></p>
-  <p>Gender: <%= gender || 'N/A' %></p>
-  <p>Diet Type: <%= dietType || 'N/A' %></p>
-  <p>Dietitian: <%= dietitian || 'N/A' %></p>
-</div>
+  <h2>profile</h2>
+  <div class = "outer-container">
+    <div class ="left-container">
+      <p>First Name: <%= firstName || 'N/A' %></p>
+      <p>Last Name: <%= lastName || 'N/A' %></p>
+      <p>Gender: <%= gender || 'N/A' %></p>
+    </div>
+    <div class = "right-container">
+      <p>Diet Type: <%= dietType || 'N/A' %></p>
+      <p>Dietitian: <%= dietitian || 'N/A' %></p>
+    </div>
+  </div>
+</body>
