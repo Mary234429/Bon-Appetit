@@ -30,10 +30,10 @@ let memberSchema = new mongoose.Schema({
   dietitian: { type: String },
   usertype: { type: String },
   subscribedPlans: { type: Array },
-  birthday: {type: Date},
-  cuisines: {type: Array},
-  email: {type: String},
-  aboutMe: {type: String}
+  birthday: { type: Date },
+  cuisines: { type: Array },
+  email: { type: String },
+  aboutMe: { type: String },
 });
 let Member = mongoose.model("communitymember", memberSchema);
 
@@ -84,6 +84,7 @@ let Ingredients = mongoose.model("ingredient", ingredientSchema);
 let recipeSchema = new mongoose.Schema({
   name: { type: String },
   description: { type: String },
+  toolsNeeded: { type: Array },
   ingredients: { type: Array },
   ingredientAmounts: { type: Array },
   instructions: { type: Array },

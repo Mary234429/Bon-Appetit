@@ -10,7 +10,7 @@
     <div>
       <h1><%= title %></h1>
       <form action="/dashboard" method="get">
-        <button type="submit">Go to Main Page</button>
+        <button type="button" type="submit">Go to Main Page</button>
       </form>
       <p>Fill out the form below to create a custom recipe:</p>
       <form action="/recipeCreate" method="post">
@@ -27,62 +27,46 @@
         ></textarea
         ><br />
 
+        <ul id="tools">
+          <!--<li>
+            <input
+              class="recipeTools"
+              placeholder="Tools Required"
+              name="recipeTools[]"
+            />
+          </li>-->
+        </ul>
+        <button type="button" id="addTool">Add New Tool</button>
+
         <ul id="ingredients">
           <li>
             <input
               class="ingredientAmount"
               placeholder="Amount"
-              id="ingredientAmount1"
               name="ingredientAmounts[]"
             />
             <input
               class="ingredient"
-              id="ingredient1"
               name="ingredients[]"
               placeholder="Ingredient 1"
             />
           </li>
-          <li>
-            <input
-              class="ingredientAmount"
-              placeholder="Amount"
-              id="ingredientAmount2"
-              name="ingredientAmounts[]"
-            />
-            <input
-              class="ingredient"
-              id="ingredient2"
-              name="ingredients[]"
-              placeholder="Ingredient 2"
-            />
-          </li>
         </ul>
+        <button type="button" id="addIngredient">Add New Ingredient</button>
 
         <ol id="instructions">
           <li>
-            <input
-              id="instruction1"
-              name="instructions[]"
-              placeholder="Instruction"
-            />
-          </li>
-          <li>
-            <input
-              id="instruction2"
-              name="instructions[]"
-              placeholder="Instruction"
-            />
+            <input name="instructions[]" placeholder="Instruction" />
           </li>
         </ol>
+        <button type="button" id="addInstruction">Add New Instruction</button>
 
         <ul id="recipeTags">
           <li>
-            <input id="tag1" name="recipeTags[]" placeholder="Recipe Tag" />
-          </li>
-          <li>
-            <input id="tag2" name="recipeTags[]" placeholder="Recipe Tag" />
+            <input name="recipeTags[]" placeholder="Recipe Tag" />
           </li>
         </ul>
+        <button type="button" id="addTag">Add New Tag</button>
         <label for="breakfast">Breakfast</label>
         <input
           id="breakfast"
@@ -106,5 +90,47 @@
         <input type="submit" value="Submit" />
       </form>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      //delete parent element
+      function deleteParent(element) {
+        element.parent().remove();
+      }
+
+      $(document).ready(function () {
+        //Add a Tool Field
+        $("#addTool").click(function () {
+          $("#tools").append(
+            $(
+              '<li><input class="recipeTools" placeholder="Tools Required" name="recipeTools[]"/><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+            )
+          );
+        });
+        //Add an Ingredient field
+        $("#addIngredient").click(function () {
+          $("#ingredients").append(
+            $(
+              '<li><input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <input class="ingredient" name="ingredients[]" placeholder="Ingredient 1" /><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+            )
+          );
+        });
+        //Add an Instruction field
+        $("#addInstruction").click(function () {
+          $("#instructions").append(
+            $(
+              '<li> <input name="instructions[]" placeholder="Instruction" /><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+            )
+          );
+        });
+        //Add a Tag field
+        $("#addTag").click(function () {
+          $("#recipeTags").append(
+            $(
+              '<li> <input name="recipeTags[]" placeholder="Recipe Tag" /><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+            )
+          );
+        });
+      });
+    </script>
   </body>
 </html>
