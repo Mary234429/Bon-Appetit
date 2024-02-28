@@ -388,6 +388,27 @@ app.get('/profileEdit', ensureAuthenticated, function(req, res) {
   })
 });
 
+app.post('/editProfile', ensureAuthenticated, function(req, res) {
+  Member.findOne({googleID: req.user.id}).then(function(loggedInMember){
+    console.log(req.body.birthdate);
+    // save edited profile data to dataabse
+      loggedInMember.firstName = req.body.FN;
+      loggedInMember.lastName = req.body.LN;
+      loggedInMember.gender = req.body.GN;
+      loggedInMember.diettype = req.body.diet;
+      loggedInMember.dietitian = req.body.DT;
+      loggedInMember.birthday = req.body.birthdate;
+      loggedInMember.email = req.body.EMAIL;
+      loggedInMember.cuisines = req.body.cuisine;
+      loggedInMember.aboutMe = req.body.aboutMe;
+
+      loggedInMember.save();
+    res.render('profile', {
+      loggedInMember: loggedInMember
+    });
+  })
+});
+
 app.get("/members/:id", async (req, res) => {
   console.log("Received request at /members with ID:", req.params.id);
   try {
