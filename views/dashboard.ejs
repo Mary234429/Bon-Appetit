@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="dashboard.css" />
-    <script src="jquery-3.7.1.min.js"></script>
   </head>
 
   <body class="dashboard-page">
@@ -60,11 +59,8 @@
         <%for(let i = 0; i < breakfastRecipes.length; i++){ %>
         <div data-recipe="<%=breakfastRecipes.at(i)%>" class="recipeBreakfast">
           <%=breakfastRecipes.at(i).name%>
+          <div class="recipeBreakfastPic"></div>
         </div>
-        <div
-          data-recipe="<%=breakfastRecipes.at(i)%>"
-          class="recipeBreakfastPic"
-        ></div>
         <%}%>
       </div>
 
@@ -74,8 +70,8 @@
         <% for(let i = 0; i < lunchRecipes.length; i++){%>
         <div data-recipe="<%=lunchRecipes.at(i)%>" class="recipeLunch">
           <%=lunchRecipes.at(i).name%>
+          <div class="recipeLunchPic"></div>
         </div>
-        <div class="recipeLunchPic"></div>
         <% } %>
       </div>
 
@@ -85,8 +81,8 @@
         <% for(let i = 0; i < dinnerRecipes.length; i++){%>
         <div data-recipe="<%=dinnerRecipes.at(i)%>" class="recipeDinner">
           <%=dinnerRecipes.at(i).name%>
+          <div class="recipeDinnerPic"></div>
         </div>
-        <div class="recipeDinnerPic"></div>
         <% } %>
       </div>
 
@@ -102,18 +98,62 @@
       </div>
     </div>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
     function filterRecipes(filterText) {
-      alert(filterText);
-      $(".recipeBreakfast").css("display", "none");
-      let search = new RegExp(filterText);
+      //uppercase search text
+      let uppercaseSearch =
+        filterText.charAt(0).toUpperCase() + filterText.substring(1);
+      //lowercase search text
+      let lowercaseSearch =
+        filterText.charAt(0).toLowerCase() + filterText.substring(1);
+      //create regex to search through recipes
+      let upSearch = new RegExp(uppercaseSearch);
+      let downSearch = new RegExp(lowercaseSearch);
+      //Search breakfast recipes
       $(".recipeBreakfast").each(function (i, obj) {
-        alert($(obj));
         $(this).css("display", "block");
-        alert($(this).val);
         if (
-          !search.test($(this).val) &&
-          !search.test($(this).attr("data-recipe"))
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search lunch recipes
+      $(".recipeLunch").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search dinner recipes
+      $(".recipeDinner").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search snack recipes
+      $(".recipeSnack").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
         ) {
           $(this).css("display", "none");
         }
