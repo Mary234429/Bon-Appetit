@@ -191,8 +191,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
           snackRecipes.push(recipes.at(i));
         }
       }
-
-
+    }
     getJoke().then(joke =>{ 
       res.render(
         "dashboard", {
@@ -203,10 +202,10 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         joke
         /*, variables*/
       });
-
     });
   });
 });
+
 
 async function getJoke(){
   try{
