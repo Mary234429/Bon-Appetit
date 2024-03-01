@@ -175,6 +175,10 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
+
+
+   
+
     for (let i = 0; i < recipes.length; i++) {
       for (let j = 0; j < recipes.at(i).mealType.length; j++) {
         if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
@@ -187,15 +191,36 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
           snackRecipes.push(recipes.at(i));
         }
       }
-    }
-    res.render("dashboard", {
-      breakfastRecipes,
-      lunchRecipes,
-      dinnerRecipes,
-      snackRecipes /*, variables*/,
+
+
+    getJoke().then(joke =>{ 
+      res.render(
+        "dashboard", {
+        breakfastRecipes,
+        lunchRecipes,
+        dinnerRecipes,
+        snackRecipes,
+        joke
+        /*, variables*/
+      });
+
     });
   });
 });
+
+async function getJoke(){
+  try{
+    const jokes = await Joke.find().exec();
+    var today = new Date();
+    var day = today.getDate();
+    const joke = jokes[day - 1];
+    return joke;
+  }  catch (error) {
+    console.error('Error retrieving joke:', error);
+    throw new Error('Error retrieving joke');
+  }
+}
+
 
 app.get("/login", (req, res) => {
   res.render("login" /*, {variables}*/);
@@ -369,12 +394,18 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get("/profile", ensureAuthenticated, function (req, res) {
-  Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
-    res.render("profile", {
-      loggedInMember: loggedInMember,
-    });
-  });
+
+
+
+app.get('/profile', ensureAuthenticated, function(req, res)  {
+    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+        res.render('profile', {
+            user: req.user,
+            loggedInMember: loggedInMember
+        });
+    })   
+
+  
 });
 
 app.get("/profileEdit", ensureAuthenticated, function (req, res) {
@@ -383,6 +414,27 @@ app.get("/profileEdit", ensureAuthenticated, function (req, res) {
       loggedInMember: loggedInMember,
     });
   });
+});
+
+app.post('/editProfile', ensureAuthenticated, function(req, res) {
+  Member.findOne({googleID: req.user.id}).then(function(loggedInMember){
+    console.log(req.body.birthdate);
+    // save edited profile data to dataabse
+      loggedInMember.firstName = req.body.FN;
+      loggedInMember.lastName = req.body.LN;
+      loggedInMember.gender = req.body.GN;
+      loggedInMember.diettype = req.body.diet;
+      loggedInMember.dietitian = req.body.DT;
+      loggedInMember.birthday = req.body.birthdate;
+      loggedInMember.email = req.body.EMAIL;
+      loggedInMember.cuisines = req.body.cuisine;
+      loggedInMember.aboutMe = req.body.aboutMe;
+
+      loggedInMember.save();
+    res.render('profile', {
+      loggedInMember: loggedInMember
+    });
+  })
 });
 
 app.get("/members/:id", async (req, res) => {
