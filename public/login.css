@@ -3,67 +3,165 @@ body {
   padding: 100px;
   font-family: Lustria;
 }
-#box {
-  width: 846px;
-  height: 700px;
+h1{
+  margin-top: 20%;
+  margin-bottom: 10%;
+}
+input{
+  font-family: Lustria;
+  background-color: #D9D9D9;
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border:none;
+  cursor: pointer;
+  height: 35px;
+  width: 295px;
+  margin-bottom: 10px;
+  font-size: medium;
+}
+.outer-container {
+  position: relative;
+  margin: 0 auto;
+  /*background-color: red;*/
+  max-width: 800px;
+  max-height: 700px;
+}
+.inner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.left-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  /*background-color: blue;*/
+}
+.right-container{
+  flex: 1;
+  position: relative;
+  align-items: center;
+  display: flex;
+  /*background-color: purple;*/
+}
+.right-container img{
+  position: absolute;
+  width:80%;
+  height:50%;
+}
+.registerButton{
+  margin-top: 1%;
+  margin-left:-140px;
+  color:#000;
+}
+.googleButton {
+  background-color: #D9D9D9;
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 20px;
+  width: 250px;
+  text-align: center;
+  margin-bottom: 10px;
+  display: flex;
+}
+.loginButton{
+  font-family: Lustria;
+}
+.loginButton:hover, .registerButton:hover, .googleButton:hover{
+  background-color: #D2D2D2;
+}
+.googleButton img, .registerButton img{
+  vertical-align: middle;
+  margin-right: 10px;
+}
+#leaf1{
+  position:absolute;
+  width: 277px;
+  height: 178px;
+  transform: rotate(-172.188deg);
   flex-shrink: 0;
+  top:-70px;
+  left:-60px;
+}
+#leaf2{
+  position:absolute;
+  width: 110px;
+  height: 150px;
+  transform: rotate(110deg);
+  flex-shrink: 0;
+  top:40px;
+  left:-40px;
+}
+#leaf3{
+  position:absolute;
+  width: 247px;
+  height: 191px;
+  flex-shrink: 0;
+  bottom:20px;
+  right:-90px;
+  transform: rotate(-10deg);
+}
+#leaf4{
+  position:absolute;
+  width: 171.438px;
+  height: 96.727px;
+  flex-shrink: 0;
+  bottom:-40px;
+  right:20px;
+  transform: scaleX(-1);
+}
+#box {
+  max-width: 800px;
+  max-height: 700px;
   border-radius: 40px;
-  background: #fff;
+  flex-shrink: 0;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-#bowl {
-  width: 375px;
-  height: 375px;
-  flex-shrink: 0;
-  display: block;
-  position: absolute;
-  top: 300px;
-  left: 600px;
-}
 #label {
   color: #000;
-
-  position: absolute;
-  font-size: 32px;
+  font-size: 42px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  top: 225px;
-  left: 310px;
   flex-shrink: 0;
 }
-
-.googleButton {
-  display: inline-block;
-  background-color: #4285f4;
-  color: white;
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+#learn{
+  color:#000;
 }
-.googleButton:hover {
-  background-color: #357ae8;
+#acc{
+  margin-left:-140px;
+  margin-bottom: 1%;
 }
-.googleButton img {
-  vertical-align: middle;
-  margin-right: 10px;
+#learn{
+  margin-left:-125px;
+  margin-bottom: 1%;
 }
-.registerButton {
-  display: inline-block;
-  background-color: #4285f4;
-  color: white;
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+#or{
+  margin-left:-270px;
+  margin-bottom: 5%;
+  margin-top: 0%;
 }
-.registerButton:hover {
-  background-color: #357ae8;
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: black;
 }
-.registerButton img {
-  vertical-align: middle;
-  margin-right: 10px;
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: black;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: black;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: black;
 }
