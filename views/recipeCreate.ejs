@@ -13,7 +13,7 @@
         <button type="button" type="submit">Go to Main Page</button>
       </form>
       <p>Fill out the form below to create a custom recipe:</p>
-      <form action="/recipeCreate" method="post">
+      <form action="/recipeCreate" method="post" enctype="multipart/form-data">
         <input
           type="text"
           placeholder="Recipe Name"
@@ -26,6 +26,8 @@
           placeholder="Recipe Description"
         ></textarea
         ><br />
+        <label for="thumbnail">Choose Image:</label>
+        <input type="file" id="thumbnail" name="thumbnail" required accept="image/*"><br>
 
         <ul id="tools">
           <!--<li>
