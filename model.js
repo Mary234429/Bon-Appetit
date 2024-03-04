@@ -76,7 +76,7 @@ let Joke = mongoose.model("foodjoke", jokeSchema);
 let ingredientSchema = new mongoose.Schema({
   name: { type: String },
   unit: { type: String },
-  caloriesPerUnit: { type: String },
+  caloriesPerUnit: { type: Double },
 });
 let Ingredients = mongoose.model("ingredient", ingredientSchema);
 
