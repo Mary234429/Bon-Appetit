@@ -6,6 +6,7 @@ const passport = require("passport");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const multer = require('multer');
 const React = require("react");
 const babel = require("@babel/register");
 
@@ -176,9 +177,6 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
 
-
-   
-
     for (let i = 0; i < recipes.length; i++) {
       for (let j = 0; j < recipes.at(i).mealType.length; j++) {
         if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
@@ -304,7 +302,14 @@ app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
   res.render("recipeCreate", { title: "Recipe Creator" });
 });
 
-app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
+// Set up Multer for file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.post("/recipeCreate", upload.single('thumbnail'), function (req, res) {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
@@ -316,6 +321,11 @@ app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
 
+  const { originalname, mimetype, buffer } = req.file;
+
+  let imageBuffer = buffer;
+
+  console.log('Uploaded image size:', imageBuffer.length, 'bytes');
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -327,9 +337,12 @@ app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
     tags: tags,
     mealType: mealType,
     publicity: privacy,
+    thumbnail: imageBuffer,
   });
   //Save the recipe to the database
   recipe.save();
+  console.log('Recipe created successfully!');
+
   //save who created the recipe & timestamp to the database
   let timestamp = new Date();
   let userID = req.user.id;
@@ -340,6 +353,26 @@ app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
   });
   createdRecipe.save();
   res.redirect("/recipeCreate");
+});
+
+app.get('/image/:recipeId', async (req, res) => {
+  try {
+      const recipeId = req.params.recipeId;
+      // Find the recipe by ID in the database
+      const recipe = await Recipes.findById(recipeId);
+      if (!recipe || !recipe.image) {
+          return res.status(404).send('Image not found.');
+      }
+      const base64Image = recipe.image.toString('base64');
+      const dataUrl = `data:image/jpeg;base64,${base64Image}`;
+      // Set the appropriate content type for the response
+      res.send(`<img src="${dataUrl}" alt="Recipe Image">`);
+      // Send the image data as a response
+      res.send(recipe.image);
+  } catch (error) {
+      console.error('Error retrieving image:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get("/dietPlanCreate", ensureAuthenticated, function (req, res) {
