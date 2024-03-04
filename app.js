@@ -175,7 +175,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
-    console.log(recipes.at(0).mealType.at(0));
+    //console.log(recipes.at(0).mealType.at(0));
     for (let i = 0; i < recipes.length; i++) {
       for (let j = 0; j < recipes.at(i).mealType.length; j++) {
         if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
@@ -373,6 +373,7 @@ app.get("/about", (req, res) => {
 app.get('/profile', ensureAuthenticated, function(req, res)  {
     Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
         res.render('profile', {
+            user: req.user,
             loggedInMember: loggedInMember
         });
     })   
