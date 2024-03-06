@@ -91,6 +91,7 @@ let recipeSchema = new mongoose.Schema({
   tags: { type: Array },
   mealType: { type: Array },
   publicity: { type: String },
+  thumbnail: {type: Buffer}
 });
 let Recipes = mongoose.model("recipe", recipeSchema);
 
