@@ -297,11 +297,7 @@ app.get("/register", (req, res) => {
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
   Ingredients.find().then(function (ingredients) {
-    ingredientsJSON = ingredients.toJSON();
-    res.render("recipeCreate", {
-      ingredients,
-      ingredientsJSON,
-    });
+    res.render("recipeCreate", { ingredients });
   });
 });
 

@@ -145,8 +145,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-      let ingredients = JSON.parse("<%=ingredientJSON %>");
-      alert(ingredients);
       //delete parent element
       function deleteParent(element) {
         element.parent().remove();
@@ -166,14 +164,17 @@
           url: url,
           data: $("#ingredientForm").serialize(),
           success: function (data) {
-            alert(ingredients);
-            ingredients.push(data);
+            alert(data);
           },
         });
         return false;
       }
 
       $(document).ready(function () {
+        let ingredient = $("#ingredientList")
+          .children("li")
+          .eq(0)
+          .prop("outerHTML");
         $(".js-example-basic-single").select2();
 
         //Add a Tool Field
@@ -186,35 +187,8 @@
         });
         //Add an Ingredient field
         $("#addIngredient").click(function () {
-          let ingredientOptions = "";
-          for (let i = 0; i < ingredients.length; i++) {
-            ingredientOptions +=
-              '<option value="' +
-              ingredients.at(i)._id +
-              '">' +
-              ingredients.at(i).name +
-              "</option>";
-          }
-          $("#ingredientList").append(
-            $(
-              "<li>" +
-                "<input" +
-                'class="ingredientAmount"' +
-                'placeholder="Amount"' +
-                'name="ingredientAmounts[]"' +
-                "/>" +
-                "<select" +
-                'class="ingredient js-example-basic-single"' +
-                'name="ingredients[]"' +
-                'onchange="checkIngredient(this)"' +
-                ">" +
-                '<option selected value=""></option>' +
-                '<option value="addIngredient">Add New Ingredient</option>' +
-                ingredientOptions +
-                "</select>" +
-                "</li>"
-            )
-          );
+          $("#ingredientList").append($(ingredient));
+          $(".js-example-basic-single").select2();
         });
         //Add an Instruction field
         $("#addInstruction").click(function () {
