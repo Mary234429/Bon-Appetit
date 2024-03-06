@@ -176,9 +176,6 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
 
-
-   
-
     for (let i = 0; i < recipes.length; i++) {
       for (let j = 0; j < recipes.at(i).mealType.length; j++) {
         if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
@@ -191,36 +188,33 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
           snackRecipes.push(recipes.at(i));
         }
       }
+    }
 
-
-    getJoke().then(joke =>{ 
-      res.render(
-        "dashboard", {
+    getJoke().then((joke) => {
+      res.render("dashboard", {
         breakfastRecipes,
         lunchRecipes,
         dinnerRecipes,
         snackRecipes,
-        joke
+        joke,
         /*, variables*/
       });
-
     });
   });
 });
 
-async function getJoke(){
-  try{
+async function getJoke() {
+  try {
     const jokes = await Joke.find().exec();
     var today = new Date();
     var day = today.getDate();
     const joke = jokes[day - 1];
     return joke;
-  }  catch (error) {
-    console.error('Error retrieving joke:', error);
-    throw new Error('Error retrieving joke');
+  } catch (error) {
+    console.error("Error retrieving joke:", error);
+    throw new Error("Error retrieving joke");
   }
 }
-
 
 app.get("/login", (req, res) => {
   res.render("login" /*, {variables}*/);
@@ -302,7 +296,13 @@ app.get("/register", (req, res) => {
   }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
-  res.render("recipeCreate", { title: "Recipe Creator" });
+  Ingredients.find().then(function (ingredients) {
+    ingredientsJSON = ingredients.toJSON();
+    res.render("recipeCreate", {
+      ingredients,
+      ingredientsJSON,
+    });
+  });
 });
 
 app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
@@ -341,6 +341,24 @@ app.post("/recipeCreate", ensureAuthenticated, function (req, res) {
   });
   createdRecipe.save();
   res.redirect("/recipeCreate");
+});
+
+app.post("/addIngredient", function (req, res) {
+  const ingredient = new Ingredients({
+    name: req.body.ingredientName,
+    unit: req.body.ingredientUnit,
+    caloriesPerUnit: req.body.caloriesPerUnit,
+  });
+  ingredient.save();
+  res.end(
+    '{"ingredient":{"name":"' +
+      req.body.ingredientName +
+      '","unit":"' +
+      req.body.ingredientUnit +
+      '","caloriesPerUnit":' +
+      req.body.caloriesPerUnit +
+      "}}"
+  );
 });
 
 app.get("/dietPlanCreate", ensureAuthenticated, function (req, res) {
@@ -394,18 +412,13 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-
-
-
-app.get('/profile', ensureAuthenticated, function(req, res)  {
-    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
-        res.render('profile', {
-            user: req.user,
-            loggedInMember: loggedInMember
-        });
-    })   
-
-  
+app.get("/profile", ensureAuthenticated, function (req, res) {
+  Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
+    res.render("profile", {
+      user: req.user,
+      loggedInMember: loggedInMember,
+    });
+  });
 });
 
 app.get("/profileEdit", ensureAuthenticated, function (req, res) {
@@ -416,25 +429,25 @@ app.get("/profileEdit", ensureAuthenticated, function (req, res) {
   });
 });
 
-app.post('/editProfile', ensureAuthenticated, function(req, res) {
-  Member.findOne({googleID: req.user.id}).then(function(loggedInMember){
+app.post("/editProfile", ensureAuthenticated, function (req, res) {
+  Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
     console.log(req.body.birthdate);
     // save edited profile data to dataabse
-      loggedInMember.firstName = req.body.FN;
-      loggedInMember.lastName = req.body.LN;
-      loggedInMember.gender = req.body.GN;
-      loggedInMember.diettype = req.body.diet;
-      loggedInMember.dietitian = req.body.DT;
-      loggedInMember.birthday = req.body.birthdate;
-      loggedInMember.email = req.body.EMAIL;
-      loggedInMember.cuisines = req.body.cuisine;
-      loggedInMember.aboutMe = req.body.aboutMe;
+    loggedInMember.firstName = req.body.FN;
+    loggedInMember.lastName = req.body.LN;
+    loggedInMember.gender = req.body.GN;
+    loggedInMember.diettype = req.body.diet;
+    loggedInMember.dietitian = req.body.DT;
+    loggedInMember.birthday = req.body.birthdate;
+    loggedInMember.email = req.body.EMAIL;
+    loggedInMember.cuisines = req.body.cuisine;
+    loggedInMember.aboutMe = req.body.aboutMe;
 
-      loggedInMember.save();
-    res.render('profile', {
-      loggedInMember: loggedInMember
+    loggedInMember.save();
+    res.render("profile", {
+      loggedInMember: loggedInMember,
     });
-  })
+  });
 });
 
 app.get("/members/:id", async (req, res) => {
