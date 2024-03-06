@@ -431,13 +431,16 @@ app.get("/about", (req, res) => {
 
 app.get('/profile', ensureAuthenticated, function(req, res)  {
     Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
-        res.render('profile', {
+      CreatedRecipes.find({googleID: req.user.id}).then(function(createdRecipes) {
+        Recipes.find({_id: {$in: createdRecipes.recipeID}}).then(function(recipes){
+          res.render('profile', {
             user: req.user,
-            loggedInMember: loggedInMember
+            loggedInMember: loggedInMember,
+            recipes: recipes,
         });
-    })   
-
-  
+      })
+    })
+  })    
 });
 
 app.get("/profileEdit", ensureAuthenticated, function (req, res) {
