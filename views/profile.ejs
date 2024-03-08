@@ -56,7 +56,11 @@
     </div>
     <div class="left-image">
       <% if (recipes[0]) { %>
+        <% if recipes[0].thumbnail.toString('base64') == null { $>
+          <img src="plate.png" alt="<%= recipes[0].name %> Thumbnail"style="max-height:170px; max-width: 170px; object-fit: cover"> </div>
+            <% } else { %> 
         <img src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>" alt="<%= recipes[0].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
+      <% } %>
     <% } %>
         </div>
   </div>
@@ -66,7 +70,11 @@
     </div>
     <div class="middle-image">
       <% if (recipes[1]) { %>
+        <% if recipes[1].thumbnail.toString('base64') == null { $>
+        <img src="plate.png" alt="<%= recipes[1].name %> Thumbnail"style="max-height:170px; max-width: 170px; object-fit: cover"> </div>
+          <% } else { %> 
         <img src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>" alt="<%= recipes[1].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
+        <% } %>
     <% } %>
     </div>
   </div>
@@ -76,8 +84,12 @@
       <p class="name"><%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %></p>
     </div>
     <% if (recipes[2]) { %>
+      <% if recipes[2].thumbnail.toString('base64') == null { $>
+        <img src="plate.png" alt="<%= recipes[2].name %> Thumbnail"style="max-height:170px; max-width: 170px; object-fit: cover"> </div>
+          <% } else { %> 
       <img src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>" alt="<%= recipes[2].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
-  <% } %>
+      <% } %>
+    <% } %>
   </div>
 </div>
 
