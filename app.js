@@ -344,7 +344,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     thumbnail: imageBuffer,
   });
   //Save the recipe to the database
-  //recipe.save();
+  recipe.save();
   console.log("Recipe created successfully!");
 
   //save who created the recipe & timestamp to the database
@@ -355,7 +355,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     googleID: userID,
     timestamp: timestamp,
   });
-  //createdRecipe.save();
+  createdRecipe.save();
   res.redirect("/recipeCreate");
 });
 
