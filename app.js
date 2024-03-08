@@ -6,7 +6,7 @@ const passport = require("passport");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const multer = require('multer');
+const multer = require("multer");
 const React = require("react");
 const babel = require("@babel/register");
 
@@ -176,7 +176,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
-    
+
     //console.log(recipes.at(0).mealType.at(0));
 
     for (let i = 0; i < recipes.length; i++) {
@@ -192,34 +192,32 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         }
       }
     }
-    getJoke().then(joke =>{ 
-      res.render(
-        "dashboard", {
+
+    getJoke().then((joke) => {
+      res.render("dashboard", {
         breakfastRecipes,
         lunchRecipes,
         dinnerRecipes,
         snackRecipes,
-        joke
+        joke,
         /*, variables*/
       });
     });
   });
 });
 
-
-async function getJoke(){
-  try{
+async function getJoke() {
+  try {
     const jokes = await Joke.find().exec();
     var today = new Date();
     var day = today.getDate();
     const joke = jokes[day - 1];
     return joke;
-  }  catch (error) {
-    console.error('Error retrieving joke:', error);
-    throw new Error('Error retrieving joke');
+  } catch (error) {
+    console.error("Error retrieving joke:", error);
+    throw new Error("Error retrieving joke");
   }
 }
-
 
 app.get("/login", (req, res) => {
   res.render("login" /*, {variables}*/);
@@ -301,22 +299,26 @@ app.get("/register", (req, res) => {
   }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
-  res.render("recipeCreate", { title: "Recipe Creator" });
+  Ingredients.find().then(function (ingredients) {
+    res.render("recipeCreate", { ingredients });
+  });
 });
 
 // Set up Multer for file uploads
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/recipeCreate", upload.single('thumbnail'), function (req, res) {
+app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
+
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
   let tools = req.body.recipeTools;
   let ingredients = req.body.ingredients;
+  console.log(ingredients);
   let ingredientAmounts = req.body.ingredientAmounts;
   let instructions = req.body.instructions;
   let tags = req.body.recipeTags;
@@ -327,7 +329,7 @@ app.post("/recipeCreate", upload.single('thumbnail'), function (req, res) {
 
   let imageBuffer = buffer;
 
-  console.log('Uploaded image size:', imageBuffer.length, 'bytes');
+  console.log("Uploaded image size:", imageBuffer.length, "bytes");
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -343,7 +345,7 @@ app.post("/recipeCreate", upload.single('thumbnail'), function (req, res) {
   });
   //Save the recipe to the database
   recipe.save();
-  console.log('Recipe created successfully!');
+  console.log("Recipe created successfully!");
 
   //save who created the recipe & timestamp to the database
   let timestamp = new Date();
@@ -357,23 +359,41 @@ app.post("/recipeCreate", upload.single('thumbnail'), function (req, res) {
   res.redirect("/recipeCreate");
 });
 
-app.get('/image/:recipeId', async (req, res) => {
+app.post("/addIngredient", function (req, res) {
+  const ingredient = new Ingredients({
+    name: req.body.ingredientName,
+    unit: req.body.ingredientUnit,
+    caloriesPerUnit: req.body.caloriesPerUnit,
+  });
+  ingredient.save();
+  res.end(
+    '{"ingredient":{"name":"' +
+      req.body.ingredientName +
+      '","unit":"' +
+      req.body.ingredientUnit +
+      '","caloriesPerUnit":' +
+      req.body.caloriesPerUnit +
+      "}}"
+  );
+});
+
+app.get("/image/:recipeId", async (req, res) => {
   try {
-      const recipeId = req.params.recipeId;
-      // Find the recipe by ID in the database
-      const recipe = await Recipes.findById(recipeId);
-      if (!recipe || !recipe.image) {
-          return res.status(404).send('Image not found.');
-      }
-      const base64Image = recipe.image.toString('base64');
-      const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-      // Set the appropriate content type for the response
-      res.send(`<img src="${dataUrl}" alt="Recipe Image">`);
-      // Send the image data as a response
-      res.send(recipe.image);
+    const recipeId = req.params.recipeId;
+    // Find the recipe by ID in the database
+    const recipe = await Recipes.findById(recipeId);
+    if (!recipe || !recipe.image) {
+      return res.status(404).send("Image not found.");
+    }
+    const base64Image = recipe.image.toString("base64");
+    const dataUrl = `data:image/jpeg;base64,${base64Image}`;
+    // Set the appropriate content type for the response
+    res.send(`<img src="${dataUrl}" alt="Recipe Image">`);
+    // Send the image data as a response
+    res.send(recipe.image);
   } catch (error) {
-      console.error('Error retrieving image:', error);
-      res.status(500).send('Internal Server Error');
+    console.error("Error retrieving image:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
@@ -429,26 +449,26 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get('/profile', ensureAuthenticated, async function (req, res) {
+app.get("/profile", ensureAuthenticated, async function (req, res) {
   // try statement getting all recent recipes created by logged in user
   try {
     const loggedInMember = await Member.findOne({ googleID: req.user.id });
     const createdRecipes = await CreatedRecipes.find({ googleID: req.user.id });
-    const recipeIds = createdRecipes.map(recipe => recipe.recipeID);
+    const recipeIds = createdRecipes.map((recipe) => recipe.recipeID);
     const recentRecipes = await Recipes.find({ _id: { $in: recipeIds } })
-    // order them
-        .sort({ timestamp: -1 })
-        .limit(3);
-        // render page
-        res.render('profile', {
-            user: req.user,
-            loggedInMember: loggedInMember,
-            recipes: recentRecipes
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
+      // order them
+      .sort({ timestamp: -1 })
+      .limit(3);
+    // render page
+    res.render("profile", {
+      user: req.user,
+      loggedInMember: loggedInMember,
+      recipes: recentRecipes,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // going to profile edit page
@@ -456,29 +476,29 @@ app.get("/profileEdit", ensureAuthenticated, function (req, res) {
   Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
     res.render("profileEdit", {
       loggedInMember: loggedInMember,
-      user: req.user
+      user: req.user,
     });
   });
 });
 
-app.post('/editProfile', ensureAuthenticated, function(req, res) {
-  Member.findOne({googleID: req.user.id}).then(function(loggedInMember){
+app.post("/editProfile", ensureAuthenticated, function (req, res) {
+  Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
     // save edited profile data to dataabse
-      loggedInMember.firstName = req.body.FN;
-      loggedInMember.lastName = req.body.LN;
-      loggedInMember.gender = req.body.GN;
-      loggedInMember.diettype = req.body.diet;
-      loggedInMember.dietitian = req.body.DT;
-      loggedInMember.birthday = req.body.birthdate;
-      loggedInMember.email = req.body.EMAIL;
-      loggedInMember.cuisines = req.body.cuisine;
-      loggedInMember.aboutMe = req.body.aboutMe;
-      recentRecipes = req.body.recentRecipes;
+    loggedInMember.firstName = req.body.FN;
+    loggedInMember.lastName = req.body.LN;
+    loggedInMember.gender = req.body.GN;
+    loggedInMember.diettype = req.body.diet;
+    loggedInMember.dietitian = req.body.DT;
+    loggedInMember.birthday = req.body.birthdate;
+    loggedInMember.email = req.body.EMAIL;
+    loggedInMember.cuisines = req.body.cuisine;
+    loggedInMember.aboutMe = req.body.aboutMe;
+    recentRecipes = req.body.recentRecipes;
     //redirect to profile page instead of rendering it, rendering breaks things
-      loggedInMember.save().then(function() {
-        res.redirect('profile');
-      });
-  })
+    loggedInMember.save().then(function () {
+      res.redirect("profile");
+    });
+  });
 });
 
 // pretty sure this is for the pictures on the dashbaord???
