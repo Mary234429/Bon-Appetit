@@ -1,9 +1,7 @@
 <!-- dashboard.ejs -->
 <html>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
   crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 
 <head>
   <meta charset="UTF-8" />
@@ -29,8 +27,6 @@
       <li><a href="/contact">Contact</a></li>
       <li><a href="/about">About Us</a></li>
 
-
-
       <li class="dropdown">
         <a href="/profile" class="dropbtn">
 
@@ -50,7 +46,6 @@
     <div class="dashboard_pic"></div>
   </div>
 
-
   <div class="top-bottomPanel">
     <h2>LET'S GET</h2>
     <h3>Cooking</h3>
@@ -63,10 +58,8 @@
     <input type="text" class="SearchTextBox" placeholder="Search for recipe" name="search" id="search" />
   </div>
 
-
   <!-- Recipe container -->
   <div class="recipeContainer">
-
 
     <!-- Breakfast recipes -->
     <div class="breakfastContainer">
@@ -99,7 +92,7 @@
               <%=lunchRecipes.at(i).name%>
             </h7>
           </div>
-          <!-- If image does nto have an image need default image loaded instead-->
+          <!-- If image does not have an image need default image loaded instead-->
           <% if(lunchRecipes[i].thumbnail == null) { %>
             <div class="recipeLunchPic"><img src="plate.png" alt="<%= lunchRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
           <% } else { %> 
@@ -119,14 +112,13 @@
               <%=dinnerRecipes.at(i).name%>
             </h7>
           </div>
-          <!-- If image does nto have an image need default image loaded instead-->
+          <!-- If image does not have an image need default image loaded instead-->
           <% if(dinnerRecipes[i].thumbnail == null) { %>
             <div class="recipeDinnerPic"><img src="plate.png" alt=" <%= dinnerRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
             <% } else { %> 
             <div class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;"></div>  
           <% } %>
-          <% } %>
-
+        <% } %>
       </div>
     </div>
 
@@ -139,22 +131,19 @@
           <div data-recipe="<%=snackRecipes.at(i)%>" class="recipeSnacks">
             <%=snackRecipes.at(i).name%>
           </div>
-          <!-- If image does nto have an image need default image loaded instead-->
+          <!-- If image does not have an image need default image loaded instead-->
           <% if(snackRecipes[i].thumbnail == null) { %>
             <div class="recipeSnackPic"><img src="plate.png" alt="<%= snackRecipes[i].name %> Thumbnail" style="max-height: 240px; max-width: 160px;"> </div>
             <% } else { %> 
             <div class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
-          <% } %>
-          <% } %>
+            <% } %>
+        <% } %>
       </div>
     </div>
 
   </div>
 </body>
 
-</html>
-    
-  </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
     function filterRecipes(filterText) {
