@@ -99,15 +99,18 @@
               placeholder="Amount"
               name="ingredientAmounts[]"
             />
+            <div style="display: inline"></div>
             <select
               class="ingredient js-example-basic-single"
               name="ingredients[]"
-              onchange="checkIngredient(this)"
             >
               <option selected value=""></option>
               <option value="addIngredient">Add New Ingredient</option>
               <% for(let i = 0; i < ingredients.length; i++){%>
-              <option value="<%=ingredients.at(i)._id%>">
+              <option
+                value="<%=ingredients.at(i)._id%>"
+                data-unit="<%=ingredients.at(i).unit%>"
+              >
                 <%=ingredients.at(i).name%>
               </option>
               <%}%>
@@ -159,12 +162,6 @@
         element.parent().remove();
       }
 
-      function checkIngredient(element) {
-        if (element.value == "addIngredient") {
-          $("#ingredientForm").css("display", "block");
-        }
-      }
-
       function addIngredient(ingredients) {
         var url = "/addIngredient";
 
@@ -184,6 +181,7 @@
           .children("li")
           .eq(0)
           .prop("outerHTML");
+
         $(".js-example-basic-single").select2();
 
         //Add a Tool Field
@@ -194,10 +192,27 @@
             )
           );
         });
+
         //Add an Ingredient field
         $("#addIngredient").click(function () {
           $("#ingredientList").append($(ingredient));
           $(".js-example-basic-single").select2();
+        });
+        //Change ingredient field
+        $("body").on("change", ".ingredient", function () {
+          if ($(this).select2().find(":selected").data("unit") == undefined) {
+            $(this).siblings("div").text("");
+          } else {
+            $(this)
+              .siblings("div")
+              .text(
+                " " + $(this).select2().find(":selected").data("unit") + " of "
+              );
+          }
+
+          if ($(this).select2().find(":selected").value == "addIngredient") {
+            $("#ingredientForm").css("display", "block");
+          }
         });
         //Add an Instruction field
         $("#addInstruction").click(function () {

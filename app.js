@@ -312,11 +312,13 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
+
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
   let tools = req.body.recipeTools;
   let ingredients = req.body.ingredients;
+  console.log(ingredients);
   let ingredientAmounts = req.body.ingredientAmounts;
   let instructions = req.body.instructions;
   let tags = req.body.recipeTags;
@@ -342,7 +344,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     thumbnail: imageBuffer,
   });
   //Save the recipe to the database
-  recipe.save();
+  //recipe.save();
   console.log("Recipe created successfully!");
 
   //save who created the recipe & timestamp to the database
@@ -353,7 +355,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     googleID: userID,
     timestamp: timestamp,
   });
-  createdRecipe.save();
+  //createdRecipe.save();
   res.redirect("/recipeCreate");
 });
 
