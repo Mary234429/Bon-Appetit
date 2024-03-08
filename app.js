@@ -420,6 +420,7 @@ app.post("/dietPlanCreate", ensureAuthenticated, function (req, res) {
     publicity: privacyLevel,
     author: author,
   });
+  // this is ok for going back to same page, but change if redirecting to another page
   dietPlan.save();
   res.redirect("/dietPlanCreate");
 });
@@ -428,31 +429,40 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-
-
-
-app.get('/profile', ensureAuthenticated, function(req, res)  {
-    Member.findOne({googleID: req.user.id}).then(function(loggedInMember) {
+app.get('/profile', ensureAuthenticated, async function (req, res) {
+  // try statement getting all recent recipes created by logged in user
+  try {
+    const loggedInMember = await Member.findOne({ googleID: req.user.id });
+    const createdRecipes = await CreatedRecipes.find({ googleID: req.user.id });
+    const recipeIds = createdRecipes.map(recipe => recipe.recipeID);
+    const recentRecipes = await Recipes.find({ _id: { $in: recipeIds } })
+    // order them
+        .sort({ timestamp: -1 })
+        .limit(3);
+        // render page
         res.render('profile', {
             user: req.user,
-            loggedInMember: loggedInMember
+            loggedInMember: loggedInMember,
+            recipes: recentRecipes
         });
-    })   
-
-  
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
+// going to profile edit page
 app.get("/profileEdit", ensureAuthenticated, function (req, res) {
   Member.findOne({ googleID: req.user.id }).then(function (loggedInMember) {
     res.render("profileEdit", {
       loggedInMember: loggedInMember,
+      user: req.user
     });
   });
 });
 
 app.post('/editProfile', ensureAuthenticated, function(req, res) {
   Member.findOne({googleID: req.user.id}).then(function(loggedInMember){
-    console.log(req.body.birthdate);
     // save edited profile data to dataabse
       loggedInMember.firstName = req.body.FN;
       loggedInMember.lastName = req.body.LN;
@@ -463,14 +473,15 @@ app.post('/editProfile', ensureAuthenticated, function(req, res) {
       loggedInMember.email = req.body.EMAIL;
       loggedInMember.cuisines = req.body.cuisine;
       loggedInMember.aboutMe = req.body.aboutMe;
-
-      loggedInMember.save();
-    res.render('profile', {
-      loggedInMember: loggedInMember
-    });
+      recentRecipes = req.body.recentRecipes;
+    //redirect to profile page instead of rendering it, rendering breaks things
+      loggedInMember.save().then(function() {
+        res.redirect('profile');
+      });
   })
 });
 
+// pretty sure this is for the pictures on the dashbaord???
 app.get("/members/:id", async (req, res) => {
   console.log("Received request at /members with ID:", req.params.id);
   try {

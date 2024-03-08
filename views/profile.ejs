@@ -25,16 +25,18 @@
     <img src=<%= user.picture %> style="border-radius:50%;width:150px;height:150px;">
     <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
     <p>userType: <%= loggedInMember.usertype %></p>
-    <p><%= age %> </p>
+
+    <p><%= age %> Years Old </p>
     <p><%= loggedInMember.gender %></p>
-    <p>email<%= loggedInMember.email %></p>
+    <p>Email: <%= loggedInMember.email %></p>
   </div>
   <div class = "right-container">
-    <p class="about">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      <%= loggedInMember.aboutMe %> </p>
+    <p class="about"> 
+      <%= loggedInMember.aboutMe ? loggedInMember.aboutMe : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' %>
+    </p>
     <p>Dietitian: <%= loggedInMember.dietitian %></p>
-    <p>Diet Type: <%= loggedInMember.dietType %></p>
+    <p>Diet Type: <%= loggedInMember.diettype %></p>
+
     <p>Cuisines: <%= loggedInMember.cuisines %></p>
     <br>
     <button class ="editButton" id="edit" onclick="edit()">Edit Profile</button>
@@ -49,25 +51,33 @@
 <div class = "recipe-container">
   <div class="left-recipe">
     <div class="left-box">
-      <p class="name">test</p>
+
+      <p class="name"><%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %></p>
     </div>
     <div class="left-image">
-      
-    </div>
+      <% if (recipes[0]) { %>
+        <img src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>" alt="<%= recipes[0].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
+    <% } %>
+        </div>
   </div>
   <div class="middle-recipe">
     <div class="middle-box">
-      <p class="name">test</p>
+      <p class="name"><%= recipes[1] ? recipes[1].name : 'Create Another Recipe' %></p>
     </div>
     <div class="middle-image">
+      <% if (recipes[1]) { %>
+        <img src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>" alt="<%= recipes[1].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
+    <% } %>
     </div>
   </div>
   <div class="right-recipe">
     <div class="right-box">
-      <p class="name">test</p>
+
+      <p class="name"><%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %></p>
     </div>
-    <div class="right-image">
-    </div>
+    <% if (recipes[2]) { %>
+      <img src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>" alt="<%= recipes[2].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;">
+  <% } %>
   </div>
 </div>
 
@@ -82,4 +92,3 @@
 
 </body>
 </html>
-

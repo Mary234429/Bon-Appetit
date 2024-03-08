@@ -85,9 +85,9 @@
           <% } %>>
           </div>
           <% } %>
+        </div>
+        <%}%>
       </div>
-    </div>
-
 
     <!-- Lunch recipes -->
     <div class="lunchContainer">
@@ -104,10 +104,10 @@
             <div class="recipeLunchPic"><img src="plate.png" alt="<%= lunchRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
           <% } else { %> 
             <div class="recipeLunchPic"> <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" alt="<%= lunchRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
-          <% } %> 
-          <% } %>
+          <% } %>        
+        </div>
+        <% } %>
       </div>
-    </div>
 
     <!-- Dinner recipes -->
     <div class="dinnerContainer">
@@ -123,7 +123,7 @@
           <% if(dinnerRecipes[i].thumbnail == null) { %>
             <div class="recipeDinnerPic"><img src="plate.png" alt=" <%= dinnerRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
             <% } else { %> 
-            <div class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+            <div class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;"></div>  
           <% } %>
           <% } %>
 
