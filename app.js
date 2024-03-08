@@ -194,7 +194,8 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     }
 
     getJoke().then((joke) => {
-      res.render("dashboard", {
+      res.render(
+        "dashboard", {
         breakfastRecipes,
         lunchRecipes,
         dinnerRecipes,
