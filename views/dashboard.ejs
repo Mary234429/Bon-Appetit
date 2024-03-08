@@ -77,7 +77,12 @@
             <h7 class="breakfast-recipe-name">
               <%= breakfastRecipes.at(i).name %>
             </h7>
-            <div class="recipeBreakfastPic"></div>
+            <!-- If image does not have an image need default image loaded instead-->
+          <% if(breakfastRecipes[i].thumbnail == null) { %>
+            <div class="recipeBreakfastPic"><img src="plate.png" alt="<%= breakfastRecipes[i].name %> Thumbnail"style="max-height:240px; max-width: 160px;"> </div>
+          <% } else { %> 
+            <div class="recipeBreakfastPic"> <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+          <% } %>>
           </div>
           <% } %>
       </div>
@@ -94,7 +99,12 @@
               <%=lunchRecipes.at(i).name%>
             </h7>
           </div>
-          <div class="recipeLunchPic"></div>
+          <!-- If image does nto have an image need default image loaded instead-->
+          <% if(lunchRecipes[i].thumbnail == null) { %>
+            <div class="recipeLunchPic"><img src="plate.png" alt="<%= lunchRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
+          <% } else { %> 
+            <div class="recipeLunchPic"> <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" alt="<%= lunchRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+          <% } %> 
           <% } %>
       </div>
     </div>
@@ -109,10 +119,17 @@
               <%=dinnerRecipes.at(i).name%>
             </h7>
           </div>
-          <div class="recipeDinnerPic"></div>
+          <!-- If image does nto have an image need default image loaded instead-->
+          <% if(dinnerRecipes[i].thumbnail == null) { %>
+            <div class="recipeDinnerPic"><img src="plate.png" alt=" <%= dinnerRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
+            <% } else { %> 
+            <div class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
           <% } %>
+          <% } %>
+
       </div>
     </div>
+
 
     <!-- Snacks recipes -->
     <div class="snacksContainer">
@@ -122,7 +139,12 @@
           <div data-recipe="<%=snackRecipes.at(i)%>" class="recipeSnacks">
             <%=snackRecipes.at(i).name%>
           </div>
-          <div class="recipeSnacksPic"></div>
+          <!-- If image does nto have an image need default image loaded instead-->
+          <% if(snackRecipes[i].thumbnail == null) { %>
+            <div class="recipeSnackPic"><img src="plate.png" alt="<%= snackRecipes[i].name %> Thumbnail" style="max-height: 240px; max-width: 160px;"> </div>
+            <% } else { %> 
+            <div class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+          <% } %>
           <% } %>
       </div>
     </div>
@@ -131,3 +153,69 @@
 </body>
 
 </html>
+    
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    function filterRecipes(filterText) {
+      //uppercase search text
+      let uppercaseSearch =
+        filterText.charAt(0).toUpperCase() + filterText.substring(1);
+      //lowercase search text
+      let lowercaseSearch =
+        filterText.charAt(0).toLowerCase() + filterText.substring(1);
+      //create regex to search through recipes
+      let upSearch = new RegExp(uppercaseSearch);
+      let downSearch = new RegExp(lowercaseSearch);
+      //Search breakfast recipes
+      $(".recipeBreakfast").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search lunch recipes
+      $(".recipeLunch").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search dinner recipes
+      $(".recipeDinner").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+      //Search snack recipes
+      $(".recipeSnack").each(function (i, obj) {
+        $(this).css("display", "block");
+        if (
+          !upSearch.test($(this).val) &&
+          !upSearch.test($(this).attr("data-recipe")) &&
+          !downSearch.test($(this).val) &&
+          !downSearch.test($(this).attr("data-recipe"))
+        ) {
+          $(this).css("display", "none");
+        }
+      });
+    }
+  </script>
+</html>
+

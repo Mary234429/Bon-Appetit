@@ -4,11 +4,21 @@
 </head>
 
 <body>
-  <h1 id="label">B o n A p p e t i t</h1>
-  <img src="box.jpg" alt="pretty box" id="box" />
-  <img src="acai.png" alt="acai bowl" id="bowl" />
-  <div>
-    <h1>LOGIN</h1>
+<div class = "outer-container">
+  <img src="leaf.png" alt="leaf" id = "leaf1"/>
+  <img src="leaf.png" alt="leaf" id = "leaf2"/>
+    <img src="box.jpg" alt="pretty box" id = "box"/>
+  <div class = "inner-container">
+  <div class="left-container">
+    <h1 id="label">B o n&nbsp;&nbsp;&nbsp;A p p e t i t</h1>
+    <br>
+    <br>
+    <form>
+      <input placeholder="Username"><br>
+      <input type = password placeholder="Password"><br><br>
+      <input type="submit" value="Login" class = "loginButton">
+    </form> 
+    <p id = "or">OR</p>
     <a class="googleButton" href="/auth/google">
       <img
         height="20"
@@ -16,16 +26,20 @@
         loading="lazy"
         alt="google logo"
       />
-      <span size="20">Login with Google</span>
+      <span size="20">Continue with Google</span>
     </a>
     <a class="registerButton" href="/auth/google">
-      <img
-        height="20"
-        src="https://www.svgrepo.com/show/475656/google-color.svg"
-        loading="lazy"
-        alt="google logo"
-      />
-      <span size="20">Register</span>
+      <span size="20">Don't have an account?</span>
     </a>
+    <br>
+    <br>
+    <a id = "learn" href="/about">Learn about Bon Appetit</a>
   </div>
+  <div class=" right-container">
+    <img src="acai.png" alt="acai bowl" id = "bowl"/>
+  </div>
+  </div>
+  <img src="leaf.png" alt="leaf" id = "leaf3"/>
+  <img src="leaf.png" alt="leaf" id = "leaf4"/>
+</div>
 </body>
