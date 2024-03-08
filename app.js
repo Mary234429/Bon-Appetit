@@ -176,6 +176,8 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
     const snackRegex = new RegExp("Snack");
+    
+    //console.log(recipes.at(0).mealType.at(0));
 
     for (let i = 0; i < recipes.length; i++) {
       for (let j = 0; j < recipes.at(i).mealType.length; j++) {
