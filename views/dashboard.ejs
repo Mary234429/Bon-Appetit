@@ -42,6 +42,12 @@
     </ul>
   </nav>
 
+ <!-- Jokebar -->
+ <div class="navbar">
+  <%= joke.joke %>
+</div> 
+    
+
   <div class="bottomPanel">
     <div class="dashboard_pic"></div>
   </div>
@@ -75,11 +81,9 @@
             <div class="recipeBreakfastPic"><img src="plate.png" alt="<%= breakfastRecipes[i].name %> Thumbnail"style="max-height:240px; max-width: 160px;"> </div>
           <% } else { %> 
             <div class="recipeBreakfastPic"> <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
-          <% } %>>
+          <% } %>
           </div>
           <% } %>
-        </div>
-        <%}%>
       </div>
 
     <!-- Lunch recipes -->
