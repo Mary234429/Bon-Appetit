@@ -194,8 +194,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
     }
 
     getJoke().then((joke) => {
-      res.render(
-        "dashboard", {
+      res.render("dashboard", {
         breakfastRecipes,
         lunchRecipes,
         dinnerRecipes,
@@ -460,6 +459,7 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       // order them
       .sort({ timestamp: -1 })
       .limit(3);
+    console.log(recentRecipes);
     // render page
     res.render("profile", {
       user: req.user,

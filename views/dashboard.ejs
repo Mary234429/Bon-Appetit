@@ -150,7 +150,9 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
-    function filterRecipes(filterText) {
+    $(document).ready(function(){
+      $("#search").on('keyup', function(){
+        let filterText = $(this).val();
       //uppercase search text
       let uppercaseSearch =
         filterText.charAt(0).toUpperCase() + filterText.substring(1);
@@ -208,7 +210,8 @@
           $(this).css("display", "none");
         }
       });
-    }
+      });
+    });
   </script>
 </html>
 
