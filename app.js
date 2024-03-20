@@ -190,6 +190,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
       }
     }
 
+
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
     const recipeMemberMap = {}; // Map to store member names for each recipe
@@ -483,6 +484,7 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       // order them
       .sort({ timestamp: -1 })
       .limit(3);
+    console.log(recentRecipes);
     // render page
     res.render("profile", {
       user: req.user,
