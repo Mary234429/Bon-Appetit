@@ -205,7 +205,7 @@
           <a href="/recipe/<%=snackRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
           <% let recipeData = ""; recipeData += snackRecipes.at(i).name + "\n" + snackRecipes.at(i).description;%>
           <!--tools-->
-          <% if(typeof snackRecipesRecipes.at(i).tools.length !== 'undefined') {for(let j = 0; j < snackRecipes.at(i).tools.length; j++){recipeData += snackRecipes.at(i).tools.at(j) + ",";}}%>
+          <% if(typeof snackRecipes.at(i).tools !== 'undefined') {for(let j = 0; j < snackRecipes.at(i).tools.length; j++){recipeData += snackRecipes.at(i).tools.at(j) + ",";}}%>
           <% recipeData += "\n";%>
           <!--ingredients-->
           <% for(let j = 0; j < snackRecipes.at(i).ingredients.length; j++){recipeData += snackRecipes.at(i).ingredients.at(j) + ",";}%>
