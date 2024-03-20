@@ -1,5 +1,5 @@
 //import required modules
-const { Binary, ObjectId } = require("mongodb");
+const { Binary, ObjectId, Double, Decimal128 } = require("mongodb");
 let mongoose = require("mongoose");
 
 //template schema/data model
@@ -76,7 +76,7 @@ let Joke = mongoose.model("foodjoke", jokeSchema);
 let ingredientSchema = new mongoose.Schema({
   name: { type: String },
   unit: { type: String },
-  caloriesPerUnit: { type: String },
+  caloriesPerUnit: { type: Decimal128 },
 });
 let Ingredients = mongoose.model("ingredient", ingredientSchema);
 
@@ -91,7 +91,7 @@ let recipeSchema = new mongoose.Schema({
   tags: { type: Array },
   mealType: { type: Array },
   publicity: { type: String },
-  thumbnail: {type: Buffer}
+  thumbnail: { type: Buffer },
 });
 let Recipes = mongoose.model("recipe", recipeSchema);
 

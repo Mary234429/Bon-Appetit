@@ -27,29 +27,29 @@
   <input type="text", name="LN", id="LN" value=<%= loggedInMember.lastName %>></br>
   <label for="GN">Gender:</label>
   <select id="GN" name="GN">
-      <option value="male" <%= loggedInMember.gender === 'male' ? 'selected' : '' %> >Male</option>
-      <option value="female" <%= loggedInMember.gender === 'female' ? 'selected' : '' %>>Female</option>
+      <option value="Male" <%= loggedInMember.gender === 'Male' ? 'selected' : '' %> >Male</option>
+      <option value="Female" <%= loggedInMember.gender === 'Female' ? 'selected' : '' %>>Female</option>
   </select></br>
   <label for="diet">Choose a diet:</label>
   <select id="diet" name="diet">
-      <option value="carnivore" <%= loggedInMember.diet === 'carnivore' ? 'selected' : '' %>>Carnivore</option>
-      <option value="vegan" <%= loggedInMember.diet === 'vegan' ? 'selected' : '' %>>Vegan</option>
-      <option value="vegetarian" <%= loggedInMember.diet === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
-      <option value="pescatarian" <%= loggedInMember.diet === 'pescatarian' ? 'selected' : '' %>>Pescatarian</option>
-      <option value="keto" <%= loggedInMember.diet === 'keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
-      <option value="paleo" <%= loggedInMember.diet === 'paleo' ? 'selected' : '' %>>Paleo</option>
-      <option value="flexitarian" <%= loggedInMember.diet === 'flexitarian' ? 'selected' : '' %>>Flexitarian</option>
-      <option value="whole30" <%= loggedInMember.diet === 'whole30' ? 'selected' : '' %>>Whole30</option>
-      <option value="glutenfree" <%= loggedInMember.diet === 'glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
-      <option value="dairyfree" <%= loggedInMember.diet === 'dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
-      <option value="raw" <%= loggedInMember.diet === 'raw' ? 'selected' : '' %>>Raw</option>
-      <option value="beans" <%= loggedInMember.diet === 'beans' ? 'selected' : '' %>>Beans</option>
-      <option value="macrobiotic" <%= loggedInMember.diet === 'macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
-      <option value="fruitarian" <%= loggedInMember.diet === 'fruitarian' ? 'selected' : '' %>>Fruitarian</option>
-      <option value="lowcarb" <%= loggedInMember.diet === 'lowcarb' ? 'selected' : '' %>>Low Carb</option>
-      <option value="mediterranean" <%= loggedInMember.diet === 'mediterranean' ? 'selected' : '' %>>Mediterranean</option>
-      <option value="paleovegan" <%= loggedInMember.diet === 'paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
-      <option value="paleovegetarian" <%= loggedInMember.diet === 'paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
+      <option value="Carnivore" <%= loggedInMember.diet === 'Carnivore' ? 'selected' : '' %>>Carnivore</option>
+      <option value="Vegan" <%= loggedInMember.diet === 'Vegan' ? 'selected' : '' %>>Vegan</option>
+      <option value="Vegetarian" <%= loggedInMember.diet === 'Vegetarian' ? 'selected' : '' %>>Vegetarian</option>
+      <option value="Pescatarian" <%= loggedInMember.diet === 'Pescatarian' ? 'selected' : '' %>>Pescatarian</option>
+      <option value="Keto" <%= loggedInMember.diet === 'Keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
+      <option value="Paleo" <%= loggedInMember.diet === 'Paleo' ? 'selected' : '' %>>Paleo</option>
+      <option value="Flexitarian" <%= loggedInMember.diet === 'Flexitarian' ? 'selected' : '' %>>Flexitarian</option>
+      <option value="Whole30" <%= loggedInMember.diet === 'Whole30' ? 'selected' : '' %>>Whole30</option>
+      <option value="Glutenfree" <%= loggedInMember.diet === 'Glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
+      <option value="Dairyfree" <%= loggedInMember.diet === 'Dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
+      <option value="Raw" <%= loggedInMember.diet === 'Raw' ? 'selected' : '' %>>Raw</option>
+      <option value="Beans" <%= loggedInMember.diet === 'Beans' ? 'selected' : '' %>>Beans</option>
+      <option value="Macrobiotic" <%= loggedInMember.diet === 'Macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
+      <option value="Fruitarian" <%= loggedInMember.diet === 'Fruitarian' ? 'selected' : '' %>>Fruitarian</option>
+      <option value="Lowcarb" <%= loggedInMember.diet === 'Lowcarb' ? 'selected' : '' %>>Low Carb</option>
+      <option value="Mediterranean" <%= loggedInMember.diet === 'Mediterranean' ? 'selected' : '' %>>Mediterranean</option>
+      <option value="Paleovegan" <%= loggedInMember.diet === 'Paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
+      <option value="Paleovegetarian" <%= loggedInMember.diet === 'Paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
       <!-- Add more diet options as needed -->
   </select></br>
 
@@ -65,23 +65,23 @@
   <label for="cuisine">Use ctrl to select multiple:</label></br>
   <label for="cuisine">Preferred Cuisine:</label>
   <select id="cuisine" name="cuisine" multiple>
-      <option value="italian" <%= loggedInMember.cuisines.includes('italian') ? 'selected' : '' %>>Italian</option>
-      <option value="mexican" <%= loggedInMember.cuisines.includes('mexican') ? 'selected' : '' %>>Mexican</option>
-      <option value="chinese" <%= loggedInMember.cuisines.includes('chinese') ? 'selected' : '' %>>Chinese</option>
-      <option value="indian" <%= loggedInMember.cuisines.includes('indian') ? 'selected' : '' %>>Indian</option>
-      <option value="japanese" <%= loggedInMember.cuisines.includes('japanese') ? 'selected' : '' %>>Japanese</option>
-      <option value="thai" <%= loggedInMember.cuisines.includes('thai') ? 'selected' : '' %>>Thai</option>
-      <option value="mediterranean" <%= loggedInMember.cuisines.includes('mediterranean') ? 'selected' : '' %>>Mediterranean</option>
-      <option value="french" <%= loggedInMember.cuisines.includes('french') ? 'selected' : '' %>>French</option>
-      <option value="spanish" <%= loggedInMember.cuisines.includes('spanish') ? 'selected' : '' %>>Spanish</option>
-      <option value="greek" <%= loggedInMember.cuisines.includes('greek') ? 'selected' : '' %>>Greek</option>
-      <option value="korean" <%= loggedInMember.cuisines.includes('korean') ? 'selected' : '' %>>Korean</option>
-      <option value="vietnamese" <%= loggedInMember.cuisines.includes('vietnamese') ? 'selected' : '' %>>Vietnamese</option>
-      <option value="american" <%= loggedInMember.cuisines.includes('american') ? 'selected' : '' %>>American</option>
-      <option value="middleeastern" <%= loggedInMember.cuisines.includes('middleeastern') ? 'selected' : '' %>>Middle Eastern</option>
-      <option value="brazilian" <%= loggedInMember.cuisines.includes('brazilian') ? 'selected' : '' %>>Brazilian</option>
-      <option value="caribbean" <%= loggedInMember.cuisines.includes('caribbean') ? 'selected' : '' %>>Caribbean</option>
-      <option value="african" <%= loggedInMember.cuisines.includes('african') ? 'selected' : '' %>>African</option>
+      <option value="Italian" <%= loggedInMember.cuisines.includes('Italian') ? 'selected' : '' %>>Italian</option>
+      <option value="Mexican" <%= loggedInMember.cuisines.includes('Mexican') ? 'selected' : '' %>>Mexican</option>
+      <option value="Chinese" <%= loggedInMember.cuisines.includes('Chinese') ? 'selected' : '' %>>Chinese</option>
+      <option value="Indian" <%= loggedInMember.cuisines.includes('Indian') ? 'selected' : '' %>>Indian</option>
+      <option value="Japanese" <%= loggedInMember.cuisines.includes('Japanese') ? 'selected' : '' %>>Japanese</option>
+      <option value="Thai" <%= loggedInMember.cuisines.includes('Thai') ? 'selected' : '' %>>Thai</option>
+      <option value="Mediterranean" <%= loggedInMember.cuisines.includes('Mediterranean') ? 'selected' : '' %>>Mediterranean</option>
+      <option value="French" <%= loggedInMember.cuisines.includes('French') ? 'selected' : '' %>>French</option>
+      <option value="Spanish" <%= loggedInMember.cuisines.includes('Spanish') ? 'selected' : '' %>>Spanish</option>
+      <option value="Greek" <%= loggedInMember.cuisines.includes('Greek') ? 'selected' : '' %>>Greek</option>
+      <option value="Korean" <%= loggedInMember.cuisines.includes('Korean') ? 'selected' : '' %>>Korean</option>
+      <option value="Vietnamese" <%= loggedInMember.cuisines.includes('Vietnamese') ? 'selected' : '' %>>Vietnamese</option>
+      <option value="American" <%= loggedInMember.cuisines.includes('American') ? 'selected' : '' %>>American</option>
+      <option value="Middleeastern" <%= loggedInMember.cuisines.includes('Middleeastern') ? 'selected' : '' %>>Middle Eastern</option>
+      <option value="Brazilian" <%= loggedInMember.cuisines.includes('Brazilian') ? 'selected' : '' %>>Brazilian</option>
+      <option value="Caribbean" <%= loggedInMember.cuisines.includes('Caribbean') ? 'selected' : '' %>>Caribbean</option>
+      <option value="African" <%= loggedInMember.cuisines.includes('African') ? 'selected' : '' %>>African</option>
       <!-- Add more cuisine options as needed -->
   </select></br>
   
