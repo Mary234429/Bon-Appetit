@@ -76,15 +76,23 @@
             <h7 class="breakfast-recipe-name">
               <%= breakfastRecipes.at(i).name %>
             </h7>
+            <% const creatorDetails = recipeMemberMap[breakfastRecipes[i]._id]; %>
+              <div class="creator-info">
+                  <% if (creatorDetails.profilePicture) { %>
+                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
+                  <% } %>
+                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
+              </div>
             <!-- If image does not have an image need default image loaded instead-->
-          <% if(breakfastRecipes[i].thumbnail == null) { %>
-            <div class="recipeBreakfastPic"><img src="plate.png" alt="<%= breakfastRecipes[i].name %> Thumbnail"style="max-height:240px; max-width: 160px;"> </div>
-          <% } else { %> 
-            <div class="recipeBreakfastPic"> <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
-          <% } %>
-          </div>
-          <% } %>
-      </div>
+            <% if(breakfastRecipes[i].thumbnail == null) { %>
+              <img src="plate.png" class="recipeBreakfastPic"alt="<%= breakfastRecipes[i].name %> Thumbnail">
+            <% } else { %> 
+              <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" class="recipeBreakfastPic"> 
+            <% } %>
+          </div> <!-- data-recipe-->
+        <% } %>
+      </div> <!-- end recipe wrapper-->
+    </div> <!-- breakfast container-->
 
     <!-- Lunch recipes -->
     <div class="lunchContainer">
@@ -95,16 +103,23 @@
             <h7 class="lunch-recipe-name">
               <%=lunchRecipes.at(i).name%>
             </h7>
+            <% const creatorDetails = recipeMemberMap[lunchRecipes[i]._id]; %>
+              <div class="creator-info">
+                  <% if (creatorDetails.profilePicture) { %>
+                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
+                  <% } %>
+                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
+              </div>
+            <!-- If image does not have an image need default image loaded instead-->
+            <% if(lunchRecipes[i].thumbnail == null) { %>
+              <img src="plate.png" class="recipeLunchPic" alt="<%= lunchRecipes[i].name %> Thumbnail">
+            <% } else { %> 
+              <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" class="recipeLunchPic" alt="<%= lunchRecipes[i].name %> Thumbnail"> 
+             <% } %>
           </div>
-          <!-- If image does not have an image need default image loaded instead-->
-          <% if(lunchRecipes[i].thumbnail == null) { %>
-            <div class="recipeLunchPic"><img src="plate.png" alt="<%= lunchRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
-          <% } else { %> 
-            <div class="recipeLunchPic"> <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" alt="<%= lunchRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
-          <% } %>        
-        </div>
         <% } %>
       </div>
+    </div>  <!-- lunch container-->
 
     <!-- Dinner recipes -->
     <div class="dinnerContainer">
@@ -115,17 +130,23 @@
             <h7 class="dinner-recipe-name">
               <%=dinnerRecipes.at(i).name%>
             </h7>
-          </div>
-          <!-- If image does not have an image need default image loaded instead-->
-          <% if(dinnerRecipes[i].thumbnail == null) { %>
-            <div class="recipeDinnerPic"><img src="plate.png" alt=" <%= dinnerRecipes[i].name %> Thumbnail"style="max-height: 240px; max-width: 160px;"> </div>
+            <% const creatorDetails = recipeMemberMap[dinnerRecipes[i]._id]; %>
+              <div class="creator-info">
+                  <% if (creatorDetails.profilePicture) { %>
+                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
+                  <% } %>
+                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
+              </div>
+            <!-- If image does not have an image need default image loaded instead-->
+            <% if(dinnerRecipes[i].thumbnail == null) { %>
+              <img src="plate.png" class="recipeDinnerPic" alt=" <%= dinnerRecipes[i].name %> Thumbnail">
             <% } else { %> 
-            <div class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;"></div>  
-          <% } %>
+              <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" class="recipeDinnerPic" alt="<%= dinnerRecipes[i].name %> Thumbnail" >  
+            <% } %>
+          </div>
         <% } %>
       </div>
     </div>
-
 
     <!-- Snacks recipes -->
     <div class="snacksContainer">
@@ -133,19 +154,28 @@
       <div class="recipeWrapper">
         <% for(let i=0; i < snackRecipes.length; i++){%>
           <div data-recipe="<%=snackRecipes.at(i)%>" class="recipeSnacks">
-            <%=snackRecipes.at(i).name%>
-          </div>
-          <!-- If image does not have an image need default image loaded instead-->
-          <% if(snackRecipes[i].thumbnail == null) { %>
-            <div class="recipeSnackPic"><img src="plate.png" alt="<%= snackRecipes[i].name %> Thumbnail" style="max-height: 240px; max-width: 160px;"> </div>
+            <h7 class="snack-recipe-name">
+              <%=snackRecipes.at(i).name%>
+            </h7>
+            <% const creatorDetails = recipeMemberMap[snackRecipes[i]._id]; %>
+              <div class="creator-info">
+                  <% if (creatorDetails.profilePicture) { %>
+                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
+                  <% } %>
+                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
+              </div>
+            <!-- If image does not have an image need default image loaded instead-->
+            <% if(snackRecipes[i].thumbnail == null) { %>
+              <img src="plate.png" class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail" > 
             <% } else { %> 
-            <div class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+              <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" class="recipeSnacksPic" alt="<%= dinnerRecipes[i].name %> Thumbnail">  
             <% } %>
+          </div>
         <% } %>
       </div>
-    </div>
+    </div>  
 
-  </div>
+  </div> <!-- recipe container end-->
 </body>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
