@@ -166,44 +166,67 @@ app.get("/", (req, res) => {
   res.render("login" /*, {variables}*/);
 });
 
-app.get("/dashboard", ensureAuthenticated, function (req, res) {
-  Recipes.find().then((recipes) => {
+app.get("/dashboard", ensureAuthenticated, async function (req, res) {
+  try {
+    const recipes = await Recipes.find();
     let breakfastRecipes = [];
-    const breakfastRegex = new RegExp("Breakfast");
     let lunchRecipes = [];
-    const lunchRegex = new RegExp("Lunch");
     let dinnerRecipes = [];
-    const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
-    const snackRegex = new RegExp("Snack");
-
-    //console.log(recipes.at(0).mealType.at(0));
 
     for (let i = 0; i < recipes.length; i++) {
-      for (let j = 0; j < recipes.at(i).mealType.length; j++) {
-        if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
-          breakfastRecipes.push(recipes.at(i));
-        } else if (lunchRegex.test(recipes.at(i).mealType.at(j))) {
-          lunchRecipes.push(recipes.at(i));
-        } else if (dinnerRegex.test(recipes.at(i).mealType.at(j))) {
-          dinnerRecipes.push(recipes.at(i));
-        } else if (snackRegex.test(recipes.at(i).mealType.at(j))) {
-          snackRecipes.push(recipes.at(i));
+      for (let j = 0; j < recipes[i].mealType.length; j++) {
+        const recipe = recipes[i];
+        const recipeMealType = recipe.mealType[j];
+        if (/Breakfast/.test(recipeMealType)) {
+          breakfastRecipes.push(recipe);
+        } else if (/Lunch/.test(recipeMealType)) {
+          lunchRecipes.push(recipe);
+        } else if (/Dinner/.test(recipeMealType)) {
+          dinnerRecipes.push(recipe);
+        } else if (/Snack/.test(recipeMealType)) {
+          snackRecipes.push(recipe);
         }
       }
     }
 
-    getJoke().then((joke) => {
-      res.render("dashboard", {
-        breakfastRecipes,
-        lunchRecipes,
-        dinnerRecipes,
-        snackRecipes,
-        joke,
-        /*, variables*/
-      });
+
+    const members = await Member.find();
+    const createdRecipes = await CreatedRecipes.find();
+    const recipeMemberMap = {}; // Map to store member names for each recipe
+    //console.log(members);
+    //console.log(createdRecipes);
+
+    for (const createdRecipe of createdRecipes) {
+      const { recipeID, googleID } = createdRecipe;
+      const member = members.find(member => member.googleID === googleID);
+      if (member) {
+        recipeMemberMap[recipeID] = {
+          firstName: member.firstName,
+          lastName: member.lastName,
+          profilePicture: member.profilePicture, 
+        };      
+      }
+    }
+    console.log(recipeMemberMap);
+    console.log(breakfastRecipes);
+
+    const joke = await getJoke();
+
+    res.render("dashboard", {
+      member: members,
+      CRecipes: createdRecipes,
+      breakfastRecipes,
+      lunchRecipes,
+      dinnerRecipes,
+      snackRecipes,
+      joke,
+      recipeMemberMap // Pass the map of recipe IDs to member names to the template
     });
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 async function getJoke() {
@@ -249,6 +272,7 @@ app.get("/register", (req, res) => {
             cuisines: [],
             email: req.user.emails[0].value,
             aboutMe: "About Me",
+            profilePicture: req.user.picture,
           });
           console.log(newMember);
           newMember
@@ -275,6 +299,7 @@ app.get("/register", (req, res) => {
             cuisines: [],
             email: req.user.emails[0].value,
             aboutMe: "About Me",
+            profilePicture: imageBuffer,
           });
           console.log(newMember);
           newMember

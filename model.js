@@ -34,6 +34,7 @@ let memberSchema = new mongoose.Schema({
   cuisines: { type: Array },
   email: { type: String },
   aboutMe: { type: String },
+  profilePicture: { type: String }
 });
 let Member = mongoose.model("communitymember", memberSchema);
 
