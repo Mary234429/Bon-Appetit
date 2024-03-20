@@ -72,7 +72,6 @@
       <h4>Breakfast</h4>
       <div class="recipeWrapper">
         <% for(let i=0; i < breakfastRecipes.length; i++) { %>
-          <% console.log(breakfastRecipes.at(i).ingredients);%>
           <% let recipeData = ""; recipeData += breakfastRecipes.at(i).name + "\n" + breakfastRecipes.at(i).description;%>
           <!--tools-->
           <% if(typeof breakfastRecipes.at(i).tools !== 'undefined') for(let j = 0; j < breakfastRecipes.at(i).tools.length; j++){recipeData += breakfastRecipes.at(i).tools.at(j) + ",";}%>
