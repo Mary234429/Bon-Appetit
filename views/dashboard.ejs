@@ -72,6 +72,7 @@
       <h4>Breakfast</h4>
       <div class="recipeWrapper">
         <% for(let i=0; i < breakfastRecipes.length; i++) { %>
+          <a href="/recipe/<%=breakfastRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
           <% let recipeData = ""; recipeData += breakfastRecipes.at(i).name + "\n" + breakfastRecipes.at(i).description;%>
           <!--tools-->
           <% if(typeof breakfastRecipes.at(i).tools !== 'undefined') for(let j = 0; j < breakfastRecipes.at(i).tools.length; j++){recipeData += breakfastRecipes.at(i).tools.at(j) + ",";}%>
@@ -98,6 +99,7 @@
             <div data-recipe="<%= recipeData %>" class="recipeBreakfastPic"> <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
           <% } %>
           </div>
+        </a>
           <% } %>
       </div>
 
@@ -106,6 +108,7 @@
       <h4>Lunch</h4>
       <div class="recipeWrapper">
         <% for(let i=0; i < lunchRecipes.length; i++){%>
+          <a href="/recipe/<%=lunchRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
           <% let recipeData = ""; recipeData += lunchRecipes.at(i).name + "\n" + lunchRecipes.at(i).description;%>
           <!--tools-->
           <% if(typeof lunchRecipes.at(i).tools !== 'undefined') for(let j = 0; j < lunchRecipes.at(i).tools.length; j++){recipeData += lunchRecipes.at(i).tools.at(j) + ",";}%>
@@ -133,6 +136,7 @@
             <div data-recipe="<%= recipeData %>" class="recipeLunchPic"> <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" alt="<%= lunchRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
           <% } %>        
         </div>
+      </a>
         <% } %>
       </div>
 
@@ -141,6 +145,7 @@
       <h4>Dinner</h4>
       <div class="recipeWrapper">
         <% for(let i=0; i < dinnerRecipes.length; i++){%>
+          <a href="/recipe/<%=dinnerRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
           <% let recipeData = ""; recipeData += dinnerRecipes.at(i).name + "\n" + dinnerRecipes.at(i).description;%>
           <!--tools-->
           <% if(typeof dinnerRecipes.at(i).tools !== 'undefined'){ for(let j = 0; j < dinnerRecipes.at(i).tools.length; j++){recipeData += dinnerRecipes.at(i).tools.at(j) + ",";}}%>
@@ -167,6 +172,7 @@
             <% } else { %> 
             <div data-recipe="<%= recipeData %>" class="recipeDinnerPic"> <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:170px; max-width: 170px; object-fit: cover;"></div>  
           <% } %>
+          </a>
         <% } %>
       </div>
     </div>
@@ -177,6 +183,7 @@
       <h4>Snacks</h4>
       <div class="recipeWrapper">
         <% for(let i=0; i < snackRecipes.length; i++){%>
+          <a href="/recipe/<%=snackRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
           <% let recipeData = ""; recipeData += snackRecipes.at(i).name + "\n" + snackRecipes.at(i).description;%>
           <!--tools-->
           <% if(typeof snackRecipesRecipes.at(i).tools.length !== 'undefined') {for(let j = 0; j < snackRecipes.at(i).tools.length; j++){recipeData += snackRecipes.at(i).tools.at(j) + ",";}}%>
@@ -201,6 +208,7 @@
             <% } else { %> 
             <div data-recipe="<%= recipeData %>" class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
             <% } %>
+          </a>
         <% } %>
       </div>
     </div>
