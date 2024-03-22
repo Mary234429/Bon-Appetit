@@ -550,19 +550,19 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
   });
 });
 
-// pretty sure this is for the pictures on the dashbaord???
-app.get("/members/:id", async (req, res) => {
-  console.log("Received request at /members with ID:", req.params.id);
-  try {
-    const member = await Member.findById(req.params.id);
-    if (!member) {
-      console.log("No member found with ID:", req.params.id);
-      return res.status(404).send("Member not found");
-    }
-    console.log("Member data found:", member);
-    res.json(member);
-  } catch (error) {
-    console.error("Error fetching member data:", error);
-    res.status(500).send("Server error");
-  }
-});
+    app.get("/members/:id", async (req, res) => {
+        console.log("Received request at /members with ID:", req.params.id);
+        try {
+            const member = await Member.findById(req.params.id);
+            if (!member) {
+                console.log("No member found with ID:", req.params.id);
+                return res.status(404).send("Member not found");
+            }
+            console.log("Member data found:", member);
+            res.json(member);
+        } catch (error) {
+            console.error("Error fetching member data:", error);
+            res.status(500).send("Server error");
+        }
+    });
+}
