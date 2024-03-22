@@ -590,4 +590,3 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
             res.status(500).send("Server error");
         }
     });
-}
