@@ -147,13 +147,10 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/recipes", (req, res) => {
-  const recipes = [
-    { id: 1, name: "Recipe 1", ingredients: ["Ingredient 1", "Ingredient 2"] },
-    { id: 2, name: "Recipe 2", ingredients: ["Ingredient 3", "Ingredient 4"] },
-    // Add more recipe objects as needed
-  ];
-  res.json(recipes);
+app.get("/addFood", (req, res) => {
+    Recipes.find().then(function (ingredients) {
+        res.render("addFood", { ingredients });
+    });
 });
 
 //Set up application port
@@ -247,8 +244,59 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/dietTracker", ensureAuthenticated, function (req, res) {
-  const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
-  res.render("dietTracker", { title: "Diet Tracker", stylesPath });
+    let currentDate;
+    if (req.query.datepicker) {
+        // If datepicker is provided in the query parameters
+        currentDate = new Date(req.query.datepicker);
+        currentDate.setDate(currentDate.getDate() + 1);
+    } else {
+        // If datepicker is not provided, use the current date
+        currentDate = new Date();
+    }
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formatedDate = `${year}-${month}-${day}`;
+    DietTracker.find().then((tracker) => {
+        let breakfastTracked = [];
+        let lunchTracked = [];
+        let dinnerTracked = [];
+        let snackTracked = [];
+        console.log(tracker.at(0).timeOfDay)
+        console.log(formatedDate)
+        for (let i = 0; i < tracker.length; i++) {
+            if (tracker.at(i).timeOfDay == formatedDate) {
+                if (tracker.at(i).typeOfMeal == "Breakfast") {
+                    breakfastTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Lunch") {
+                    lunchTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Dinner") {
+                    dinnerTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Snack") {
+                    snackTracked.push(tracker.at(i));
+                }
+            }
+        }
+
+
+        /*for (let i = 0; i < tracker.length; i++) {
+            for (let j = 0; j < tracker.at(i).mealType.length; j++) {
+                if (breakfastRegex.test(tracker.at(i).mealType.at(j))) {
+                    breakfastTracked.push(tracker.at(i));
+                } else if (lunchRegex.test(tracker.at(i).mealType.at(j))) {
+                    lunchTracked.push(tracker.at(i));
+                } else if (dinnerRegex.test(tracker.at(i).mealType.at(j))) {
+                    dinnerTracked.push(tracker.at(i));
+                } else if (snackRegex.test(tracker.at(i).mealType.at(j))) {
+                    snackTracked.push(tracker.at(i));
+                }
+            }
+        }*/
+        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastTracked, lunchTracked, dinnerTracked, snackTracked });
+    });
 });
 
 app.get("/register", (req, res) => {
@@ -527,19 +575,18 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
   });
 });
 
-// pretty sure this is for the pictures on the dashbaord???
-app.get("/members/:id", async (req, res) => {
-  console.log("Received request at /members with ID:", req.params.id);
-  try {
-    const member = await Member.findById(req.params.id);
-    if (!member) {
-      console.log("No member found with ID:", req.params.id);
-      return res.status(404).send("Member not found");
-    }
-    console.log("Member data found:", member);
-    res.json(member);
-  } catch (error) {
-    console.error("Error fetching member data:", error);
-    res.status(500).send("Server error");
-  }
-});
+    app.get("/members/:id", async (req, res) => {
+        console.log("Received request at /members with ID:", req.params.id);
+        try {
+            const member = await Member.findById(req.params.id);
+            if (!member) {
+                console.log("No member found with ID:", req.params.id);
+                return res.status(404).send("Member not found");
+            }
+            console.log("Member data found:", member);
+            res.json(member);
+        } catch (error) {
+            console.error("Error fetching member data:", error);
+            res.status(500).send("Server error");
+        }
+    });
