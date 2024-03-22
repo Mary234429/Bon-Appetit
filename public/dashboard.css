@@ -9,6 +9,8 @@
 }
 .dashboard-page {
   background-color: #d9d9d9;
+  width: 100%;
+  height: 100%;
   /* font-family: Lustria; */
 }
 /* dashboard.css */
@@ -30,49 +32,82 @@
 
 .navbar ul li {
   display: inline; /* Display list items horizontally */
-  margin-right: 20px; /* Spacing between list items */
+  margin-right: 15px; 
 }
 
 .navbar ul li a {
   color: rgb(0, 0, 0); /* Text color of navbar links */
   font-family: Lustria;
   font-size: 18px;
-
   font-weight: 400;
+  text-decoration: none;
+  padding:19px;
 }
+.navbar ul li a:hover {
+  background-color: #94a874af;
+  border-radius: 10px;
+
+}
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* background-color:pink; */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 145%; /* Position the left edge of the menu at the center of the parent */
+  transform: translateX(-50%); /* Center the menu horizontally */
+  top: 150%; /* Position the top edge of the menu below the parent */
+  background-color: #f9f9f9f5;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0e0e0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 .topPanel {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 100%;
-  /* max-width: 2400px; */
-  height: 290px;
+  height: 40%;
   background-color: #d9d9d9;
 }
 
-.wheat_1 {
+.wheat_1,
+.wheat_2 {
+  flex: 0 0 auto;
   width: 200px;
   height: 200px;
-  /* position: absolute; */
-  background-size: contain;
-  background: url("wheat_1.png") center center/cover no-repeat;
   background-size: cover;
-  /* margin-top: 5%; Adjust the margin-top to keep the element in its original position */
-  margin-left: -15%;
+  margin: 0 10px; 
+}
+
+.wheat_1 {
+  background-image: url("wheat_1.png");
 }
 
 .wheat_2 {
-  width: 200px;
-  height: 200px;
-  position: absolute;
-  background: url("wheat_2.png") center center no-repeat;
-  background-size: cover;
-  background-size: contain;
-  /* margin-top: -10.5%; */
-  margin-left: 8%;
+  background-image: url("wheat_2.png");
 }
+
 header {
   text-align: center; /* Center-align the header */
   /* margin-top: 10x; */
@@ -89,26 +124,22 @@ h1 {
 }
 t {
   color: #6c8347;
-  /* margin-top: 2px; */
-  /* font-family: Lucida Handwriting; */
   font-family: Brush Script MT;
-  font-size: 60px;
-  font-weight: 50;
+  /* font-family: "Lucida Handwriting"; */
+  font-size: 65px;
+  font-weight: 10;
   font-style: italic;
   line-height: normal;
 }
 .bottomPanel {
+  /* position: relative;  */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 100%;
-  /* max-width: 2400px; */
-  height: 220px;
-  background-color: rgb(59, 21, 21);
-  /* border-top-right-radius: 20px;
-  border-bottom-right-radius: 60px; */
+  height: 28%;
+  /* background-color: rgb(59, 21, 21); */
 }
 .dashboard_pic {
   width: 100%; /* Set width to 100% to fill the container */
@@ -117,77 +148,108 @@ t {
     center/cover no-repeat;
   background-size: cover;
 }
+
+.top-bottomPanel{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 35%;
+  background-color: #d9d9d9;
+}
+
 h2 {
+   
+  margin-top:175px;
+  margin-left: -400px;
   color: #000000;
   font-family: Lustria;
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 50;
   font-style: normal;
   line-height: normal;
-  margin-left: 540px;
-  margin-top: 60px;
+
 }
+
 h3 {
+  /* position: relative;  */
+  margin-left: 100px;
+  margin-top: -69px; /* Adjust percentage value as needed */
   color: #6c8347;
   font-family: Brush Script MT;
-  font-size: 130px;
-  font-weight: 50;
+  font-size: 160px;
   font-style: normal;
   line-height: normal;
-  margin-left: 690px;
-  margin-top: -80px;
 }
 
 /* Search bar styles */
-.inputContainer {
+/* .inputContainer {
   display: flex;
-  /* flex-direction: column; */
-  flex-direction: space-between;
   margin-bottom: 25px;
   width: 100%;
-  color: red;
-}
+  height: 30%;
+  background-color: rgb(35, 110, 209);
+} */
 .inputField {
   width: 100%;
-  flex: 1;
-  margin-right: 15px;
-  color: rgb(57, 38, 167);
+  height: 10%;
+  display: flex; /* Use flexbox */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  margin-right: 65px;
+  background-color: #d9d9d9;
 }
 
 .SearchTextBox {
+  background-image: url('search_icon.png');
+  background-size: 16px; /* Adjust the size of the icon */
+  background-repeat: no-repeat;
+  background-position: 30px center; /* Adjust the position of the icon */
+  padding-left: 55px;
   width: 800px;
   height: 45px;
   background-color: #b4b4b4;
   border-radius: 20px;
-  /* margin-bottom: 20px; */
-  margin-left: 400px;
-  margin-top: -90px;
   border: none;
-  padding: 10px;
-  /* border-bottom: 2px solid white; */
+  padding: 20px;
   box-sizing: border-box;
+  text-indent: 50px; /* Adjust to move the placeholder text to the right */
+  margin-left: -10px;
 }
+
+
 
 .recipeContainer {
-  width: 12800px;
-  height: 1350px;
+  max-width: 100%; /* Adjust to desired maximum width */
+  max-height: 300%;
+  /* overflow-x: auto; */
+  /* display: flex; */
+  /* margin-top:7%; */
+  flex-wrap: nowrap;
   background-color: #d9d9d9;
 }
 
+
 .breakfastContainer {
-  /* width: 1300px; */
   height: 380px;
-  background-color: #d9d9d9;
-  /* margin-left: 100px; */
+  background-color: #d9d9d9; 
 }
+
 
 .recipeBreakfastPic {
   width: 160px;
   height: 150px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #6c8347;
-  margin-left: 116px;
-  margin-top: -260px;
+  background-color: #aca033;
+  margin-left: 19px;
+  margin-top: -100px;
+  object-fit: cover;
+}
+.recipeWrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .recipeBreakfast {
@@ -197,22 +259,36 @@ h3 {
   background-color: #b4b4b4;
   margin-left: 100px;
   margin-top: 90px;
+  padding:2px;
+}
+.snack-recipe-name,
+.dinner-recipe-name,
+.lunch-recipe-name,
+.breakfast-recipe-name {
+  /* Your styles here */
+  color: rgb(0, 0, 0);
+  font-size: 21px;
+  font-family: Lustria;
+  position: relative;
+  top: 90px;
+ 
 }
 .lunchContainer {
   /* width: 200px; */
   height: 380px;
   background-color: #d9d9d9;
   margin: 0 auto; /* Center the container horizontally */
-  margin-top: 50px; /* Add space between breakfast and lunch */
-  margin-bottom: 50px; /* Add space between lunch and dinner */
+  /* margin-top: 20px; Add space between breakfast and lunch */
+  /* margin-bottom: 50px; Add space between lunch and dinner */
 }
 .recipeLunchPic {
   width: 160px;
   height: 150px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: #6c8347;
-  margin-left: 116px;
-  margin-top: -260px;
+  margin-left: -173px;
+  margin-top: 10px;
+  object-fit: cover;
 }
 .recipeLunch {
   width: 190px;
@@ -235,8 +311,9 @@ h3 {
   height: 150px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: #6c8347;
-  margin-left: 116px;
-  margin-top: -260px;
+  margin-left: -173px;
+  margin-top: 10px;
+  object-fit: cover;
 }
 .recipeDinner {
   width: 190px;
@@ -249,6 +326,7 @@ h3 {
 
 .snacksContainer {
   height: 380px;
+  /* width:300px; */
   background-color: #d9d9d9;
   margin: 0 auto; /* Center the container horizontally */
   margin-top: 50px; /* Add space between lunch and dinner */
@@ -258,15 +336,15 @@ h3 {
   width: 160px;
   height: 150px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #6c8347;
-  margin-left: 116px;
-  margin-top: -260px;
+  background-color: #4764bc;
+  margin-left: -173px;
+  margin-top: 10px;
+  object-fit: cover;
 }
 .recipeSnacks {
   width: 190px;
   height: 200px;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
-  background-color: #b4b4b4;
+  background-color: #8236b4;
   margin-left: 100px;
   margin-top: 90px;
 }
