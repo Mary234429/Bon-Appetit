@@ -58,18 +58,22 @@
           </p>
         </div>
         <div class="left-image">
-            <% if (recipes[0] && recipes[0].thumbnail == null) { %>
-          <img
+          <% if (recipes[0] == null) { %>
+            <img
             src="plate.png"
-            alt="<%= recipes[0].name %> Thumbnail"
-            style="max-height: 170px; max-width: 170px; object-fit: cover"
-          />
+            alt="Image of a plate"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
           <% } else { %>
+            <% if (recipes[0].thumbnail) { %>
           <img
             src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>"
             alt="<%= recipes[0].name %> Thumbnail"
-            style="max-height: 170px; max-width: 170px; object-fit: cover"
-          />
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } %>
+              <img
+              src="plate.png"
+              alt="<%= recipes[0].name %> Thumbnail"
+              style="max-height: 170px; max-width: 170px; object-fit: cover"/>
           <% } %>
         </div>
       </div>
@@ -80,18 +84,22 @@
           </p>
         </div>
         <div class="middle-image">
-          <% if (recipes[1] && recipes[1].thumbnail == null) { %>
-          <img
+          <% if (recipes[1] == null) { %>
+            <img
             src="plate.png"
-            alt="<%= recipes[1].name %> Thumbnail"
-            style="max-height: 170px; max-width: 170px; object-fit: cover"
-          />
+            alt="Image of a plate"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
           <% } else { %>
+            <% if (recipes[1].thumbnail) { %>
           <img
             src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>"
             alt="<%= recipes[1].name %> Thumbnail"
-            style="max-height: 170px; max-width: 170px; object-fit: cover"
-          />
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } %>
+              <img
+              src="plate.png"
+              alt="<%= recipes[1].name %> Thumbnail"
+              style="max-height: 170px; max-width: 170px; object-fit: cover"/>
           <% } %>
         </div>
       </div>
@@ -102,18 +110,22 @@
           </p>
         </div>
         <div class="right-image">
-        <% if (recipes[2] && recipes[2].thumbnail == null) { %>
-        <img
+        <% if (recipes[2] == null) { %>
+          <img
           src="plate.png"
-          alt="<%= recipes[2].name %> Thumbnail"
-          style="max-height: 170px; max-width: 170px; object-fit: cover"
-        />
+          alt="Image of a plate"
+          style="max-height: 170px; max-width: 170px; object-fit: cover"/>
         <% } else { %>
+          <% if (recipes[2].thumbnail) { %>
         <img
           src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>"
           alt="<%= recipes[2].name %> Thumbnail"
-          style="max-height: 170px; max-width: 170px; object-fit: cover"
-        />
+          style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+        <% } %>
+            <img
+            src="plate.png"
+            alt="<%= recipes[2].name %> Thumbnail"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
         <% } %>
       </div>
     </div>
