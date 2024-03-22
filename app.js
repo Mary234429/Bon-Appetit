@@ -147,13 +147,10 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/recipes", (req, res) => {
-  const recipes = [
-    { id: 1, name: "Recipe 1", ingredients: ["Ingredient 1", "Ingredient 2"] },
-    { id: 2, name: "Recipe 2", ingredients: ["Ingredient 3", "Ingredient 4"] },
-    // Add more recipe objects as needed
-  ];
-  res.json(recipes);
+app.get("/addFood", (req, res) => {
+    Recipes.find().then(function (ingredients) {
+        res.render("addFood", { ingredients });
+    });
 });
 
 //Set up application port
