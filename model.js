@@ -15,7 +15,7 @@ let Template = mongoose.model("template", announcementSchema);
 let commentSchema = new mongoose.Schema({
   recipeID: { type: String },
   authorID: { type: String },
-  comment: { type: String },
+  message: { type: String },
   timestamp: { type: Date },
 });
 let Comment = mongoose.model("comment", commentSchema);
