@@ -569,7 +569,6 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
     loggedInMember.aboutMe = req.body.aboutMe;
     recentRecipes = req.body.recentRecipes;
     //redirect to profile page instead of rendering it, rendering breaks things
-    console.log(loggedInMember);
     loggedInMember.save().then(function () {
       res.redirect("profile");
     });
