@@ -245,6 +245,7 @@ h3 {
   background-color: #aca033;
   margin-left: 19px;
   margin-top: -100px;
+  object-fit: cover;
 }
 .recipeWrapper {
   display: flex;
@@ -260,6 +261,7 @@ h3 {
   margin-top: 90px;
   padding:2px;
 }
+.snack-recipe-name,
 .dinner-recipe-name,
 .lunch-recipe-name,
 .breakfast-recipe-name {
@@ -286,6 +288,7 @@ h3 {
   background-color: #6c8347;
   margin-left: -173px;
   margin-top: 10px;
+  object-fit: cover;
 }
 .recipeLunch {
   width: 190px;
@@ -310,6 +313,7 @@ h3 {
   background-color: #6c8347;
   margin-left: -173px;
   margin-top: 10px;
+  object-fit: cover;
 }
 .recipeDinner {
   width: 190px;
@@ -331,9 +335,11 @@ h3 {
 .recipeSnacksPic {
   width: 160px;
   height: 150px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: #4764bc;
   margin-left: -173px;
   margin-top: 10px;
+  object-fit: cover;
 }
 .recipeSnacks {
   width: 190px;

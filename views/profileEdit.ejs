@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Profile</title>
+    <link rel="stylesheet" href="profileEdit.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
 </head>
 <body>
-<div>
+<!--<div>
 	<form action="/dashboard" method="get">
 		<button type="submit">Go to Main Page</button>
 	</form>
@@ -18,79 +24,92 @@
         const age = Math.abs(ageDate.getUTCFullYear() - 1970);
     %>
 </div>
-<h2>Edit Member Information</h2>
+-->
+<div class="wheat_1"></div>
+<div class="wheat_2"></div>
+<br>
+<h2>E&nbsp;d&nbsp;i&nbsp;t&nbsp; P&nbsp;r&nbsp;o&nbsp;f&nbsp;i&nbsp;l&nbsp;e</h2>
 <form action="editProfile", method="post">
-  <input type="hidden", name="ID", id="ID" value=<%= loggedInMember.googleId %>></br>
-  <label for="FN">First Name:</label>
-  <input type="text", name="FN", id="FN" value=<%= loggedInMember.firstName %>></br>
-  <label for="LN">Last Name:</label>
-  <input type="text", name="LN", id="LN" value=<%= loggedInMember.lastName %>></br>
-  <label for="GN">Gender:</label>
-  <select id="GN" name="GN">
+
+<div class="outer-container">
+<div class="inner-container">
+  <div class="left-container">
+    <input type="hidden", name="ID", id="ID" value=<%= loggedInMember.googleId %>>
+    <input type="text", class="line" onfocus="this.value=''" onblur="if(this.value=='')" placeholder="First Name", name="FN", id="FN" value=<%= loggedInMember.firstName %>>
+    <input type="email", class="line" onfocus="this.value=''" onblur="if(this.value=='')" placeholder="Email", name="EMAIL", id="EMAIL" value=<%= loggedInMember.email %>>
+    <select class="line" id="GN" name="GN">
+      <option value="" disabled selected>Gender</option>
       <option value="male" <%= loggedInMember.gender === 'male' ? 'selected' : '' %> >Male</option>
       <option value="female" <%= loggedInMember.gender === 'female' ? 'selected' : '' %>>Female</option>
-  </select></br>
-  <label for="diet">Choose a diet:</label>
-  <select id="diet" name="diet">
-      <option value="carnivore" <%= loggedInMember.diet === 'carnivore' ? 'selected' : '' %>>Carnivore</option>
-      <option value="vegan" <%= loggedInMember.diet === 'vegan' ? 'selected' : '' %>>Vegan</option>
-      <option value="vegetarian" <%= loggedInMember.diet === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
-      <option value="pescatarian" <%= loggedInMember.diet === 'pescatarian' ? 'selected' : '' %>>Pescatarian</option>
-      <option value="keto" <%= loggedInMember.diet === 'keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
-      <option value="paleo" <%= loggedInMember.diet === 'paleo' ? 'selected' : '' %>>Paleo</option>
-      <option value="flexitarian" <%= loggedInMember.diet === 'flexitarian' ? 'selected' : '' %>>Flexitarian</option>
-      <option value="whole30" <%= loggedInMember.diet === 'whole30' ? 'selected' : '' %>>Whole30</option>
-      <option value="glutenfree" <%= loggedInMember.diet === 'glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
-      <option value="dairyfree" <%= loggedInMember.diet === 'dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
-      <option value="raw" <%= loggedInMember.diet === 'raw' ? 'selected' : '' %>>Raw</option>
-      <option value="beans" <%= loggedInMember.diet === 'beans' ? 'selected' : '' %>>Beans</option>
-      <option value="macrobiotic" <%= loggedInMember.diet === 'macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
-      <option value="fruitarian" <%= loggedInMember.diet === 'fruitarian' ? 'selected' : '' %>>Fruitarian</option>
-      <option value="lowcarb" <%= loggedInMember.diet === 'lowcarb' ? 'selected' : '' %>>Low Carb</option>
-      <option value="mediterranean" <%= loggedInMember.diet === 'mediterranean' ? 'selected' : '' %>>Mediterranean</option>
-      <option value="paleovegan" <%= loggedInMember.diet === 'paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
-      <option value="paleovegetarian" <%= loggedInMember.diet === 'paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
+    </select>
+    <br>
+    <select class="line" id="diet" name="diet">
+      <option value="" disabled selected>Diet</option>
+      <option value="carnivore" <%= loggedInMember.diettype === 'carnivore' ? 'selected' : '' %>>Carnivore</option>
+      <option value="vegan" <%= loggedInMember.diettype === 'vegan' ? 'selected' : '' %>>Vegan</option>
+      <option value="vegetarian" <%= loggedInMember.diettype === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
+      <option value="pescatarian" <%= loggedInMember.diettype === 'pescatarian' ? 'selected' : '' %>>Pescatarian</option>
+      <option value="keto" <%= loggedInMember.diettype === 'keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
+      <option value="paleo" <%= loggedInMember.diettype === 'paleo' ? 'selected' : '' %>>Paleo</option>
+      <option value="flexitarian" <%= loggedInMember.diettype === 'flexitarian' ? 'selected' : '' %>>Flexitarian</option>
+      <option value="whole30" <%= loggedInMember.diettype === 'whole30' ? 'selected' : '' %>>Whole30</option>
+      <option value="glutenfree" <%= loggedInMember.diettype === 'glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
+      <option value="dairyfree" <%= loggedInMember.diettype === 'dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
+      <option value="raw" <%= loggedInMember.diettype === 'raw' ? 'selected' : '' %>>Raw</option>
+      <option value="beans" <%= loggedInMember.diettype === 'beans' ? 'selected' : '' %>>Beans</option>
+      <option value="macrobiotic" <%= loggedInMember.diettype === 'macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
+      <option value="fruitarian" <%= loggedInMember.diettype === 'fruitarian' ? 'selected' : '' %>>Fruitarian</option>
+      <option value="lowcarb" <%= loggedInMember.diettype === 'lowcarb' ? 'selected' : '' %>>Low Carb</option>
+      <option value="mediterranean" <%= loggedInMember.diettype === 'mediterranean' ? 'selected' : '' %>>Mediterranean</option>
+      <option value="paleovegan" <%= loggedInMember.diettype === 'paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
+      <option value="paleovegetarian" <%= loggedInMember.diettype === 'paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
       <!-- Add more diet options as needed -->
-  </select></br>
+    </select>
+  </div>
+  <div class ="right-container">
+    <input type="text" class="line" onfocus="this.value=''"  onblur="if(this.value=='')" placeholder="Last Name", name="LN", id="LN" value=<%= loggedInMember.lastName %>>
+    <input type="date" class="line" id="birthdate" name="birthdate" value= <%= loggedInMember.birthday.toISOString().slice(0, 10); %>>
+    <!--<p>Dietitian: <%= loggedInMember.dietitian %></p>-->
+    <input type="hidden", name="UT", id="UT" value=<%=loggedInMember.usertype%>>
+  <script type="text/javascript">$(function() {
+    $(".chzn-select").chosen();
+  });</script>
+    <form action="http://httpbin.org/post" method="post">
+    <select multiple class="chzn-select" data-placeholder="Cuisines" id="cuisine" name="cuisine"> 
+        <option value="italian" <%= loggedInMember.cuisines.includes('italian') ? 'selected' : '' %>>Italian</option>
+        <option value="mexican" <%= loggedInMember.cuisines.includes('mexican') ? 'selected' : '' %>>Mexican</option>
+        <option value="chinese" <%= loggedInMember.cuisines.includes('chinese') ? 'selected' : '' %>>Chinese</option>
+        <option value="indian" <%= loggedInMember.cuisines.includes('indian') ? 'selected' : '' %>>Indian</option>
+        <option value="japanese" <%= loggedInMember.cuisines.includes('japanese') ? 'selected' : '' %>>Japanese</option>
+        <option value="thai" <%= loggedInMember.cuisines.includes('thai') ? 'selected' : '' %>>Thai</option>
+        <option value="mediterranean" <%= loggedInMember.cuisines.includes('mediterranean') ? 'selected' : '' %>>Mediterranean</option>
+        <option value="french" <%= loggedInMember.cuisines.includes('french') ? 'selected' : '' %>>French</option>
+        <option value="spanish" <%= loggedInMember.cuisines.includes('spanish') ? 'selected' : '' %>>Spanish</option>
+        <option value="greek" <%= loggedInMember.cuisines.includes('greek') ? 'selected' : '' %>>Greek</option>
+        <option value="korean" <%= loggedInMember.cuisines.includes('korean') ? 'selected' : '' %>>Korean</option>
+        <option value="vietnamese" <%= loggedInMember.cuisines.includes('vietnamese') ? 'selected' : '' %>>Vietnamese</option>
+        <option value="american" <%= loggedInMember.cuisines.includes('american') ? 'selected' : '' %>>American</option>
+        <option value="middleeastern" <%= loggedInMember.cuisines.includes('middleeastern') ? 'selected' : '' %>>Middle Eastern</option>
+        <option value="brazilian" <%= loggedInMember.cuisines.includes('brazilian') ? 'selected' : '' %>>Brazilian</option>
+        <option value="caribbean" <%= loggedInMember.cuisines.includes('caribbean') ? 'selected' : '' %>>Caribbean</option>
+        <option value="african" <%= loggedInMember.cuisines.includes('african') ? 'selected' : '' %>>African</option>
+        <!-- Add more cuisine options as needed -->
+    </select></br>
+  </form>
+  <br>
+  <br>
+  <input class="line" type="text", onfocus="this.value=''" onblur="if(this.value=='')" placeholder="Dietitian Name" name="DT", id="DT" readonly value=<%= loggedInMember.dietitian %>>
+</div>
+</div>
+<p>About Me</p>
+<br>
+<br>
+<input class="about" type="text" id="aboutMe" onfocus="this.value=''" onblur="if(this.value=='')"  name="aboutMe" value="<%= loggedInMember.aboutMe %>" >
 
-  <!--<p>Dietitian: <%= loggedInMember.dietitian %></p>-->
-  <label for="DT">Dietitian:</label>
-  <input type="text", name="DT", id="DT" readonly value=<%= loggedInMember.dietitian %>> </br>
-  <label for="birthdate">Birthdate:</label>
-  <input type="date" id="birthdate" name="birthdate" value= <%= loggedInMember.birthday.toISOString().slice(0, 10); %>> </br>
-  <label for="EMAIL">Email:</label>
-  <input type="email", name="EMAIL", id="EMAIL" value=<%= loggedInMember.email %>></br>
-  <input type="hidden", name="UT", id="UT" value=<%=loggedInMember.usertype%>>
-    
-  <label for="cuisine">Use ctrl to select multiple:</label></br>
-  <label for="cuisine">Preferred Cuisine:</label>
-  <select id="cuisine" name="cuisine" multiple>
-      <option value="italian" <%= loggedInMember.cuisines.includes('italian') ? 'selected' : '' %>>Italian</option>
-      <option value="mexican" <%= loggedInMember.cuisines.includes('mexican') ? 'selected' : '' %>>Mexican</option>
-      <option value="chinese" <%= loggedInMember.cuisines.includes('chinese') ? 'selected' : '' %>>Chinese</option>
-      <option value="indian" <%= loggedInMember.cuisines.includes('indian') ? 'selected' : '' %>>Indian</option>
-      <option value="japanese" <%= loggedInMember.cuisines.includes('japanese') ? 'selected' : '' %>>Japanese</option>
-      <option value="thai" <%= loggedInMember.cuisines.includes('thai') ? 'selected' : '' %>>Thai</option>
-      <option value="mediterranean" <%= loggedInMember.cuisines.includes('mediterranean') ? 'selected' : '' %>>Mediterranean</option>
-      <option value="french" <%= loggedInMember.cuisines.includes('french') ? 'selected' : '' %>>French</option>
-      <option value="spanish" <%= loggedInMember.cuisines.includes('spanish') ? 'selected' : '' %>>Spanish</option>
-      <option value="greek" <%= loggedInMember.cuisines.includes('greek') ? 'selected' : '' %>>Greek</option>
-      <option value="korean" <%= loggedInMember.cuisines.includes('korean') ? 'selected' : '' %>>Korean</option>
-      <option value="vietnamese" <%= loggedInMember.cuisines.includes('vietnamese') ? 'selected' : '' %>>Vietnamese</option>
-      <option value="american" <%= loggedInMember.cuisines.includes('american') ? 'selected' : '' %>>American</option>
-      <option value="middleeastern" <%= loggedInMember.cuisines.includes('middleeastern') ? 'selected' : '' %>>Middle Eastern</option>
-      <option value="brazilian" <%= loggedInMember.cuisines.includes('brazilian') ? 'selected' : '' %>>Brazilian</option>
-      <option value="caribbean" <%= loggedInMember.cuisines.includes('caribbean') ? 'selected' : '' %>>Caribbean</option>
-      <option value="african" <%= loggedInMember.cuisines.includes('african') ? 'selected' : '' %>>African</option>
-      <!-- Add more cuisine options as needed -->
-  </select></br>
-  
-  <!--<p>cuisines: <%= loggedInMember.cuisines %></p></br>-->
-  <p>About Me: <input type="text" id="aboutMe" name="aboutMe" value="<%= loggedInMember.aboutMe %>" > </p>
-  <input type="submit">
+  <a href="/profile"><button class="button" type="button">Back to Profile</button></a> 
+  <input class="button" type="submit">
 </form>
-  <a href="/profile"><button type="button">Back to Profile</button></a>
-
+</div>
 </body>
 </html>
 

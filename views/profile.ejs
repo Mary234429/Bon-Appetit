@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <link rel="stylesheet" href="profile.css" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account Profile</title>
+
 </head>
 <body>
 <div>
@@ -24,10 +26,10 @@
   <div class = "left-container">
     <img src=<%= user.picture %> style="border-radius:50%;width:150px;height:150px;">
     <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
-    <p>userType: <%= loggedInMember.usertype %></p>
+    <p><%= loggedInMember.usertype %></p>
     <p><%= age %> </p>
     <p><%= loggedInMember.gender %></p>
-    <p>email<%= loggedInMember.email %></p>
+    <p><%= loggedInMember.email %></p>
   </div>
   <div class = "right-container">
     <p class="about">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
@@ -68,18 +70,125 @@
     </div>
     <div class="right-image">
     </div>
-  </div>
-</div>
+    <h1 class="title">P&nbsp;r&nbsp;o&nbsp;f&nbsp;i&nbsp;l&nbsp;e</h1>
+    <div class="outer-container">
+      <div class="left-container">
+        <img src=<%=user.picture %> style="border-radius:50%;width:150px;height:150px;">
+        <p>
+          <%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %>
+        </p>
+        <p>userType: <%= loggedInMember.usertype %></p>
 
-<button id="edit" onclick="edit()">Edit Profile</button>
-<script>
-  function edit() {
-      window.location.href = "/profileEdit";
-  }
-</script>
+        <p><%= age %> Years Old</p>
+        <p><%= loggedInMember.gender %></p>
+        <p>Email: <%= loggedInMember.email %></p>
+      </div>
+      <div class="right-container">
+        <p class="about">
+          <%= loggedInMember.aboutMe ? loggedInMember.aboutMe : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' %>
+        </p>
+        <p>Dietitian: <%= loggedInMember.dietitian %></p>
+        <p>Diet Type: <%= loggedInMember.diettype %></p>
 
-
-
-</body>
+        <p>Cuisines: <%= loggedInMember.cuisines %></p>
+        <br />
+        <button class="editButton" id="edit" onclick="edit()">
+          Edit Profile
+        </button>
+        <script>
+          function edit() {
+            window.location.href = "/profileEdit";
+          }
+        </script>
+      </div>
+    </div>
+    <h1>Recent Recipes</h1>
+    <div class="recipe-container">
+      <div class="left-recipe">
+        <div class="left-box">
+          <p class="name">
+            <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
+          </p>
+        </div>
+        <div class="left-image">
+          <% if (recipes[0] == null) { %>
+            <img
+            src="plate.png"
+            alt="Image of a plate"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } else { %>
+            <% if (recipes[0].thumbnail) { %>
+          <img
+            src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>"
+            alt="<%= recipes[0].name %> Thumbnail"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } else {%>
+              <img
+              src="plate.png"
+              alt="<%= recipes[0].name %> Thumbnail"
+              style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+              <% } %>
+          <% } %>
+        </div>
+      </div>
+      <div class="middle-recipe">
+        <div class="middle-box">
+          <p class="name">
+            <%= recipes[1] ? recipes[1].name : 'Create Another Recipe' %>
+          </p>
+        </div>
+        <div class="middle-image">
+          <% if (recipes[1] == null) { %>
+            <img
+            src="plate.png"
+            alt="Image of a plate"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } else { %>
+            <% if (recipes[1].thumbnail) { %>
+          <img
+            src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>"
+            alt="<%= recipes[1].name %> Thumbnail"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+          <% } else { %>
+              <img
+              src="plate.png"
+              alt="<%= recipes[1].name %> Thumbnail"
+              style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+              <% } %>
+          <% } %>
+        </div>
+      </div>
+      <div class="right-recipe">
+        <div class="right-box">
+          <p class="name">
+            <%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %>
+          </p>
+        </div>
+        <div class="right-image">
+        <% if (recipes[2] == null) { %>
+          <img
+          src="plate.png"
+          alt="Image of a plate"
+          style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+        <% } else { %>
+          <% if (recipes[2].thumbnail) { %>
+        <img
+          src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>"
+          alt="<%= recipes[2].name %> Thumbnail"
+          style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+        <% } else { %>
+            <img
+            src="plate.png"
+            alt="<%= recipes[2].name %> Thumbnail"
+            style="max-height: 170px; max-width: 170px; object-fit: cover"/>
+            <% } %>
+        <% } %>
+      </div>
+    </div>
+    <script>
+      function edit() {
+        window.location.href = "/profileEdit";
+      }
+    </script>
+  </body>
 </html>
-
