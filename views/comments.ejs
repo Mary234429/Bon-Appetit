@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="comment.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment Testing page</title>
+
+    <!-- we love math -- no touch -->
+    <%function timeAgo(timestamp) {
+        const currentDate = new Date();
+        const commentDate = new Date(timestamp);
+        const timeDifference = currentDate.getTime() - commentDate.getTime();
+        const minutesAgo = Math.floor(timeDifference / (1000 * 60));
+        const hoursAgo = Math.floor(minutesAgo / 60);
+        
+        if (hoursAgo > 0) {
+          return hoursAgo === 1 ? `${hoursAgo} hour ago` : `${hoursAgo} hours ago`;
+        } else if (minutesAgo > 0) { 
+            return minutesAgo === 1 ? `${minutesAgo} minute ago` : `${minutesAgo} minutes ago`;
+        } else { return 'Just now'; }
+      } %>
+</head>
+
+<body>
+    <form action="/dashboard" method="get">
+        <button type="submit">Go to Main Page</button>
+    </form>
+    <p>This is the Comment Testing Page. Leave a comment below</p>
+    <div class="comment-container">
+        <% if (picture) { %>
+            <img src="<%= picture %>" alt="Profile Picture" class="profile-picture">
+        <% } else { %>
+            <!-- picture should always exist but who knows -->
+            <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
+        <% } %> 
+        <form action="/commentSubmit" method="post" class="comment-form">
+            <!-- edit below line to actually use recipe ID -->
+            <input type="hidden" name="recipeID" id="recipeID" value="1"><br>
+            <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
+            <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Author</th>
+                    <th>Time</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0; i < comments.length; i++) { %>
+                    <% const authorDetails = map[comments[i]._id]; %>
+                    <tr>
+                        <td>
+                            <% if (authorDetails && authorDetails.profilePicture) { %>
+                                <img src="<%= authorDetails.profilePicture %>" alt="Profile Picture" class="profile-picture">
+                              <% } else { %>
+                                <!-- picture should always exist but who knows -->
+                                <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
+                              <% } %> 
+                        </td>
+                        <td>
+                        <% if (authorDetails) { %>
+                            <%= authorDetails.firstName %> <%= authorDetails.lastName %>
+                        <% } else { %>
+                            Unknown User
+                        <% } %>
+                        </td>
+                        <td><%= timeAgo(comments[i].timestamp) %></td>
+                        <td><%= comments[i].message %></td>
+                        <td>
+                            <% if (author && comments[i].authorID === author) { %>
+                              <!-- Show delete button if the current user is the author of the comment -->
+                              <form action="/deleteComment" method="post">
+                                <input type="hidden" name="commentID" value="<%= comments[i]._id %>">
+                                <button type="submit">Delete</button>
+                              </form>
+                            <% } %>
+                          </td>
+                    </tr>
+                <% }; %>
+            </tbody>
+        </table>
+</body>

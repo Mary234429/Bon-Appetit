@@ -590,3 +590,80 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
             res.status(500).send("Server error");
         }
     });
+
+
+/*
+ **************************************
+ *** BEGIN COMMENT HANDLING CODE :) ***
+ **************************************
+ */
+app.get("/comments", ensureAuthenticated, async function (req, res) {
+      const members = await Member.find();
+      // im betting that this might load all comments ignoring recipeIDs
+      const createdComments = await Comment.find();
+        // uncomment when on recipe page
+      // const createdComments = await Comment.findById(req.params.id);
+      const commentMemberMap = {}; // Map to store member names for each comment
+
+      for (const createdComment of createdComments) {
+        const {_id, authorID } = createdComment;
+        const member = members.find(member => member.googleID === authorID);
+        if (member) {
+          commentMemberMap[createdComment._id] = {
+            firstName: member.firstName,
+            lastName: member.lastName,
+            profilePicture: member.profilePicture, 
+          };      
+        }
+      }
+      res.render("comments.ejs", {
+        map: commentMemberMap,
+        comments: createdComments,
+        picture: req.user.picture,
+        author: req.user.id,
+  });
+});
+
+app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
+  let recipeid = req.body.recipeID;
+  let authorid = req.body.authorID;
+  let message = req.body.message;
+  const timestamp = Date.now();
+  const newComment = new Comment({
+    recipeID: recipeid,
+    authorID: authorid,
+    message: message,
+    timestamp: timestamp,
+  });
+  newComment
+    .save()
+    .then(() => {
+      // If the comment was created successfully, redirect to the comments page or wherever
+      res.redirect("/comments");
+    })
+    .catch((err) => {
+      console.log("Error creating new comment: ", err);
+      res.status(500).send("Error saving comment");
+    });
+});
+
+app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
+  try {
+    const commentID = req.body.commentID;
+    const deletedComment = await Comment.findByIdAndDelete(commentID);
+    if (!deletedComment) {
+      // If the comment was not found, respond with an error
+      return res.status(404).send("Comment not found");
+    }
+    // If the comment was deleted successfully, redirect to the comments page or wherever
+    res.redirect("/comments");
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+/*
+ ************************************
+ *** END COMMENT HANDLING CODE :) ***
+ ************************************
+ */
