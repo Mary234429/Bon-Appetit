@@ -164,10 +164,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, async function (req, res) {
-  const createdRecipes = await CreatedRecipes.find({googleID: req.user.id})
+  try{
+  const privateRecipes = await CreatedRecipes.find({googleID: req.user.id})
     let recipeIDs = [];
-    for(let i = 0; i < createdRecipes.length; i++){
-      recipeIDs.push(createdRecipes.at(i).recipeID);
+    for(let i = 0; i < privateRecipes.length; i++){
+      recipeIDs.push(privateRecipes.at(i).recipeID);
     }
   const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
