@@ -167,7 +167,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
-  Recipes.find().then((recipes) => {
+  CreatedRecipes.find({googleID: req.user.id}).then((createdRecipes) => {
+  Recipes.find({    $or: [        { _id: createdRecipes.recipeID },        {"Public": createdRecipes.publicity}    ]}).then((recipes) => {
     let breakfastRecipes = [];
     const breakfastRegex = new RegExp("Breakfast");
     let lunchRecipes = [];
@@ -192,6 +193,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         }
       }
     }
+    
 
     getJoke().then((joke) => {
       res.render("dashboard", {
@@ -203,6 +205,7 @@ app.get("/dashboard", ensureAuthenticated, function (req, res) {
         /*, variables*/
       });
     });
+  });
   });
 });
 
@@ -375,6 +378,10 @@ app.post("/addIngredient", function (req, res) {
       req.body.caloriesPerUnit +
       "}}"
   );
+});
+
+app.get("/recipe/:recipeId", async (req, res) => {
+
 });
 
 app.get("/image/:recipeId", async (req, res) => {
