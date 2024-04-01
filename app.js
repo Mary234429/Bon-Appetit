@@ -164,8 +164,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, async function (req, res) {
-  try {
-    const recipes = await Recipes.find();
+  try{
+  const privateRecipes = await CreatedRecipes.find({googleID: req.user.id})
+    let recipeIDs = [];
+    for(let i = 0; i < privateRecipes.length; i++){
+      recipeIDs.push(privateRecipes.at(i).recipeID);
+    }
+  const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
     let lunchRecipes = [];
     let dinnerRecipes = [];
@@ -186,6 +191,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         }
       }
     }
+    
 
 
     const members = await Member.find();
