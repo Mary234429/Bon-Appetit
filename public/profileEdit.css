@@ -1,0 +1,104 @@
+h2{
+    text-align: center;
+    font-family: Lustria;
+    font-size: 28px;
+    margin-bottom: 5%;
+}
+p{
+  color: grey;
+  font-size: large;
+}
+select{
+    margin-right: 15%; /* Add margin between input fields */
+    color: grey;
+    margin-bottom: 10%;
+}
+input{
+  margin-bottom: 10%;
+  color: grey;
+}
+input[type="submit"]{
+  color:black;
+}
+input[type="text"], input[type="email"]  {
+  color: grey;
+}
+input[type="text"]:focus,input[type="email"]:focus {
+  color: black;
+}
+.outer-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 800px;
+}
+.inner-container {
+    max-width: 800px;
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+  }
+.left-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: left;
+    position: relative;
+  }
+
+  .right-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: right;
+    position: relative;
+  }
+  .line{
+    border: none; 
+    outline: none; 
+    border-bottom: 1px solid black;  
+    margin-right: 15%; 
+    font-size: medium;
+}
+.gender{
+  margin-top: 10px;
+}
+.about{
+  width: 93%;
+  border: none; 
+  outline: none; 
+  border-bottom: 1px solid black;  
+  margin-right: 15%; 
+  font-size: medium;
+}
+.wheat_1 {
+  width: 75px;
+  height: 75px;
+   position: absolute;
+  background-size: contain;
+  background: url("wheat_1.png") center center/cover no-repeat;
+  background-size: cover;
+  margin-left:38%;
+  margin-top: 1%;
+}
+.wheat_2 {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  background: url("wheat_2.png") center center no-repeat;
+  background-size: cover;
+  background-size: contain;
+  margin-left:56%;
+  margin-top: 1%;
+}
+.button{
+  height:35px;
+  max-width: 150px;
+  font-family: Lustria;
+  border:none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 2%;
+}
+.button:hover{
+ background-color: #D2D2D2;
+}

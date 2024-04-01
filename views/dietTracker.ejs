@@ -1,26 +1,60 @@
-
-    <div class="center-container">
-        <div class="container">
-            <h1><%= title %></h1>
-            <form action="/dashboard" method="get">
-                <button type="submit">Go to Main Page</button>
-            </form>
-            <h1>Calories 0/2000</h1>
-            <h2>Breakfast</h2>
-            <form action="/recipes" method="get">
-                <button type="submit">Add food</button>
-            </form>
-            <h2>Lunch</h2>
-            <form action="/recipes" method="get">
-                <button type="submit">Add food</button>
-            </form>
-            <h2>Dinner</h2>
-            <form action="/recipes" method="get">
-                <button type="submit">Add food</button>
-            </form>
-            <h2>Snacks</h2>
-            <form action="/recipes" method="get">
-                <button type="submit">Add Snacks</button>
-            </form>
-        </div>
-    </div>
+<html>
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+		<title>Date Selection with EJS</title>
+	</head>
+	<h1>
+		<%= title %>
+		<%= formatedDate %>
+	</h1>
+	<form action="/dashboard" method="get">
+		<button type="submit">Go to Main Page</button>
+	</form>
+	<form id="dateForm">
+		<label for="datepicker">Select a Date:</label>
+		<input type="date" id="datepicker" value=""
+			<%=formatedDate%> name="datepicker" onchange="submitForm()">
+		</input>
+	</form>
+	<script>
+		function submitForm() {
+		document.getElementById("dateForm").submit();
+		}
+	</script>
+	<h1>Calories 0/2000</h1>
+	<h2>Breakfast</h2>
+		 <div class="recipeWrapper">
+        <% for(let i=0; i < breakfastTracked.length; i++) { %>
+          <div data-recipe="<%= breakfastTracked.at(i) %>" class="recipeBreakfast">
+            <h7 class="breakfast-recipe-name">
+              <%= breakfastTracked.at(i).recipe %>
+            </h7>
+          </div>
+          <% } %>
+      </div>
+	<form action="/addFood" method="get">
+		<button type="submit">Add food</button>
+	</form>
+	<h2>Lunch</h2>
+	<h3>
+		<%= lunchTracked %>
+	</h3>
+	<form action="/addFood" method="get">
+		<button type="submit">Add food</button>
+	</form>
+	<h2>Dinner</h2>
+	<h3>
+		<%= dinnerTracked %>
+	</h3>
+	<form action="/addFood" method="get">
+		<button type="submit">Add food</button>
+	</form>
+	<h2>Snacks</h2>
+	<h3>
+		<%= snackTracked %>
+	</h3>
+	<form action="/addFood" method="get">
+		<button type="submit">Add Snacks</button>
+	</form>
+</html>

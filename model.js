@@ -15,7 +15,7 @@ let Template = mongoose.model("template", announcementSchema);
 let commentSchema = new mongoose.Schema({
   recipeID: { type: String },
   authorID: { type: String },
-  comment: { type: String },
+  message: { type: String },
   timestamp: { type: Date },
 });
 let Comment = mongoose.model("comment", commentSchema);
@@ -34,6 +34,7 @@ let memberSchema = new mongoose.Schema({
   cuisines: { type: Array },
   email: { type: String },
   aboutMe: { type: String },
+  profilePicture: { type: String }
 });
 let Member = mongoose.model("communitymember", memberSchema);
 
