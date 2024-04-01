@@ -147,13 +147,10 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/recipes", (req, res) => {
-  const recipes = [
-    { id: 1, name: "Recipe 1", ingredients: ["Ingredient 1", "Ingredient 2"] },
-    { id: 2, name: "Recipe 2", ingredients: ["Ingredient 3", "Ingredient 4"] },
-    // Add more recipe objects as needed
-  ];
-  res.json(recipes);
+app.get("/addFood", (req, res) => {
+    Recipes.find().then(function (ingredients) {
+        res.render("addFood", { ingredients });
+    });
 });
 
 //Set up application port
@@ -166,52 +163,72 @@ app.get("/", (req, res) => {
   res.render("login" /*, {variables}*/);
 });
 
-app.get("/dashboard", ensureAuthenticated, function (req, res) {
-  CreatedRecipes.find({googleID: req.user.id}).then((createdRecipes) => {
+app.get("/dashboard", ensureAuthenticated, async function (req, res) {
+  const createdRecipes = await CreatedRecipes.find({googleID: req.user.id})
     let recipeIDs = [];
     for(let i = 0; i < createdRecipes.length; i++){
       recipeIDs.push(createdRecipes.at(i).recipeID);
     }
-  Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]}).then((recipes) => {
-    console.log(recipes);
+  const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
-    const breakfastRegex = new RegExp("Breakfast");
     let lunchRecipes = [];
-    const lunchRegex = new RegExp("Lunch");
     let dinnerRecipes = [];
-    const dinnerRegex = new RegExp("Dinner");
     let snackRecipes = [];
-    const snackRegex = new RegExp("Snack");
-
-    //console.log(recipes.at(0).mealType.at(0));
 
     for (let i = 0; i < recipes.length; i++) {
-      for (let j = 0; j < recipes.at(i).mealType.length; j++) {
-        if (breakfastRegex.test(recipes.at(i).mealType.at(j))) {
-          breakfastRecipes.push(recipes.at(i));
-        } else if (lunchRegex.test(recipes.at(i).mealType.at(j))) {
-          lunchRecipes.push(recipes.at(i));
-        } else if (dinnerRegex.test(recipes.at(i).mealType.at(j))) {
-          dinnerRecipes.push(recipes.at(i));
-        } else if (snackRegex.test(recipes.at(i).mealType.at(j))) {
-          snackRecipes.push(recipes.at(i));
+      for (let j = 0; j < recipes[i].mealType.length; j++) {
+        const recipe = recipes[i];
+        const recipeMealType = recipe.mealType[j];
+        if (/Breakfast/.test(recipeMealType)) {
+          breakfastRecipes.push(recipe);
+        } else if (/Lunch/.test(recipeMealType)) {
+          lunchRecipes.push(recipe);
+        } else if (/Dinner/.test(recipeMealType)) {
+          dinnerRecipes.push(recipe);
+        } else if (/Snack/.test(recipeMealType)) {
+          snackRecipes.push(recipe);
         }
       }
     }
     
 
-    getJoke().then((joke) => {
-      res.render("dashboard", {
-        breakfastRecipes,
-        lunchRecipes,
-        dinnerRecipes,
-        snackRecipes,
-        joke,
-        /*, variables*/
-      });
+
+    const members = await Member.find();
+    const createdRecipes = await CreatedRecipes.find();
+    const recipeMemberMap = {}; // Map to store member names for each recipe
+    //console.log(members);
+    //console.log(createdRecipes);
+
+    for (const createdRecipe of createdRecipes) {
+      const { recipeID, googleID } = createdRecipe;
+      const member = members.find(member => member.googleID === googleID);
+      if (member) {
+        recipeMemberMap[recipeID] = {
+          firstName: member.firstName,
+          lastName: member.lastName,
+          profilePicture: member.profilePicture, 
+        };      
+      }
+    }
+    console.log(recipeMemberMap);
+    console.log(breakfastRecipes);
+
+    const joke = await getJoke();
+
+    res.render("dashboard", {
+      member: members,
+      CRecipes: createdRecipes,
+      breakfastRecipes,
+      lunchRecipes,
+      dinnerRecipes,
+      snackRecipes,
+      joke,
+      recipeMemberMap // Pass the map of recipe IDs to member names to the template
     });
-  });
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 async function getJoke() {
@@ -232,8 +249,59 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/dietTracker", ensureAuthenticated, function (req, res) {
-  const stylesPath = path.join(__dirname, "/styles.css"); //Provide your dynamic path here
-  res.render("dietTracker", { title: "Diet Tracker", stylesPath });
+    let currentDate;
+    if (req.query.datepicker) {
+        // If datepicker is provided in the query parameters
+        currentDate = new Date(req.query.datepicker);
+        currentDate.setDate(currentDate.getDate() + 1);
+    } else {
+        // If datepicker is not provided, use the current date
+        currentDate = new Date();
+    }
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formatedDate = `${year}-${month}-${day}`;
+    DietTracker.find().then((tracker) => {
+        let breakfastTracked = [];
+        let lunchTracked = [];
+        let dinnerTracked = [];
+        let snackTracked = [];
+        console.log(tracker.at(0).timeOfDay)
+        console.log(formatedDate)
+        for (let i = 0; i < tracker.length; i++) {
+            if (tracker.at(i).timeOfDay == formatedDate) {
+                if (tracker.at(i).typeOfMeal == "Breakfast") {
+                    breakfastTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Lunch") {
+                    lunchTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Dinner") {
+                    dinnerTracked.push(tracker.at(i));
+                }
+                if (tracker.at(i).typeOfMeal == "Snack") {
+                    snackTracked.push(tracker.at(i));
+                }
+            }
+        }
+
+
+        /*for (let i = 0; i < tracker.length; i++) {
+            for (let j = 0; j < tracker.at(i).mealType.length; j++) {
+                if (breakfastRegex.test(tracker.at(i).mealType.at(j))) {
+                    breakfastTracked.push(tracker.at(i));
+                } else if (lunchRegex.test(tracker.at(i).mealType.at(j))) {
+                    lunchTracked.push(tracker.at(i));
+                } else if (dinnerRegex.test(tracker.at(i).mealType.at(j))) {
+                    dinnerTracked.push(tracker.at(i));
+                } else if (snackRegex.test(tracker.at(i).mealType.at(j))) {
+                    snackTracked.push(tracker.at(i));
+                }
+            }
+        }*/
+        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastTracked, lunchTracked, dinnerTracked, snackTracked });
+    });
 });
 
 app.get("/register", (req, res) => {
@@ -284,6 +352,7 @@ app.get("/register", (req, res) => {
             cuisines: [],
             email: req.user.emails[0].value,
             aboutMe: "About Me",
+            profilePicture: imageBuffer,
           });
           console.log(newMember);
           newMember
@@ -515,19 +584,95 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
   });
 });
 
-// pretty sure this is for the pictures on the dashbaord???
-app.get("/members/:id", async (req, res) => {
-  console.log("Received request at /members with ID:", req.params.id);
+    app.get("/members/:id", async (req, res) => {
+        console.log("Received request at /members with ID:", req.params.id);
+        try {
+            const member = await Member.findById(req.params.id);
+            if (!member) {
+                console.log("No member found with ID:", req.params.id);
+                return res.status(404).send("Member not found");
+            }
+            console.log("Member data found:", member);
+            res.json(member);
+        } catch (error) {
+            console.error("Error fetching member data:", error);
+            res.status(500).send("Server error");
+        }
+    });
+
+
+/*
+ **************************************
+ *** BEGIN COMMENT HANDLING CODE :) ***
+ **************************************
+ */
+app.get("/comments", ensureAuthenticated, async function (req, res) {
+      const members = await Member.find();
+      // im betting that this might load all comments ignoring recipeIDs
+      const createdComments = await Comment.find();
+        // uncomment when on recipe page
+      // const createdComments = await Comment.findById(req.params.id);
+      const commentMemberMap = {}; // Map to store member names for each comment
+
+      for (const createdComment of createdComments) {
+        const {_id, authorID } = createdComment;
+        const member = members.find(member => member.googleID === authorID);
+        if (member) {
+          commentMemberMap[createdComment._id] = {
+            firstName: member.firstName,
+            lastName: member.lastName,
+            profilePicture: member.profilePicture, 
+          };      
+        }
+      }
+      res.render("comments.ejs", {
+        map: commentMemberMap,
+        comments: createdComments,
+        picture: req.user.picture,
+        author: req.user.id,
+  });
+});
+
+app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
+  let recipeid = req.body.recipeID;
+  let authorid = req.body.authorID;
+  let message = req.body.message;
+  const timestamp = Date.now();
+  const newComment = new Comment({
+    recipeID: recipeid,
+    authorID: authorid,
+    message: message,
+    timestamp: timestamp,
+  });
+  newComment
+    .save()
+    .then(() => {
+      // If the comment was created successfully, redirect to the comments page or wherever
+      res.redirect("/comments");
+    })
+    .catch((err) => {
+      console.log("Error creating new comment: ", err);
+      res.status(500).send("Error saving comment");
+    });
+});
+
+app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
   try {
-    const member = await Member.findById(req.params.id);
-    if (!member) {
-      console.log("No member found with ID:", req.params.id);
-      return res.status(404).send("Member not found");
+    const commentID = req.body.commentID;
+    const deletedComment = await Comment.findByIdAndDelete(commentID);
+    if (!deletedComment) {
+      // If the comment was not found, respond with an error
+      return res.status(404).send("Comment not found");
     }
-    console.log("Member data found:", member);
-    res.json(member);
+    // If the comment was deleted successfully, redirect to the comments page or wherever
+    res.redirect("/comments");
   } catch (error) {
-    console.error("Error fetching member data:", error);
-    res.status(500).send("Server error");
+    console.error("Error deleting comment:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
+/*
+ ************************************
+ *** END COMMENT HANDLING CODE :) ***
+ ************************************
+ */
