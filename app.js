@@ -575,23 +575,6 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
   });
 });
 
-    app.get("/members/:id", async (req, res) => {
-        console.log("Received request at /members with ID:", req.params.id);
-        try {
-            const member = await Member.findById(req.params.id);
-            if (!member) {
-                console.log("No member found with ID:", req.params.id);
-                return res.status(404).send("Member not found");
-            }
-            console.log("Member data found:", member);
-            res.json(member);
-        } catch (error) {
-            console.error("Error fetching member data:", error);
-            res.status(500).send("Server error");
-        }
-    });
-
-
 /*
  **************************************
  *** BEGIN COMMENT HANDLING CODE :) ***
@@ -667,3 +650,72 @@ app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
  *** END COMMENT HANDLING CODE :) ***
  ************************************
  */
+
+// app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
+//   try {
+//     const loggedInMember = await Member.findOne({ googleID: req.user.id });
+//     const dietitian = await Member.findOne({ dietitian: req.user.id })
+//     const listOfDietitians = await Member.find({ usertype: "dietitian" }); // Fetch all dietitians
+//     console.log(dietitian);
+//     // render page
+//     res.render("dietitian", {
+//       user: req.user,
+//       loggedInMember: loggedInMember,
+//       dietitian: dietitian,
+//       listOfDietitians: listOfDietitians
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
+  try {
+    const loggedInMember = await Member.findOne({ googleID: req.user.id });
+    const dietitians = await Member.find({ usertype: "dietitian" });
+    let currentActiveDietitianName = "None";
+
+    if(loggedInMember.dietitian) {
+      const currentActiveDietitian = await Member.findOne({ googleID: loggedInMember.dietitian });
+      if(currentActiveDietitian) {
+        currentActiveDietitianName = `${currentActiveDietitian.firstName} ${currentActiveDietitian.lastName}`;
+      }
+    }
+
+    res.render("dietitian", {
+      user: req.user,
+      loggedInMember: loggedInMember,
+      dietitians: dietitians,
+      currentActiveDietitianName: currentActiveDietitianName
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
+  console.log("-----POST-----")
+  try {
+    const userId = req.user.id; // Use the correct method to get the logged-in user's ID
+    console.log("User ID: " + userId);
+    const { dietitianId } = req.body;
+    console.log("Dietitian ID: " + dietitianId);
+
+    // Update the logged-in user's dietitian
+    await Member.updateOne({ googleID: userId }, { $set: { dietitian: dietitianId } });
+
+    // Fetch the assigned dietitian's name
+    const assignedDietitian = await Member.findOne({ googleID: dietitianId });
+    console.log(assignedDietitian);
+    const dietitianName = `${assignedDietitian.firstName} ${assignedDietitian.lastName}`;
+
+    res.json({ message: 'Dietitian assigned successfully', dietitianName: dietitianName });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred while assigning the dietitian' });
+  }
+});
+
