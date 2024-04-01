@@ -168,7 +168,12 @@ app.get("/", (req, res) => {
 
 app.get("/dashboard", ensureAuthenticated, function (req, res) {
   CreatedRecipes.find({googleID: req.user.id}).then((createdRecipes) => {
-  Recipes.find({    $or: [        { _id: createdRecipes.recipeID },        {"Public": createdRecipes.publicity}    ]}).then((recipes) => {
+    let recipeIDs = [];
+    for(let i = 0; i < createdRecipes.length; i++){
+      recipeIDs.push(createdRecipes.at(i).recipeID);
+    }
+  Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]}).then((recipes) => {
+    console.log(recipes);
     let breakfastRecipes = [];
     const breakfastRegex = new RegExp("Breakfast");
     let lunchRecipes = [];
@@ -252,6 +257,7 @@ app.get("/register", (req, res) => {
             cuisines: [],
             email: req.user.emails[0].value,
             aboutMe: "About Me",
+            profilePicture: req.user.picture,
           });
           console.log(newMember);
           newMember

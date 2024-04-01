@@ -206,7 +206,7 @@
           <% if(snackRecipes[i].thumbnail == null) { %>
             <div data-recipe="<%= recipeData %>" class="recipeSnackPic"><img src="plate.png" alt="<%= snackRecipes[i].name %> Thumbnail" style="max-height: 240px; max-width: 160px;"> </div>
             <% } else { %> 
-            <div data-recipe="<%= recipeData %>" class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= dinnerRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
+            <div data-recipe="<%= recipeData %>" class="recipeSnackPic"> <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" alt="<%= snackRecipes[i].name %> Thumbnail" style="max-height:240px; max-width: 160px;"></div>  
             <% } %>
           </a>
         <% } %>
