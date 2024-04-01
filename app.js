@@ -131,7 +131,7 @@ function ensureAuthenticated(req, res, next) {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("login");
+    res.redirect("/login");
   }
 }
 
@@ -368,7 +368,7 @@ app.get("/register", (req, res) => {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("/failure");
+    res.redirect("/");
   }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
@@ -449,6 +449,42 @@ app.post("/addIngredient", function (req, res) {
       "}}"
   );
 });
+
+app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
+  const recipeID = req.params.recipeId;
+    Recipes.findOne({_id: recipeID}).then(function(theRecipe){
+      Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
+        Member.find().then(function(members){
+          Comment.find({recipeID: recipeID}).then(function(createdComments){
+            const commentMemberMap = {}; // Map to store member names for each comment
+
+            for (const createdComment of createdComments) {
+              const {_id, authorID } = createdComment;
+              const member = members.find(member => member.googleID === authorID);
+              if (member) {
+                commentMemberMap[createdComment._id] = {
+                  firstName: member.firstName,
+                  lastName: member.lastName,
+                  profilePicture: member.profilePicture, 
+                };      
+              }
+            }
+            res.render("recipe.ejs", {
+              recipe: theRecipe,
+              ingredients: ingredients,
+              map: commentMemberMap,
+              comments: createdComments,
+              picture: req.user.picture,
+              author: req.user.id,
+            });
+          })
+        })
+      })
+    })
+  })
+
+
+    
 
 app.get("/image/:recipeId", async (req, res) => {
   try {

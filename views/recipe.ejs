@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="comment.css" />
+    <title><%= recipe.name %> </title>
+    <link rel="stylesheet" type="text/css" href="/recipe.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comment Testing page</title>
+    
 
     <!-- we love math -- no touch -->
     <%function timeAgo(timestamp) {
@@ -27,13 +28,47 @@
             return 'Just now';
         }
     } %>
-</head>
 
+</head>
 <body>
     <form action="/dashboard" method="get">
         <button type="submit">Go to Main Page</button>
     </form>
-    <p>This is the Comment Testing Page. Leave a comment below</p>
+    <h1><%= recipe.name %></h1>
+    <p><%= recipe.description %></p>
+    <hr>
+    <h2>Recipe Details:</h2>
+    <h3>Tools Needed:</h3>
+    <p><%= recipe.toolsNeeded.join(", ") %></p>
+    <h3>Ingredients:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ingredients.forEach(function(ingredient, index) { %>
+                <tr>
+                    <td><%= ingredient.name %></td>
+                    <td><%= recipe.ingredientAmounts[index] %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <h3>Instructions:</h3>
+    <ol>
+        <% for (let i = 0; i < recipe.instructions.length; i++) { %>
+            <li><%= recipe.instructions[i] %></li>
+        <% } %>
+    </ol>
+    <h3>Tags:</h3>
+    <p><%= recipe.tags.join(", ") %></p>
+    <h3>Meal Type:</h3>
+    <p><%= recipe.mealType %></p>
+    <hr>
+
     <div class="comment-container">
         <% if (picture) { %>
             <img src="<%= picture %>" alt="Profile Picture" class="profile-picture">
@@ -43,7 +78,7 @@
         <% } %> 
         <form action="/commentSubmit" method="post" class="comment-form">
             <!-- edit below line to actually use recipe ID -->
-            <input type="hidden" name="recipeID" id="recipeID" value="<%=Recipe.id %>"><br>
+            <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
             <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
             <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
             <input type="submit" value="Submit">
@@ -92,4 +127,5 @@
                 <% }; %>
             </tbody>
         </table>
+
 </body>

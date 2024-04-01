@@ -234,7 +234,7 @@
             <% if(snackRecipes[i].thumbnail == null) { %>
               <img src="plate.png" class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail" > 
             <% } else { %> 
-              <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" class="recipeSnacksPic" alt="<%= dinnerRecipes[i].name %> Thumbnail">  
+              <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail">  
             <% } %>
           </div>
         <% } %>
