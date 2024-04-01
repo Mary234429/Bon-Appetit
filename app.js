@@ -164,8 +164,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, async function (req, res) {
-  try {
-    const recipes = await Recipes.find();
+  const createdRecipes = await CreatedRecipes.find({googleID: req.user.id})
+    let recipeIDs = [];
+    for(let i = 0; i < createdRecipes.length; i++){
+      recipeIDs.push(createdRecipes.at(i).recipeID);
+    }
+  const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
     let lunchRecipes = [];
     let dinnerRecipes = [];
@@ -186,6 +190,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         }
       }
     }
+    
 
 
     const members = await Member.find();
@@ -448,6 +453,10 @@ app.post("/addIngredient", function (req, res) {
       req.body.caloriesPerUnit +
       "}}"
   );
+});
+
+app.get("/recipe/:recipeId", async (req, res) => {
+
 });
 
 app.get("/image/:recipeId", async (req, res) => {
