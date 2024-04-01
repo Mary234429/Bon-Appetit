@@ -45,24 +45,24 @@
     <br>
     <select class="line" id="diet" name="diet">
       <option value="" disabled selected>Diet</option>
-      <option value="carnivore" <%= loggedInMember.diet === 'carnivore' ? 'selected' : '' %>>Carnivore</option>
-      <option value="vegan" <%= loggedInMember.diet === 'vegan' ? 'selected' : '' %>>Vegan</option>
-      <option value="vegetarian" <%= loggedInMember.diet === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
-      <option value="pescatarian" <%= loggedInMember.diet === 'pescatarian' ? 'selected' : '' %>>Pescatarian</option>
-      <option value="keto" <%= loggedInMember.diet === 'keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
-      <option value="paleo" <%= loggedInMember.diet === 'paleo' ? 'selected' : '' %>>Paleo</option>
-      <option value="flexitarian" <%= loggedInMember.diet === 'flexitarian' ? 'selected' : '' %>>Flexitarian</option>
-      <option value="whole30" <%= loggedInMember.diet === 'whole30' ? 'selected' : '' %>>Whole30</option>
-      <option value="glutenfree" <%= loggedInMember.diet === 'glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
-      <option value="dairyfree" <%= loggedInMember.diet === 'dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
-      <option value="raw" <%= loggedInMember.diet === 'raw' ? 'selected' : '' %>>Raw</option>
-      <option value="beans" <%= loggedInMember.diet === 'beans' ? 'selected' : '' %>>Beans</option>
-      <option value="macrobiotic" <%= loggedInMember.diet === 'macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
-      <option value="fruitarian" <%= loggedInMember.diet === 'fruitarian' ? 'selected' : '' %>>Fruitarian</option>
-      <option value="lowcarb" <%= loggedInMember.diet === 'lowcarb' ? 'selected' : '' %>>Low Carb</option>
-      <option value="mediterranean" <%= loggedInMember.diet === 'mediterranean' ? 'selected' : '' %>>Mediterranean</option>
-      <option value="paleovegan" <%= loggedInMember.diet === 'paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
-      <option value="paleovegetarian" <%= loggedInMember.diet === 'paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
+      <option value="carnivore" <%= loggedInMember.diettype === 'carnivore' ? 'selected' : '' %>>Carnivore</option>
+      <option value="vegan" <%= loggedInMember.diettype === 'vegan' ? 'selected' : '' %>>Vegan</option>
+      <option value="vegetarian" <%= loggedInMember.diettype === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
+      <option value="pescatarian" <%= loggedInMember.diettype === 'pescatarian' ? 'selected' : '' %>>Pescatarian</option>
+      <option value="keto" <%= loggedInMember.diettype === 'keto' ? 'selected' : '' %>>Ketogenic (Keto)</option>
+      <option value="paleo" <%= loggedInMember.diettype === 'paleo' ? 'selected' : '' %>>Paleo</option>
+      <option value="flexitarian" <%= loggedInMember.diettype === 'flexitarian' ? 'selected' : '' %>>Flexitarian</option>
+      <option value="whole30" <%= loggedInMember.diettype === 'whole30' ? 'selected' : '' %>>Whole30</option>
+      <option value="glutenfree" <%= loggedInMember.diettype === 'glutenfree' ? 'selected' : '' %>>Gluten-Free</option>
+      <option value="dairyfree" <%= loggedInMember.diettype === 'dairyfree' ? 'selected' : '' %>>Dairy-Free</option>
+      <option value="raw" <%= loggedInMember.diettype === 'raw' ? 'selected' : '' %>>Raw</option>
+      <option value="beans" <%= loggedInMember.diettype === 'beans' ? 'selected' : '' %>>Beans</option>
+      <option value="macrobiotic" <%= loggedInMember.diettype === 'macrobiotic' ? 'selected' : '' %>>Macrobiotic</option>
+      <option value="fruitarian" <%= loggedInMember.diettype === 'fruitarian' ? 'selected' : '' %>>Fruitarian</option>
+      <option value="lowcarb" <%= loggedInMember.diettype === 'lowcarb' ? 'selected' : '' %>>Low Carb</option>
+      <option value="mediterranean" <%= loggedInMember.diettype === 'mediterranean' ? 'selected' : '' %>>Mediterranean</option>
+      <option value="paleovegan" <%= loggedInMember.diettype === 'paleovegan' ? 'selected' : '' %>>Paleo Vegan</option>
+      <option value="paleovegetarian" <%= loggedInMember.diettype === 'paleovegetarian' ? 'selected' : '' %>>Paleo Vegetarian</option>
       <!-- Add more diet options as needed -->
     </select>
   </div>
@@ -105,7 +105,7 @@
 <br>
 <br>
 <input class="about" type="text" id="aboutMe" onfocus="this.value=''" onblur="if(this.value=='')"  name="aboutMe" value="<%= loggedInMember.aboutMe %>" >
-<form>
+
   <a href="/profile"><button class="button" type="button">Back to Profile</button></a> 
   <input class="button" type="submit">
 </form>
