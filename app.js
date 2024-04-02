@@ -211,8 +211,8 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         };      
       }
     }
-    console.log(recipeMemberMap);
-    console.log(breakfastRecipes);
+    //console.log(recipeMemberMap);
+    //console.log(breakfastRecipes);
 
     const joke = await getJoke();
 
@@ -328,7 +328,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: req.user.picture,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -355,7 +355,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: imageBuffer,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -397,7 +397,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   let recipeDescription = req.body.description;
   let tools = req.body.recipeTools;
   let ingredients = req.body.ingredients;
-  console.log(ingredients);
+  //console.log(ingredients);
   let ingredientAmounts = req.body.ingredientAmounts;
   let instructions = req.body.instructions;
   let tags = req.body.recipeTags;
@@ -522,7 +522,7 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/contactSubmit", async (req, res) => {
-  console.log("Received request at /contactSubmit with data:", req.body);
+  //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;
   let message = req.body.message;
@@ -574,7 +574,7 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       // order them
       .sort({ timestamp: -1 })
       .limit(3);
-    console.log(recentRecipes);
+    //console.log(recentRecipes);
     // render page
     res.render("profile", {
       user: req.user,
@@ -666,7 +666,7 @@ app.get("/comments", ensureAuthenticated, async function (req, res) {
   });
 });
 
-app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
+app.post("/commentSubmit/:recipeID", ensureAuthenticated, function (req, res) {
   let recipeid = req.body.recipeID;
   let authorid = req.body.authorID;
   let message = req.body.message;
@@ -681,7 +681,7 @@ app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
     .save()
     .then(() => {
       // If the comment was created successfully, redirect to the comments page or wherever
-      res.redirect("/comments");
+      res.redirect("/recipe/" + recipeid);
     })
     .catch((err) => {
       console.log("Error creating new comment: ", err);

@@ -60,7 +60,11 @@
     <h3>Instructions:</h3>
     <ol>
         <% for (let i = 0; i < recipe.instructions.length; i++) { %>
-            <li><%= recipe.instructions[i] %></li>
+            <% if (recipe.instructions[i] == "") { %>
+                <li>Mystery Ingredient!</li>
+            <% } else { %>
+                <li><%= recipe.instructions[i] %></li>
+            <% } %>
         <% } %>
     </ol>
     <h3>Tags:</h3>
@@ -76,7 +80,7 @@
             <!-- picture should always exist but who knows -->
             <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
         <% } %> 
-        <form action="/commentSubmit" method="post" class="comment-form">
+        <form action="/commentSubmit/<%=recipe.id%>" method="post" class="comment-form">
             <!-- edit below line to actually use recipe ID -->
             <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
             <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
