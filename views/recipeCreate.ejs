@@ -179,6 +179,7 @@
             $('#ingredientList li .js-example-basic-single').each(function(){
               if($(this).select2('data').at(0).element.value == "addIngredient"){
                 $(this).append(newSelectedIngredient).trigger('change');
+                $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
               }
               else{
                 $(this).append(newIngredient).trigger('change');
@@ -214,11 +215,7 @@
           if ($(this).find(":selected").data("unit") == undefined) {
             $(this).siblings("div").text("");
           } else {
-            $(this)
-              .siblings("div")
-              .text(
-                " " + $(this).select2().find(':selected').data("unit") + " of "
-              );
+            $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
           }
           if ($(this).select2('data').at(0).element.value == "addIngredient") {
             $("#ingredientForm").css("display", "block");
