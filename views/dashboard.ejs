@@ -86,8 +86,16 @@
                 breakfastRecipes.at(i).tools.length; j++){recipeData +=breakfastRecipes.at(i).tools.at(j) + "," ;}%>
                 <% recipeData +="\n" ;%>
                   <!--ingredients-->
-                  <% for(let j=0; j < breakfastRecipes.at(i).ingredients.length; j++){recipeData
-                    +=breakfastRecipes.at(i).ingredients.at(j) + "," ;}%>
+                  <% for(let j=0; j < breakfastRecipes.at(i).ingredients.length; j++){ %>
+                    <%  var ingredientId = breakfastRecipes[i].ingredients[j];
+                        var ingredient = ingredients.find(item => item.id === ingredientId);
+                        if (ingredient) {
+                          ingredient = ingredient.name;
+                        } else {
+                          ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                    <% } %>
                     <% recipeData +="\n" ;%>
                       <!--instructions-->
                       <% for(let j=0; j < breakfastRecipes.at(i).instructions.length; j++){recipeData
@@ -126,6 +134,7 @@
 
                                 </div> <!-- data-recipe-->
                                 <% } %>
+          </a>
       </div> <!-- end recipe wrapper-->
     </div> <!-- end of the breakfast container-->
 
@@ -142,8 +151,16 @@
                 j++){recipeData +=lunchRecipes.at(i).tools.at(j) + "," ;}%>
                 <% recipeData +="\n" ;%>
                   <!--ingredients-->
-                  <% for(let j=0; j < lunchRecipes.at(i).ingredients.length; j++){recipeData
-                    +=lunchRecipes.at(i).ingredients.at(j) + "," ;}%>
+                  <% for(let j=0; j < lunchRecipes.at(i).ingredients.length; j++){ %>
+                    <%  var ingredientId = lunchRecipes[i].ingredients[j];
+                        var ingredient = ingredients.find(item => item.id === ingredientId);
+                        if (ingredient) {
+                          ingredient = ingredient.name;
+                        } else {
+                          ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                    <% } %>
                     <% recipeData +="\n" ;%>
                       <!--instructions-->
                       <% for(let j=0; j < lunchRecipes.at(i).instructions.length; j++){recipeData
@@ -183,6 +200,7 @@
 
                                 </div>
                                 <% } %>
+          </a>
       </div>
     </div>
     <!-- end of the lunch container-->
@@ -200,8 +218,16 @@
                 dinnerRecipes.at(i).tools.length; j++){recipeData +=dinnerRecipes.at(i).tools.at(j) + "," ;}}%>
                 <% recipeData +="\n" ;%>
                   <!--ingredients-->
-                  <% for(let j=0; j < dinnerRecipes.at(i).ingredients.length; j++){recipeData
-                    +=dinnerRecipes.at(i).ingredients.at(j) + "," ;}%>
+                  <% for(let j=0; j < dinnerRecipes.at(i).ingredients.length; j++){ %>
+                    <%  var ingredientId = dinnerRecipes[i].ingredients[j];
+                        var ingredient = ingredients.find(item => item.id === ingredientId);
+                        if (ingredient) {
+                          ingredient = ingredient.name;
+                        } else {
+                          ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                    <% } %>
                     <% recipeData +="\n" ;%>
                       <!--instructions-->
                       <% for(let j=0; j < dinnerRecipes.at(i).instructions.length; j++){recipeData
@@ -241,6 +267,7 @@
                                 </div>
 
                                 <% } %>
+          </a>
       </div>
     </div>
 
@@ -258,35 +285,43 @@
                 j++){recipeData +=snackRecipes.at(i).tools.at(j) + "," ;}}%>
                 <% recipeData +="\n" ;%>
                   <!--ingredients-->
-                  <% for(let j=0; j < snackRecipes.at(i).ingredients.length; j++){recipeData
-                    +=snackRecipes.at(i).ingredients.at(j) + "," ;}%>
-                    <% recipeData +="\n" ;%>
-                      <!--instructions-->
-                      <% for(let j=0; j < snackRecipes.at(i).instructions.length; j++){recipeData
-                        +=snackRecipes.at(i).instructions.at(j) + "," ;}%>
-                        <% recipeData +="\n" ;%>
-                          <!--tags-->
-                          <% for(let j=0; j < snackRecipes.at(i).tags.length; j++){recipeData
-                            +=snackRecipes.at(i).tags.at(j) + "," ;}%>
-                            <% recipeData +="\n" ;%>
-                              <!--mealType-->
-                              <% recipeData +="Snack" ;%>
-                                <div data-recipe="<%= recipeData %>" class="recipeSnacks">
-                                  <!-- If image does not have an image need default image loaded instead-->
-                                  <% if(snackRecipes[i].thumbnail==null) { %>
-                                    <img src="plate.png" class="recipeSnacksPic"
-                                      alt="<%= snackRecipes[i].name %> Thumbnail">
-                                    <% } else { %>
-                                      <img
-                                        src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>"
-                                        class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail">
-                                      <% } %>
-
-                                        <h7 class="snack-recipe-name">
-                                          <%=snackRecipes.at(i).name%>
-                                        </h7>
-                                        <% const creatorDetails=recipeMemberMap[snackRecipes[i]._id]; %>
-                                          <div class="creator-info">
+                  <% for(let j=0; j < snackRecipes.at(i).ingredients.length; j++){ %>
+                    <%  var ingredientId = snackRecipes[i].ingredients[j];
+                        var ingredient = ingredients.find(item => item.id === ingredientId);
+                        if (ingredient) {
+                          ingredient = ingredient.name;
+                        } else {
+                          ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                    <% } %>
+                  <% recipeData +="\n" ;%>
+                  <!--instructions-->
+                  <% for(let j=0; j < snackRecipes.at(i).instructions.length; j++){
+                    recipeData+=snackRecipes.at(i).instructions.at(j) + "," ;}%>
+                  <% recipeData +="\n" ;%>
+                  <!--tags-->
+                  <% for(let j=0; j < snackRecipes.at(i).tags.length; j++){
+                    recipeData+=snackRecipes.at(i).tags.at(j) + "," ;
+                  }%>
+                  <% recipeData +="\n" ;%>
+                  <!--mealType-->
+                  <% recipeData +="Snack" ;%>
+                  <div data-recipe="<%= recipeData %>" class="recipeSnacks">
+                  <!-- If image does not have an image need default image loaded instead-->
+                  <% if(snackRecipes[i].thumbnail==null) { %>
+                    <img src="plate.png" class="recipeSnacksPic"
+                      alt="<%= snackRecipes[i].name %> Thumbnail">
+                  <% } else { %>
+                  <img
+                  src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>"
+                  class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail">
+                  <% } %>
+                  <h7 class="snack-recipe-name">
+                  <%=snackRecipes.at(i).name%>
+                  </h7>
+                  <% const creatorDetails=recipeMemberMap[snackRecipes[i]._id]; %>
+                  <div class="creator-info">
                                             <% if (creatorDetails.profilePicture) { %>
                                               <img src="<%= creatorDetails.profilePicture %>"
                                                 alt="<%= creatorDetails.name %> Thumbnail">
@@ -299,7 +334,7 @@
 
                                 </div>
                                 <% } %>
-
+          </a>
       </div>
     </div>
 
@@ -314,21 +349,6 @@
       filterArray = filterText.split(" ");
       //Search breakfast recipes
       $(".recipeBreakfast").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
-      $(".recipeBreakfastPic").each(function (i, obj) {
         $(this).css("display", "block");
         for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
@@ -359,21 +379,7 @@
           }
         }
       });
-      $(".recipeLunchPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
+
       //Search dinner recipes
       $(".recipeDinner").each(function (i, obj) {
         $(this).css("display", "block");
@@ -390,38 +396,9 @@
           }
         }
       });
-      $(".recipeDinnerPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
+
       //Search snack recipes
-      $(".recipeSnack").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
-      $(".recipeSnackPic").each(function (i, obj) {
+      $(".recipeSnacks").each(function (i, obj) {
         $(this).css("display", "block");
         for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
