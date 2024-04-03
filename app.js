@@ -444,6 +444,7 @@ app.post("/addIngredient", function (req, res) {
     unit: req.body.ingredientUnit,
     caloriesPerUnit: req.body.caloriesPerUnit,
   });
+  console.log(ingredient);
   ingredient.save();
   res.end(
     '{"ingredient":{"name":"' +
