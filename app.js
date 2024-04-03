@@ -170,6 +170,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
     for(let i = 0; i < privateRecipes.length; i++){
       recipeIDs.push(privateRecipes.at(i).recipeID);
     }
+  const ingredients = await Ingredients.find();
   const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
     let lunchRecipes = [];
@@ -191,15 +192,10 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         }
       }
     }
-    
-
-
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
-    const recipeMemberMap = {}; // Map to store member names for each recipe
-    //console.log(members);
-    //console.log(createdRecipes);
-
+    // Map to store member names for each recipe
+    const recipeMemberMap = {}; 
     for (const createdRecipe of createdRecipes) {
       const { recipeID, googleID } = createdRecipe;
       const member = members.find(member => member.googleID === googleID);
@@ -211,20 +207,19 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         };      
       }
     }
-    //console.log(recipeMemberMap);
-    //console.log(breakfastRecipes);
 
     const joke = await getJoke();
 
     res.render("dashboard", {
       member: members,
       CRecipes: createdRecipes,
+      ingredients,
       breakfastRecipes,
       lunchRecipes,
       dinnerRecipes,
       snackRecipes,
       joke,
-      recipeMemberMap // Pass the map of recipe IDs to member names to the template
+      recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
   } catch (error) {
     console.error(error);
