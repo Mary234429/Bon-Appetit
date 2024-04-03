@@ -43,7 +43,7 @@
         <% } %> 
         <form action="/commentSubmit" method="post" class="comment-form">
             <!-- edit below line to actually use recipe ID -->
-            <input type="hidden" name="recipeID" id="recipeID" value="<%=Recipe.id %>"><br>
+            <input type="hidden" name="recipeID" id="recipeID" value="1"><br>
             <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
             <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
             <input type="submit" value="Submit">

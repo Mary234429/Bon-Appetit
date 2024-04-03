@@ -28,6 +28,9 @@
             return 'Just now';
         }
     } %>
+    <% const formattedDate = createdRecipe[0].timestamp.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); %>
+    <% const formattedTime = createdRecipe[0].timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' }); %>
+    <!-- ok you can touch below here :) -->
 
 </head>
 <body>
@@ -35,11 +38,20 @@
         <button type="submit">Go to Main Page</button>
     </form>
     <h1><%= recipe.name %></h1>
+    <p>Posted at <%= formattedTime %> on <%= formattedDate %></p>
+    <% members.forEach(function(members) { %>
+        <% if (members.googleID === createdRecipe[0].googleID) { %>
+            <p>This wonderful recipe was authored by: <img src="<%= members.profilePicture %>" alt="Profile Picture of recipe creator" class="author-profile-picture"> <%= members.firstName %> <%= members.lastName %></p>
+            
+        <% } %>
+    <% }); %>
     <p><%= recipe.description %></p>
     <hr>
     <h2>Recipe Details:</h2>
-    <h3>Tools Needed:</h3>
-    <p><%= recipe.toolsNeeded.join(", ") %></p>
+    <% if (recipe.toolsNeeded != "") { %>
+        <h3>Tools Needed:</h3>
+        <p><%= recipe.toolsNeeded.join(", ") %></p>
+    <% } %>
     <h3>Ingredients:</h3>
     <table>
         <thead>
@@ -60,11 +72,7 @@
     <h3>Instructions:</h3>
     <ol>
         <% for (let i = 0; i < recipe.instructions.length; i++) { %>
-            <% if (recipe.instructions[i] == "") { %>
-                <li>Mystery Ingredient!</li>
-            <% } else { %>
-                <li><%= recipe.instructions[i] %></li>
-            <% } %>
+            <li><%= recipe.instructions[i] %></li>
         <% } %>
     </ol>
     <h3>Tags:</h3>
@@ -88,6 +96,7 @@
             <input type="submit" value="Submit">
         </form>
     </div>
+</br>
         <table>
             <thead>
                 <tr>
@@ -98,7 +107,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(let i=0; i < comments.length; i++) { %>
+                <% for(let i = comments.length-1; i >= 0; i--) { %>
                     <% const authorDetails = map[comments[i]._id]; %>
                     <tr>
                         <td>
@@ -121,7 +130,8 @@
                         <td>
                             <% if (author && comments[i].authorID === author) { %>
                               <!-- Show delete button if the current user is the author of the comment -->
-                              <form action="/deleteComment" method="post">
+                              <form action="/deleteComment/<%=recipe.id%>" method="post">
+                                <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
                                 <input type="hidden" name="commentID" value="<%= comments[i]._id %>">
                                 <button type="submit">Delete</button>
                               </form>

@@ -4,9 +4,16 @@
   }
   
   .profile-picture {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     margin-right: 10px; /* Add some space between the image and the form */
+    border-radius: 50%; /* Set border-radius to 50% to make it a circle */
+    overflow: hidden; /* Hide overflow to ensure the image remains within the circle */
+  }
+
+  .author-profile-picture {
+    width: 15px;
+    height: 15px;
     border-radius: 50%; /* Set border-radius to 50% to make it a circle */
     overflow: hidden; /* Hide overflow to ensure the image remains within the circle */
   }

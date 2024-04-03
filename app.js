@@ -460,29 +460,33 @@ app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
   const recipeID = req.params.recipeId;
     Recipes.findOne({_id: recipeID}).then(function(theRecipe){
       Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
-        Member.find().then(function(members){
-          Comment.find({recipeID: recipeID}).then(function(createdComments){
-            const commentMemberMap = {}; // Map to store member names for each comment
-
-            for (const createdComment of createdComments) {
-              const {_id, authorID } = createdComment;
-              const member = members.find(member => member.googleID === authorID);
-              if (member) {
-                commentMemberMap[createdComment._id] = {
-                  firstName: member.firstName,
-                  lastName: member.lastName,
-                  profilePicture: member.profilePicture, 
-                };      
+        CreatedRecipes.find({recipeID: recipeID}).then(function(createdRecipe){
+          Member.find().then(function(members){
+            Comment.find({recipeID: recipeID}).then(function(createdComments){
+              const commentMemberMap = {}; // Map to store member names for each comment
+  
+              for (const createdComment of createdComments) {
+                const {_id, authorID } = createdComment;
+                const member = members.find(member => member.googleID === authorID);
+                if (member) {
+                  commentMemberMap[createdComment._id] = {
+                    firstName: member.firstName,
+                    lastName: member.lastName,
+                    profilePicture: member.profilePicture, 
+                  };      
+                }
               }
-            }
-            res.render("recipe.ejs", {
-              recipe: theRecipe,
-              ingredients: ingredients,
-              map: commentMemberMap,
-              comments: createdComments,
-              picture: req.user.picture,
-              author: req.user.id,
-            });
+              res.render("recipe.ejs", {
+                recipe: theRecipe,
+                ingredients: ingredients,
+                map: commentMemberMap,
+                comments: createdComments,
+                picture: req.user.picture,
+                author: req.user.id,
+                createdRecipe: createdRecipe,
+                members: members,
+              });
+            })
           })
         })
       })
@@ -689,6 +693,22 @@ app.post("/commentSubmit/:recipeID", ensureAuthenticated, function (req, res) {
     });
 });
 
+app.post("/deleteComment/:recipeID", ensureAuthenticated, async function (req, res) {
+  let recipeid = req.body.recipeID;
+  try {
+    const commentID = req.body.commentID;
+    const deletedComment = await Comment.findByIdAndDelete(commentID);
+    if (!deletedComment) {
+      // If the comment was not found, respond with an error
+      return res.status(404).send("Comment not found");
+    }
+    // If the comment was deleted successfully, redirect to the comments page or wherever
+    res.redirect("/recipe/" + recipeid);
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
   try {
     const commentID = req.body.commentID;
