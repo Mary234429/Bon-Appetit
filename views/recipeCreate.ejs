@@ -175,7 +175,9 @@
             console.log(ingredient);
             $("#ingredientForm").css("display", "none");
             let newIngredient = new Option(ingredient.name, ingredient._id, false, false);
+            newIngredient.setAttribute('data-unit', ingredient.unit);
             let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
+            newSelectedIngredient.setAttribute('data-unit', ingredient.unit);
             $('#ingredientList li .js-example-basic-single').each(function(){
               if($(this).select2('data').at(0).element.value == "addIngredient"){
                 $(this).append(newSelectedIngredient).trigger('change');
