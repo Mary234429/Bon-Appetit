@@ -170,17 +170,15 @@
           url: url,
           data: $("#ingredientForm").serialize(),
           success: function (data) {
-            alert(data);
+            $('#ingredientList li select').append($('<option value='+data._id>+'>' + data.name + '</option>'));
+            $("#ingredientForm").css("display", "none");
           },
         });
         return false;
       }
 
       $(document).ready(function () {
-        let ingredient = $("#ingredientList")
-          .children("li")
-          .eq(0)
-          .prop("outerHTML");
+        let ingredient = $("#ingredientList").children("li").children("select").eq(0).prop("outerHTML");
 
         $(".js-example-basic-single").select2();
 
@@ -195,22 +193,23 @@
 
         //Add an Ingredient field
         $("#addIngredient").click(function () {
-          $("#ingredientList").append($(ingredient));
+          let toAdd = '<li> <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <div style="display: inline"></div>' + ingredient + '<button type="button" onclick="deleteParent($(this))">Delete</button></li>'
+          $("#ingredientList").append($(toAdd));
           $(".js-example-basic-single").select2();
         });
         //Change ingredient field
         $("body").on("change", ".ingredient", function () {
-          if ($(this).select2().find(":selected").data("unit") == undefined) {
+          if ($(this).find(":selected").data("unit") == undefined) {
             $(this).siblings("div").text("");
           } else {
             $(this)
               .siblings("div")
               .text(
-                " " + $(this).select2().find(":selected").data("unit") + " of "
+                " " + $(this).select2().find(':selected').data("unit") + " of "
               );
           }
-
-          if ($(this).select2().find(":selected").value == "addIngredient") {
+          if ($(this).select2('data').at(0).element.value == "addIngredient") {
+            console.log("in the stuffs");
             $("#ingredientForm").css("display", "block");
           }
         });
