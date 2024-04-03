@@ -251,6 +251,7 @@
       <div class="recipeWrapper">
         <% for(let i=0; i < snackRecipes.length; i++){%>
           <a href="/recipe/<%=snackRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
+
             <% let recipeData="" ; recipeData +=snackRecipes.at(i).name + "\n" + snackRecipes.at(i).description;%>
               <!--tools-->
               <% if(typeof snackRecipes.at(i).tools !=='undefined' ) {for(let j=0; j < snackRecipes.at(i).tools.length;
@@ -298,6 +299,7 @@
 
                                 </div>
                                 <% } %>
+
       </div>
     </div>
 

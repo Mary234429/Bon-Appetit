@@ -1,0 +1,143 @@
+body{
+  background-color: #f9f9f9;
+  font-family: Lustria;
+}
+h1{
+  text-align: center;
+  font-size: 36px;
+}
+.navbar {
+    background-color: #f9f9f9; /* Navbar background color */
+    padding: 10px; /* Padding around navbar */
+    margin-top: 30px;
+    text-align: center;
+    /* position: fixed; */
+  }
+  
+  .navbar ul {
+    list-style-type: none; /* Remove default bullet points */
+    margin-top: 0;
+    padding: 0;
+  }
+  
+  .navbar ul li {
+    display: inline; /* Display list items horizontally */
+    margin-right: 15px; 
+  }
+  
+  .navbar ul li a {
+    color: rgb(0, 0, 0); /* Text color of navbar links */
+    font-family: Lustria;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+    padding:19px;
+  }
+  .navbar ul li a:hover {
+    background-color: #94a874af;
+    border-radius: 10px;
+  
+  }
+  /* Dropdown Menu */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    /* background-color:pink; */
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    left: 145%; /* Position the left edge of the menu at the center of the parent */
+    transform: translateX(-50%); /* Center the menu horizontally */
+    top: 150%; /* Position the top edge of the menu below the parent */
+    background-color: #f9f9f9f5;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .wheat-container{
+    position: relative;
+    margin: 0 auto;
+    align-items: center;
+    display: flex;
+    padding-top: 3%;
+  }
+  .left-wheat,.right-wheat,.middle1-wheat,.middle2-wheat, .middle3-wheat {
+    flex: 1;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .left-image,.right-image,.middle1-image,.middle2-image, .middle3-image  {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: left; /* Center items horizontally */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100px;
+    height: 100px;
+  }
+  .left-image{
+    transform: rotate(-10deg);
+  }
+  .middle1-image{
+    transform: rotate(-10deg);
+  }
+  .middle2-image{
+    transform: rotate(10deg);
+  }
+  .middle3-image{
+    transform: rotate(-15deg);
+  }
+  .outer-container {
+    position: relative;
+    margin: 0 auto;
+    background-color: #6C8347;
+    max-height: 400px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+  
+  .left-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Centers the image horizontally */
+    /*background-color: blue;*/
+  }
+  .right-container{
+    flex: 1;
+    position: relative;
+    align-items: center;
+    padding-right: 5%;
+    margin-top: 5%;
+    /*background-color: purple;*/
+  }
+  .left-container img{
+    position: absolute;
+    width:20%;
+    height:70%;
+    padding-top: 5%;
+    
+  }
