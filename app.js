@@ -131,7 +131,7 @@ function ensureAuthenticated(req, res, next) {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("login");
+    res.redirect("/login");
   }
 }
 
@@ -211,8 +211,8 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         };      
       }
     }
-    console.log(recipeMemberMap);
-    console.log(breakfastRecipes);
+    //console.log(recipeMemberMap);
+    //console.log(breakfastRecipes);
 
     const joke = await getJoke();
 
@@ -328,7 +328,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: req.user.picture,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -355,7 +355,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: imageBuffer,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -374,7 +374,7 @@ app.get("/register", (req, res) => {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("/failure");
+    res.redirect("/");
   }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
@@ -397,7 +397,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   let recipeDescription = req.body.description;
   let tools = req.body.recipeTools;
   let ingredients = req.body.ingredients;
-  console.log(ingredients);
+  //console.log(ingredients);
   let ingredientAmounts = req.body.ingredientAmounts;
   let instructions = req.body.instructions;
   let tags = req.body.recipeTags;
@@ -457,9 +457,45 @@ app.post("/addIngredient", function (req, res) {
   );
 });
 
-app.get("/recipe/:recipeId", async (req, res) => {
+app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
+  const recipeID = req.params.recipeId;
+    Recipes.findOne({_id: recipeID}).then(function(theRecipe){
+      Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
+        CreatedRecipes.find({recipeID: recipeID}).then(function(createdRecipe){
+          Member.find().then(function(members){
+            Comment.find({recipeID: recipeID}).then(function(createdComments){
+              const commentMemberMap = {}; // Map to store member names for each comment
+  
+              for (const createdComment of createdComments) {
+                const {_id, authorID } = createdComment;
+                const member = members.find(member => member.googleID === authorID);
+                if (member) {
+                  commentMemberMap[createdComment._id] = {
+                    firstName: member.firstName,
+                    lastName: member.lastName,
+                    profilePicture: member.profilePicture, 
+                  };      
+                }
+              }
+              res.render("recipe.ejs", {
+                recipe: theRecipe,
+                ingredients: ingredients,
+                map: commentMemberMap,
+                comments: createdComments,
+                picture: req.user.picture,
+                author: req.user.id,
+                createdRecipe: createdRecipe,
+                members: members,
+              });
+            })
+          })
+        })
+      })
+    })
+  })
 
-});
+
+    
 
 app.get("/image/:recipeId", async (req, res) => {
   try {
@@ -491,7 +527,7 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/contactSubmit", async (req, res) => {
-  console.log("Received request at /contactSubmit with data:", req.body);
+  //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;
   let message = req.body.message;
@@ -543,7 +579,7 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       // order them
       .sort({ timestamp: -1 })
       .limit(3);
-    console.log(recentRecipes);
+    //console.log(recentRecipes);
     // render page
     res.render("profile", {
       user: req.user,
@@ -635,7 +671,7 @@ app.get("/comments", ensureAuthenticated, async function (req, res) {
   });
 });
 
-app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
+app.post("/commentSubmit/:recipeID", ensureAuthenticated, function (req, res) {
   let recipeid = req.body.recipeID;
   let authorid = req.body.authorID;
   let message = req.body.message;
@@ -650,7 +686,7 @@ app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
     .save()
     .then(() => {
       // If the comment was created successfully, redirect to the comments page or wherever
-      res.redirect("/comments");
+      res.redirect("/recipe/" + recipeid);
     })
     .catch((err) => {
       console.log("Error creating new comment: ", err);
@@ -658,6 +694,22 @@ app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
     });
 });
 
+app.post("/deleteComment/:recipeID", ensureAuthenticated, async function (req, res) {
+  let recipeid = req.body.recipeID;
+  try {
+    const commentID = req.body.commentID;
+    const deletedComment = await Comment.findByIdAndDelete(commentID);
+    if (!deletedComment) {
+      // If the comment was not found, respond with an error
+      return res.status(404).send("Comment not found");
+    }
+    // If the comment was deleted successfully, redirect to the comments page or wherever
+    res.redirect("/recipe/" + recipeid);
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
   try {
     const commentID = req.body.commentID;
