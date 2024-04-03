@@ -170,8 +170,20 @@
           url: url,
           data: $("#ingredientForm").serialize(),
           success: function (data) {
-            $('#ingredientList li select').append($('<option value='+data._id>+'>' + data.name + '</option>'));
+            console.log(data);
+            let ingredient = JSON.parse(data);
+            console.log(ingredient);
             $("#ingredientForm").css("display", "none");
+            let newIngredient = new Option(ingredient.name, ingredient._id, false, false);
+            let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
+            $('#ingredientList li .js-example-basic-single').each(function(){
+              if($(this).select2('data').at(0).element.value == "addIngredient"){
+                $(this).append(newSelectedIngredient).trigger('change');
+              }
+              else{
+                $(this).append(newIngredient).trigger('change');
+              }
+            });
           },
         });
         return false;
@@ -209,7 +221,6 @@
               );
           }
           if ($(this).select2('data').at(0).element.value == "addIngredient") {
-            console.log("in the stuffs");
             $("#ingredientForm").css("display", "block");
           }
         });
