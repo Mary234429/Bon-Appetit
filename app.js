@@ -435,7 +435,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     timestamp: timestamp,
   });
   createdRecipe.save();
-  res.redirect("/recipeCreate");
+  res.redirect("/dashboard");
 });
 
 app.post("/addIngredient", function (req, res) {
@@ -455,6 +455,63 @@ app.post("/addIngredient", function (req, res) {
       req.body.caloriesPerUnit +
       "}"
   );
+});
+
+app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
+  let edit = true;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
+});
+
+app.post('/recipe/edit/:recipeID', async function(req, res){
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
+  //retrieve variables from request
+  let recipeName = req.body.recipeName;
+  let recipeDescription = req.body.description;
+  let tools = req.body.recipeTools;
+  let ingredients = req.body.ingredients;
+  let ingredientAmounts = req.body.ingredientAmounts;
+  let instructions = req.body.instructions;
+  let tags = req.body.recipeTags;
+  let mealType = req.body.mealType;
+  let privacy = req.body.privacyLevel;
+
+  const { originalname, mimetype, buffer } = req.file;
+
+  let imageBuffer = buffer;
+  //Create a recipe object from submitted data
+  Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+    name: recipeName,
+    description: recipeDescription,
+    toolsNeeded: tools,
+    ingredients: ingredients,
+    ingredientAmounts: ingredientAmounts,
+    instructions: instructions,
+    tags: tags,
+    mealType: mealType,
+    publicity: privacy,
+    thumbnail: imageBuffer,
+  }});
+  res.redirect('/dashboard');
+});
+
+app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,res){
+  let edit = false;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
 });
 
 app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
