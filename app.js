@@ -382,7 +382,7 @@ app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), function (req, res) {
+app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -429,7 +429,7 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), funct
     googleID: userID,
     timestamp: timestamp,
   });
-  createdRecipe.save();
+  await createdRecipe.save();
   res.redirect("/dashboard");
 });
 
