@@ -77,7 +77,7 @@
           type="file"
           id="thumbnail"
           name="thumbnail"
-          required
+          <%if(!edit){%>required<%}%>
           accept="image/*"
           value="<%=recipe.thumbnail%>"
         /><br />

@@ -382,7 +382,7 @@ app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
+app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -398,12 +398,12 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-
+  let imageBuffer="";
   const { originalname, mimetype, buffer } = req.file;
 
-  let imageBuffer = buffer;
-
+  imageBuffer = buffer;
   console.log("Uploaded image size:", imageBuffer.length, "bytes");
+  
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -433,7 +433,7 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   res.redirect("/dashboard");
 });
 
-app.post("/addIngredient", function (req, res) {
+app.post("/addIngredient", ensureAuthenticated, function (req, res) {
   const ingredient = new Ingredients({
     name: req.body.ingredientName,
     unit: req.body.ingredientUnit,
@@ -463,11 +463,8 @@ app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
   });
 });
 
-app.post('/recipe/edit/:recipeID', async function(req, res){
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
-
+app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function(req, res){
+  
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
@@ -478,24 +475,42 @@ app.post('/recipe/edit/:recipeID', async function(req, res){
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
+  
+  if(!req.file){
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+    }});
+  }else{
+    const { originalname, mimetype, buffer } = req.file;
 
-  const { originalname, mimetype, buffer } = req.file;
-
-  let imageBuffer = buffer;
-  //Create a recipe object from submitted data
-  Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
-    name: recipeName,
-    description: recipeDescription,
-    toolsNeeded: tools,
-    ingredients: ingredients,
-    ingredientAmounts: ingredientAmounts,
-    instructions: instructions,
-    tags: tags,
-    mealType: mealType,
-    publicity: privacy,
-    thumbnail: imageBuffer,
-  }});
-  res.redirect('/dashboard');
+    let imageBuffer = buffer;
+    //Create a recipe object from submitted data
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+      thumbnail: imageBuffer,
+    }});
+  }
+  //save who created the recipe & timestamp to the database
+  let timestamp = new Date();
+  let userID = req.user.id;
+  Recipes.findOneAndUpdate({$and:{googleID: userID, recipeID: req.params.recipeID}, $set:{timestamp: timestamp}});
+  res.redirect("/dashboard");
 });
 
 app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,res){
@@ -578,7 +593,7 @@ app.get("/contact", (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
-app.post("/contactSubmit", async (req, res) => {
+app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
   //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;
