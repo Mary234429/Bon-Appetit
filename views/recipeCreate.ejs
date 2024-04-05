@@ -170,17 +170,30 @@
           url: url,
           data: $("#ingredientForm").serialize(),
           success: function (data) {
-            alert(data);
+            console.log(data);
+            let ingredient = JSON.parse(data);
+            console.log(ingredient);
+            $("#ingredientForm").css("display", "none");
+            let newIngredient = new Option(ingredient.name, ingredient._id, false, false);
+            newIngredient.setAttribute('data-unit', ingredient.unit);
+            let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
+            newSelectedIngredient.setAttribute('data-unit', ingredient.unit);
+            $('#ingredientList li .js-example-basic-single').each(function(){
+              if($(this).select2('data').at(0).element.value == "addIngredient"){
+                $(this).append(newSelectedIngredient).trigger('change');
+                $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
+              }
+              else{
+                $(this).append(newIngredient).trigger('change');
+              }
+            });
           },
         });
         return false;
       }
 
       $(document).ready(function () {
-        let ingredient = $("#ingredientList")
-          .children("li")
-          .eq(0)
-          .prop("outerHTML");
+        let ingredient = $("#ingredientList").children("li").children("select").eq(0).prop("outerHTML");
 
         $(".js-example-basic-single").select2();
 
@@ -195,22 +208,18 @@
 
         //Add an Ingredient field
         $("#addIngredient").click(function () {
-          $("#ingredientList").append($(ingredient));
+          let toAdd = '<li> <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <div style="display: inline"></div>' + ingredient + '<button type="button" onclick="deleteParent($(this))">Delete</button></li>'
+          $("#ingredientList").append($(toAdd));
           $(".js-example-basic-single").select2();
         });
         //Change ingredient field
         $("body").on("change", ".ingredient", function () {
-          if ($(this).select2().find(":selected").data("unit") == undefined) {
+          if ($(this).find(":selected").data("unit") == undefined) {
             $(this).siblings("div").text("");
           } else {
-            $(this)
-              .siblings("div")
-              .text(
-                " " + $(this).select2().find(":selected").data("unit") + " of "
-              );
+            $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
           }
-
-          if ($(this).select2().find(":selected").value == "addIngredient") {
+          if ($(this).select2('data').at(0).element.value == "addIngredient") {
             $("#ingredientForm").css("display", "block");
           }
         });
