@@ -131,7 +131,7 @@ function ensureAuthenticated(req, res, next) {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("login");
+    res.redirect("/login");
   }
 }
 
@@ -164,8 +164,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, async function (req, res) {
-  try {
-    const recipes = await Recipes.find();
+  try{
+  const privateRecipes = await CreatedRecipes.find({googleID: req.user.id})
+    let recipeIDs = [];
+    for(let i = 0; i < privateRecipes.length; i++){
+      recipeIDs.push(privateRecipes.at(i).recipeID);
+    }
+  const ingredients = await Ingredients.find();
+  const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
     let breakfastRecipes = [];
     let lunchRecipes = [];
     let dinnerRecipes = [];
@@ -186,14 +192,10 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         }
       }
     }
-
-
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
-    const recipeMemberMap = {}; // Map to store member names for each recipe
-    //console.log(members);
-    //console.log(createdRecipes);
-
+    // Map to store member names for each recipe
+    const recipeMemberMap = {}; 
     for (const createdRecipe of createdRecipes) {
       const { recipeID, googleID } = createdRecipe;
       const member = members.find(member => member.googleID === googleID);
@@ -205,20 +207,19 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         };      
       }
     }
-    console.log(recipeMemberMap);
-    console.log(breakfastRecipes);
 
     const joke = await getJoke();
 
     res.render("dashboard", {
       member: members,
       CRecipes: createdRecipes,
+      ingredients,
       breakfastRecipes,
       lunchRecipes,
       dinnerRecipes,
       snackRecipes,
       joke,
-      recipeMemberMap // Pass the map of recipe IDs to member names to the template
+      recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
   } catch (error) {
     console.error(error);
@@ -322,7 +323,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: req.user.picture,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -349,7 +350,7 @@ app.get("/register", (req, res) => {
             aboutMe: "About Me",
             profilePicture: imageBuffer,
           });
-          console.log(newMember);
+          //console.log(newMember);
           newMember
             .save()
             .then(() => {
@@ -368,7 +369,7 @@ app.get("/register", (req, res) => {
     });
   } else {
     // Redirect if not logged in
-    res.redirect("/failure");
+    res.redirect("/");
   }
 });
 app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
@@ -381,7 +382,7 @@ app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
+app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -391,18 +392,18 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   let recipeDescription = req.body.description;
   let tools = req.body.recipeTools;
   let ingredients = req.body.ingredients;
-  console.log(ingredients);
+  //console.log(ingredients);
   let ingredientAmounts = req.body.ingredientAmounts;
   let instructions = req.body.instructions;
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-
+  let imageBuffer="";
   const { originalname, mimetype, buffer } = req.file;
 
-  let imageBuffer = buffer;
-
+  imageBuffer = buffer;
   console.log("Uploaded image size:", imageBuffer.length, "bytes");
+  
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -428,11 +429,11 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     googleID: userID,
     timestamp: timestamp,
   });
-  createdRecipe.save();
-  res.redirect("/recipeCreate");
+  await createdRecipe.save();
+  res.redirect("/dashboard");
 });
 
-app.post("/addIngredient", function (req, res) {
+app.post("/addIngredient", ensureAuthenticated, function (req, res) {
   const ingredient = new Ingredients({
     name: req.body.ingredientName,
     unit: req.body.ingredientUnit,
@@ -440,15 +441,128 @@ app.post("/addIngredient", function (req, res) {
   });
   ingredient.save();
   res.end(
-    '{"ingredient":{"name":"' +
+    '{"_id":"' + ingredient._id + '",' + 
+      '"name":"' +
       req.body.ingredientName +
       '","unit":"' +
       req.body.ingredientUnit +
       '","caloriesPerUnit":' +
       req.body.caloriesPerUnit +
-      "}}"
+      "}"
   );
 });
+
+app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
+  let edit = true;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
+});
+
+app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function(req, res){
+  
+  //retrieve variables from request
+  let recipeName = req.body.recipeName;
+  let recipeDescription = req.body.description;
+  let tools = req.body.recipeTools;
+  let ingredients = req.body.ingredients;
+  let ingredientAmounts = req.body.ingredientAmounts;
+  let instructions = req.body.instructions;
+  let tags = req.body.recipeTags;
+  let mealType = req.body.mealType;
+  let privacy = req.body.privacyLevel;
+  
+  if(!req.file){
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+    }});
+  }else{
+    const { originalname, mimetype, buffer } = req.file;
+
+    let imageBuffer = buffer;
+    //Create a recipe object from submitted data
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+      thumbnail: imageBuffer,
+    }});
+  }
+  //save who created the recipe & timestamp to the database
+  let timestamp = new Date();
+  let userID = req.user.id;
+  Recipes.findOneAndUpdate({$and:{googleID: userID, recipeID: req.params.recipeID}, $set:{timestamp: timestamp}});
+  res.redirect("/dashboard");
+});
+
+app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,res){
+  let edit = false;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
+});
+
+app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
+  const recipeID = req.params.recipeId;
+    Recipes.findOne({_id: recipeID}).then(function(theRecipe){
+      Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
+        CreatedRecipes.find({recipeID: recipeID}).then(function(createdRecipe){
+          Member.find().then(function(members){
+            Comment.find({recipeID: recipeID}).then(function(createdComments){
+              const commentMemberMap = {}; // Map to store member names for each comment
+  
+              for (const createdComment of createdComments) {
+                const {_id, authorID } = createdComment;
+                const member = members.find(member => member.googleID === authorID);
+                if (member) {
+                  commentMemberMap[createdComment._id] = {
+                    firstName: member.firstName,
+                    lastName: member.lastName,
+                    profilePicture: member.profilePicture, 
+                  };      
+                }
+              }
+              res.render("recipe.ejs", {
+                recipe: theRecipe,
+                ingredients: ingredients,
+                map: commentMemberMap,
+                comments: createdComments,
+                picture: req.user.picture,
+                author: req.user.id,
+                createdRecipe: createdRecipe,
+                members: members,
+              });
+            })
+          })
+        })
+      })
+    })
+  })
+
+
+    
 
 app.get("/image/:recipeId", async (req, res) => {
   try {
@@ -479,8 +593,8 @@ app.get("/contact", (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
-app.post("/contactSubmit", async (req, res) => {
-  console.log("Received request at /contactSubmit with data:", req.body);
+app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
+  //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;
   let message = req.body.message;
@@ -532,7 +646,7 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       // order them
       .sort({ timestamp: -1 })
       .limit(3);
-    console.log(recentRecipes);
+    //console.log(recentRecipes);
     // render page
     res.render("profile", {
       user: req.user,
@@ -607,7 +721,7 @@ app.get("/comments", ensureAuthenticated, async function (req, res) {
   });
 });
 
-app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
+app.post("/commentSubmit/:recipeID", ensureAuthenticated, function (req, res) {
   let recipeid = req.body.recipeID;
   let authorid = req.body.authorID;
   let message = req.body.message;
@@ -622,7 +736,7 @@ app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
     .save()
     .then(() => {
       // If the comment was created successfully, redirect to the comments page or wherever
-      res.redirect("/comments");
+      res.redirect("/recipe/" + recipeid);
     })
     .catch((err) => {
       console.log("Error creating new comment: ", err);
@@ -630,6 +744,22 @@ app.post("/commentSubmit", ensureAuthenticated, function (req, res) {
     });
 });
 
+app.post("/deleteComment/:recipeID", ensureAuthenticated, async function (req, res) {
+  let recipeid = req.body.recipeID;
+  try {
+    const commentID = req.body.commentID;
+    const deletedComment = await Comment.findByIdAndDelete(commentID);
+    if (!deletedComment) {
+      // If the comment was not found, respond with an error
+      return res.status(404).send("Comment not found");
+    }
+    // If the comment was deleted successfully, redirect to the comments page or wherever
+    res.redirect("/recipe/" + recipeid);
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
   try {
     const commentID = req.body.commentID;

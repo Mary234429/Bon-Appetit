@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="comment.css" />
+    <title><%= recipe.name %> </title>
+    <link rel="stylesheet" type="text/css" href="/recipe.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comment Testing page</title>
+    
 
     <!-- we love math -- no touch -->
     <%function timeAgo(timestamp) {
@@ -27,13 +28,70 @@
             return 'Just now';
         }
     } %>
-</head>
+    <% const formattedDate = createdRecipe[0].timestamp.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); %>
+    <% const formattedTime = createdRecipe[0].timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' }); %>
+    <!-- ok you can touch below here :) -->
 
+</head>
 <body>
     <form action="/dashboard" method="get">
         <button type="submit">Go to Main Page</button>
     </form>
-    <p>This is the Comment Testing Page. Leave a comment below</p>
+    
+    <% if (createdRecipe[0].googleID == author) { %>
+        <form action="/recipe/edit/<%= recipe.id %>" method="get">
+            <button type="submit">Edit Recipe</button>
+        </form>
+    <% } else { %> 
+        <form action="/recipe/customize/<%= recipe.id %>" method="get">
+            <button type="submit">Customize Recipe</button>
+        </form>
+    <% } %>
+    
+    <h1><%= recipe.name %></h1>
+    <p>Posted at <%= formattedTime %> on <%= formattedDate %></p>
+    <% members.forEach(function(members) { %>
+        <% if (members.googleID === createdRecipe[0].googleID) { %>
+            <p>This wonderful recipe was authored by: <img src="<%= members.profilePicture %>" alt="Profile Picture of recipe creator" class="author-profile-picture"> <%= members.firstName %> <%= members.lastName %></p>
+            
+        <% } %>
+    <% }); %>
+    <p><%= recipe.description %></p>
+    <hr>
+    <h2>Recipe Details:</h2>
+    <% if (recipe.toolsNeeded != "") { %>
+        <h3>Tools Needed:</h3>
+        <p><%= recipe.toolsNeeded.join(", ") %></p>
+    <% } %>
+    <h3>Ingredients:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ingredients.forEach(function(ingredient, index) { %>
+                <tr>
+                    <td><%= ingredient.name %></td>
+                    <td><%= recipe.ingredientAmounts[index] %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <h3>Instructions:</h3>
+    <ol>
+        <% for (let i = 0; i < recipe.instructions.length; i++) { %>
+            <li><%= recipe.instructions[i] %></li>
+        <% } %>
+    </ol>
+    <h3>Tags:</h3>
+    <p><%= recipe.tags.join(", ") %></p>
+    <h3>Meal Type:</h3>
+    <p><%= recipe.mealType %></p>
+    <hr>
+
     <div class="comment-container">
         <% if (picture) { %>
             <img src="<%= picture %>" alt="Profile Picture" class="profile-picture">
@@ -41,14 +99,15 @@
             <!-- picture should always exist but who knows -->
             <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
         <% } %> 
-        <form action="/commentSubmit" method="post" class="comment-form">
+        <form action="/commentSubmit/<%=recipe.id%>" method="post" class="comment-form">
             <!-- edit below line to actually use recipe ID -->
-            <input type="hidden" name="recipeID" id="recipeID" value="1"><br>
+            <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
             <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
             <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
             <input type="submit" value="Submit">
         </form>
     </div>
+</br>
         <table>
             <thead>
                 <tr>
@@ -59,7 +118,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(let i=0; i < comments.length; i++) { %>
+                <% for(let i = comments.length-1; i >= 0; i--) { %>
                     <% const authorDetails = map[comments[i]._id]; %>
                     <tr>
                         <td>
@@ -82,7 +141,8 @@
                         <td>
                             <% if (author && comments[i].authorID === author) { %>
                               <!-- Show delete button if the current user is the author of the comment -->
-                              <form action="/deleteComment" method="post">
+                              <form action="/deleteComment/<%=recipe.id%>" method="post">
+                                <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
                                 <input type="hidden" name="commentID" value="<%= comments[i]._id %>">
                                 <button type="submit">Delete</button>
                               </form>
@@ -92,4 +152,5 @@
                 <% }; %>
             </tbody>
         </table>
+
 </body>

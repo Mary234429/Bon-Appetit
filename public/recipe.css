@@ -1,0 +1,24 @@
+.comment-container {
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .profile-picture {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px; /* Add some space between the image and the form */
+    border-radius: 50%; /* Set border-radius to 50% to make it a circle */
+    overflow: hidden; /* Hide overflow to ensure the image remains within the circle */
+  }
+
+  .author-profile-picture {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; /* Set border-radius to 50% to make it a circle */
+    overflow: hidden; /* Hide overflow to ensure the image remains within the circle */
+  }
+
+  
+  .comment-form {
+    flex: 1; /* Take remaining space in the flex container */
+  }

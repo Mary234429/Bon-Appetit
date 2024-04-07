@@ -1,7 +1,9 @@
 <!-- dashboard.ejs -->
 <html>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href='https://fonts.googleapis.com/css?family=Lovers Quarrel' rel='stylesheet'>
+
+
 
 <head>
   <meta charset="UTF-8" />
@@ -44,11 +46,11 @@
     </ul>
   </nav>
 
- <!-- Jokebar -->
- <div class="navbar">
-  <%= joke.joke %>
-</div> 
-    
+  <!-- Jokebar -->
+  <div class="navbar">
+    <%= joke.joke %>
+  </div>
+
 
   <div class="bottomPanel">
     <div class="dashboard_pic"></div>
@@ -63,213 +65,324 @@
 
   <div class="inputField">
 
-    <input type="text" class="SearchTextBox" placeholder="Search for recipe" name="search" id="search" onchange="filterRecipes(this.value)"/>
+    <input type="text" class="SearchTextBox" placeholder="Search for recipe" name="search" id="search"
+      onchange="filterRecipes(this.value)" />
   </div>
 
   <!-- Recipe container -->
   <div class="recipeContainer">
 
-    <!-- Breakfast recipes -->
-    <div class="breakfastContainer">
-      <h4>Breakfast</h4>
-      <div class="recipeWrapper">
-        <% for(let i=0; i < breakfastRecipes.length; i++) { %>
-          <a href="/recipe/<%=breakfastRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-          <% let recipeData = ""; recipeData += breakfastRecipes.at(i).name + "\n" + breakfastRecipes.at(i).description;%>
-          <!--tools-->
-          <% if(typeof breakfastRecipes.at(i).tools !== 'undefined') for(let j = 0; j < breakfastRecipes.at(i).tools.length; j++){recipeData += breakfastRecipes.at(i).tools.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--ingredients-->
-          <% for(let j = 0; j < breakfastRecipes.at(i).ingredients.length; j++){recipeData += breakfastRecipes.at(i).ingredients.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--instructions-->
-          <% for(let j = 0; j < breakfastRecipes.at(i).instructions.length; j++){recipeData += breakfastRecipes.at(i).instructions.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--tags-->
-          <% for(let j = 0; j < breakfastRecipes.at(i).tags.length; j++){recipeData += breakfastRecipes.at(i).tags.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--mealType-->
-          <% recipeData += "Breakfast";%>
-          <div data-recipe="<%= recipeData %>" class="recipeBreakfast">
-            <h7 class="breakfast-recipe-name">
-              <%= breakfastRecipes.at(i).name %>
-            </h7>
-            <% const creatorDetails = recipeMemberMap[breakfastRecipes[i]._id]; %>
-              <div class="creator-info">
-                  <% if (creatorDetails.profilePicture) { %>
-                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
-                  <% } %>
-                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
-              </div>
-            <!-- If image does not have an image need default image loaded instead-->
-            <% if(breakfastRecipes[i].thumbnail == null) { %>
-              <img src="plate.png" class="recipeBreakfastPic"alt="<%= breakfastRecipes[i].name %> Thumbnail">
-            <% } else { %> 
-              <img src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>" alt="<%= breakfastRecipes[i].name %> Thumbnail" class="recipeBreakfastPic"> 
-            <% } %>
-          </div> <!-- data-recipe-->
-        <% } %>
-      </div> <!-- end recipe wrapper-->
-    </div> <!-- breakfast container-->
-    
-    <!-- Lunch recipes -->
-    <div class="lunchContainer">
-      <h4>Lunch</h4>
-      <div class="recipeWrapper">
-        <% for(let i=0; i < lunchRecipes.length; i++){%>
-          <a href="/recipe/<%=lunchRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-          <% let recipeData = ""; recipeData += lunchRecipes.at(i).name + "\n" + lunchRecipes.at(i).description;%>
-          <!--tools-->
-          <% if(typeof lunchRecipes.at(i).tools !== 'undefined') for(let j = 0; j < lunchRecipes.at(i).tools.length; j++){recipeData += lunchRecipes.at(i).tools.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--ingredients-->
-          <% for(let j = 0; j < lunchRecipes.at(i).ingredients.length; j++){recipeData += lunchRecipes.at(i).ingredients.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--instructions-->
-          <% for(let j = 0; j < lunchRecipes.at(i).instructions.length; j++){recipeData += lunchRecipes.at(i).instructions.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--tags-->
-          <% for(let j = 0; j < lunchRecipes.at(i).tags.length; j++){recipeData += lunchRecipes.at(i).tags.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--mealType-->
-          <% recipeData += "Lunch";%>
-          <div data-recipe="<%= recipeData %>" class="recipeLunch">
-            <h7 class="lunch-recipe-name">
-              <%=lunchRecipes.at(i).name%>
-            </h7>
-            <% const creatorDetails = recipeMemberMap[lunchRecipes[i]._id]; %>
-              <div class="creator-info">
-                  <% if (creatorDetails.profilePicture) { %>
-                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
-                  <% } %>
-                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
-              </div>
-            <!-- If image does not have an image need default image loaded instead-->
-            <% if(lunchRecipes[i].thumbnail == null) { %>
-              <img src="plate.png" class="recipeLunchPic" alt="<%= lunchRecipes[i].name %> Thumbnail">
-            <% } else { %> 
-              <img src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>" class="recipeLunchPic" alt="<%= lunchRecipes[i].name %> Thumbnail"> 
-             <% } %>
-          </div>
-        <% } %>
-      </div>
-    </div>  <!-- lunch container-->
+    <div class="breakfastCarousel">
+      <span class="carousel-title">Breakfast</span>
+      <!-- Left scroll button -->
+      <button class="scroll-button left-scroll" onclick=>&#10094;</button>
+      <!-- breakfast container -->
+      <!-- <h4>Breakfast</h4> -->
+      <div class="breakfastContainer">
+        <!-- Carousel Wrapper -->
+        <div class="recipeWrapper">
 
-    <!-- Dinner recipes -->
-    <div class="dinnerContainer">
-      <h4>Dinner</h4>
-      <div class="recipeWrapper">
-        <% for(let i=0; i < dinnerRecipes.length; i++){%>
-          <a href="/recipe/<%=dinnerRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-          <% let recipeData = ""; recipeData += dinnerRecipes.at(i).name + "\n" + dinnerRecipes.at(i).description;%>
-          <!--tools-->
-          <% if(typeof dinnerRecipes.at(i).tools !== 'undefined'){ for(let j = 0; j < dinnerRecipes.at(i).tools.length; j++){recipeData += dinnerRecipes.at(i).tools.at(j) + ",";}}%>
-          <% recipeData += "\n";%>
-          <!--ingredients-->
-          <% for(let j = 0; j < dinnerRecipes.at(i).ingredients.length; j++){recipeData += dinnerRecipes.at(i).ingredients.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--instructions-->
-          <% for(let j = 0; j < dinnerRecipes.at(i).instructions.length; j++){recipeData += dinnerRecipes.at(i).instructions.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--tags-->
-          <% for(let j = 0; j < dinnerRecipes.at(i).tags.length; j++){recipeData += dinnerRecipes.at(i).tags.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--mealType-->
-          <% recipeData += "Dinner";%>
-          <div data-recipe="<%= recipeData %>" class="recipeDinner">
-            <h7 class="dinner-recipe-name">
-              <%=dinnerRecipes.at(i).name%>
-            </h7>
-            <% const creatorDetails = recipeMemberMap[dinnerRecipes[i]._id]; %>
-              <div class="creator-info">
-                  <% if (creatorDetails.profilePicture) { %>
-                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
-                  <% } %>
-                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
-              </div>
-            <!-- If image does not have an image need default image loaded instead-->
-            <% if(dinnerRecipes[i].thumbnail == null) { %>
-              <img src="plate.png" class="recipeDinnerPic" alt=" <%= dinnerRecipes[i].name %> Thumbnail">
-            <% } else { %> 
-              <img src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>" class="recipeDinnerPic" alt="<%= dinnerRecipes[i].name %> Thumbnail" >  
-            <% } %>
-          </div>
+          <% for(let i=0; i < breakfastRecipes.length; i++) { %>
+            <a href="/recipe/<%=breakfastRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
 
-        <% } %>
+              <% let recipeData="" ; recipeData +=breakfastRecipes.at(i).name + "\n" +
+                breakfastRecipes.at(i).description;%>
+                <!--tools-->
+                <% if(typeof breakfastRecipes.at(i).tools !=='undefined' ) for(let j=0; j <
+                  breakfastRecipes.at(i).tools.length; j++){recipeData +=breakfastRecipes.at(i).tools.at(j) + "," ;}%>
+                  <% recipeData +="\n" ;%>
+                    <!--ingredients-->
+                    <% for(let j=0; j < breakfastRecipes.at(i).ingredients.length; j++){ %>
+                      <% var ingredientId=breakfastRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=>
+                        item.id === ingredientId);
+                        if (ingredient) {
+                        ingredient = ingredient.name;
+                        } else {
+                        ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                        <% } %>
+                          <% recipeData +="\n" ;%>
+                            <!--instructions-->
+                            <% for(let j=0; j < breakfastRecipes.at(i).instructions.length; j++){recipeData
+                              +=breakfastRecipes.at(i).instructions.at(j) + "," ;}%>
+                              <% recipeData +="\n" ;%>
+                                <!--tags-->
+                                <% for(let j=0; j < breakfastRecipes.at(i).tags.length; j++){recipeData
+                                  +=breakfastRecipes.at(i).tags.at(j) + "," ;}%>
+                                  <% recipeData +="\n" ;%>
+                                    <!--mealType-->
+                                    <% recipeData +="Breakfast" ;%>
+                                      <div data-recipe="<%= recipeData %>" class="recipeBreakfast">
+                                        <!-- If image does not have an image need default image loaded instead-->
+                                        <% if(breakfastRecipes[i].thumbnail==null) { %>
+                                          <img src="plate.png" class="recipeBreakfastPic"
+                                            alt="<%= breakfastRecipes[i].name %> Thumbnail">
+                                          <% } else { %>
+                                            <img
+                                              src="data:image/jpeg;base64,<%= breakfastRecipes[i].thumbnail.toString('base64') %>"
+                                              class="recipeBreakfastPic"
+                                              alt="<%= breakfastRecipes[i].name %> Thumbnail">
+                                            <% } %>
+                                              <h7 class="breakfast-recipe-name">
+                                                <%= breakfastRecipes.at(i).name %>
+                                              </h7>
+                                              <% const creatorDetails=recipeMemberMap[breakfastRecipes[i]._id]; %>
+                                                <div class="creator-info">
+                                                  <% if (creatorDetails.profilePicture) { %>
+                                                    <img src="<%= creatorDetails.profilePicture %>"
+                                                      alt="<%= creatorDetails.name %> Thumbnail">
+                                                    <% } %>
+                                                      <p>
+                                                        <%= creatorDetails.firstName %>
+                                                          <%= creatorDetails.lastName %>
+                                                      </p>
+                                                </div>
+
+                                      </div> <!-- data-recipe-->
+                                      <% } %>
+            </a>
+        </div> <!-- end recipe wrapper-->
       </div>
+      <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
-    <!-- Snacks recipes -->
-    <div class="snacksContainer">
-      <h4>Snacks</h4>
-      <div class="recipeWrapper">
-        <% for(let i=0; i < snackRecipes.length; i++){%>
-          <a href="/recipe/<%=snackRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-          <% let recipeData = ""; recipeData += snackRecipes.at(i).name + "\n" + snackRecipes.at(i).description;%>
-          <!--tools-->
-          <% if(typeof snackRecipes.at(i).tools !== 'undefined') {for(let j = 0; j < snackRecipes.at(i).tools.length; j++){recipeData += snackRecipes.at(i).tools.at(j) + ",";}}%>
-          <% recipeData += "\n";%>
-          <!--ingredients-->
-          <% for(let j = 0; j < snackRecipes.at(i).ingredients.length; j++){recipeData += snackRecipes.at(i).ingredients.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--instructions-->
-          <% for(let j = 0; j < snackRecipes.at(i).instructions.length; j++){recipeData += snackRecipes.at(i).instructions.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--tags-->
-          <% for(let j = 0; j < snackRecipes.at(i).tags.length; j++){recipeData += snackRecipes.at(i).tags.at(j) + ",";}%>
-          <% recipeData += "\n";%>
-          <!--mealType-->
-          <% recipeData += "Snack";%>
-          <div data-recipe="<%= recipeData %>" class="recipeSnacks">
-            <h7 class="snack-recipe-name">
-              <%=snackRecipes.at(i).name%>
-            </h7>
-            <% const creatorDetails = recipeMemberMap[snackRecipes[i]._id]; %>
-              <div class="creator-info">
-                  <% if (creatorDetails.profilePicture) { %>
-                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.name %> Thumbnail"> 
-                  <% } %>
-                  <p><%= creatorDetails.firstName %> <%= creatorDetails.lastName %></p>
-              </div>
-            <!-- If image does not have an image need default image loaded instead-->
-            <% if(snackRecipes[i].thumbnail == null) { %>
-              <img src="plate.png" class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail" > 
-            <% } else { %> 
-              <img src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>" class="recipeSnacksPic" alt="<%= dinnerRecipes[i].name %> Thumbnail">  
-            <% } %>
-          </div>
-        <% } %>
+
+
+    <div class="lunchCarousel">
+      <span class="carousel-title">Lunch</span>
+      <button class="scroll-button left-scroll">&#10094;</button>
+      <!-- Lunch recipes -->
+      <!-- <h4>Lunch</h4> -->
+      <div class="lunchContainer">
+
+        <div class="recipeWrapper">
+          <% for(let i=0; i < lunchRecipes.length; i++){%>
+            <a href="/recipe/<%=lunchRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
+              <% let recipeData="" ; recipeData +=lunchRecipes.at(i).name + "\n" + lunchRecipes.at(i).description;%>
+                <!--tools-->
+                <% if(typeof lunchRecipes.at(i).tools !=='undefined' ) for(let j=0; j < lunchRecipes.at(i).tools.length;
+                  j++){recipeData +=lunchRecipes.at(i).tools.at(j) + "," ;}%>
+                  <% recipeData +="\n" ;%>
+                    <!--ingredients-->
+                    <% for(let j=0; j < lunchRecipes.at(i).ingredients.length; j++){ %>
+                      <% var ingredientId=lunchRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=> item.id
+                        === ingredientId);
+                        if (ingredient) {
+                        ingredient = ingredient.name;
+                        } else {
+                        ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                        <% } %>
+                          <% recipeData +="\n" ;%>
+                            <!--instructions-->
+                            <% for(let j=0; j < lunchRecipes.at(i).instructions.length; j++){recipeData
+                              +=lunchRecipes.at(i).instructions.at(j) + "," ;}%>
+                              <% recipeData +="\n" ;%>
+                                <!--tags-->
+                                <% for(let j=0; j < lunchRecipes.at(i).tags.length; j++){recipeData
+                                  +=lunchRecipes.at(i).tags.at(j) + "," ;}%>
+                                  <% recipeData +="\n" ;%>
+                                    <!--mealType-->
+                                    <% recipeData +="Lunch" ;%>
+                                      <div data-recipe="<%= recipeData %>" class="recipeLunch">
+
+                                        <!-- If image does not have an image need default image loaded instead-->
+                                        <% if(lunchRecipes[i].thumbnail==null) { %>
+                                          <img src="plate.png" class="recipeLunchPic"
+                                            alt="<%= lunchRecipes[i].name %> Thumbnail">
+                                          <% } else { %>
+                                            <img
+                                              src="data:image/jpeg;base64,<%= lunchRecipes[i].thumbnail.toString('base64') %>"
+                                              class="recipeLunchPic" alt="<%= lunchRecipes[i].name %> Thumbnail">
+                                            <% } %>
+                                              <h7 class="lunch-recipe-name">
+                                                <%=lunchRecipes.at(i).name%>
+                                              </h7>
+                                              <% const creatorDetails=recipeMemberMap[lunchRecipes[i]._id]; %>
+                                                <div class="creator-info">
+                                                  <% if (creatorDetails.profilePicture) { %>
+                                                    <img src="<%= creatorDetails.profilePicture %>"
+                                                      alt="<%= creatorDetails.name %> Thumbnail">
+                                                    <% } %>
+                                                      <p>
+                                                        <%= creatorDetails.firstName %>
+                                                          <%= creatorDetails.lastName %>
+                                                      </p>
+                                                </div>
+
+                                      </div>
+                                      <% } %>
+            </a>
+        </div>
+
+
+
       </div>
-    </div>  
+      <button class="scroll-button right-scroll">&#10095;</button>
+      <!-- end of the lunch container-->
+    </div>
+
+
+
+    <div class="dinnerCarousel">
+      <span class="carousel-title">Dinner</span>
+      <button class="scroll-button left-scroll">&#10094;</button>
+      <!-- Dinner recipes -->
+      <!-- <h4>Dinner</h4> -->
+      <div class="dinnerContainer">
+
+        <div class="recipeWrapper">
+          <% for(let i=0; i < dinnerRecipes.length; i++){%>
+            <a href="/recipe/<%=dinnerRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
+              <% let recipeData="" ; recipeData +=dinnerRecipes.at(i).name + "\n" + dinnerRecipes.at(i).description;%>
+                <!--tools-->
+                <% if(typeof dinnerRecipes.at(i).tools !=='undefined' ){ for(let j=0; j <
+                  dinnerRecipes.at(i).tools.length; j++){recipeData +=dinnerRecipes.at(i).tools.at(j) + "," ;}}%>
+                  <% recipeData +="\n" ;%>
+                    <!--ingredients-->
+                    <% for(let j=0; j < dinnerRecipes.at(i).ingredients.length; j++){ %>
+                      <% var ingredientId=dinnerRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=>
+                        item.id
+                        === ingredientId);
+                        if (ingredient) {
+                        ingredient = ingredient.name;
+                        } else {
+                        ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                        <% } %>
+                          <% recipeData +="\n" ;%>
+                            <!--instructions-->
+                            <% for(let j=0; j < dinnerRecipes.at(i).instructions.length; j++){recipeData
+                              +=dinnerRecipes.at(i).instructions.at(j) + "," ;}%>
+                              <% recipeData +="\n" ;%>
+                                <!--tags-->
+                                <% for(let j=0; j < dinnerRecipes.at(i).tags.length; j++){recipeData
+                                  +=dinnerRecipes.at(i).tags.at(j) + "," ;}%>
+                                  <% recipeData +="\n" ;%>
+                                    <!--mealType-->
+                                    <% recipeData +="Dinner" ;%>
+                                      <div data-recipe="<%= recipeData %>" class="recipeDinner">
+                                        <!-- If image does not have an image need default image loaded instead-->
+                                        <% if(dinnerRecipes[i].thumbnail==null) { %>
+                                          <img src="plate.png" class="recipeDinnerPic"
+                                            alt=" <%= dinnerRecipes[i].name %> Thumbnail">
+                                          <% } else { %>
+                                            <img
+                                              src="data:image/jpeg;base64,<%= dinnerRecipes[i].thumbnail.toString('base64') %>"
+                                              class="recipeDinnerPic" alt="<%= dinnerRecipes[i].name %> Thumbnail">
+                                            <% } %>
+                                              <h7 class="dinner-recipe-name">
+                                                <%=dinnerRecipes.at(i).name%>
+                                              </h7>
+                                              <% const creatorDetails=recipeMemberMap[dinnerRecipes[i]._id]; %>
+                                                <div class="creator-info">
+                                                  <% if (creatorDetails.profilePicture) { %>
+                                                    <img src="<%= creatorDetails.profilePicture %>"
+                                                      alt="<%= creatorDetails.name %> Thumbnail">
+                                                    <% } %>
+                                                      <p>
+                                                        <%= creatorDetails.firstName %>
+                                                          <%= creatorDetails.lastName %>
+                                                      </p>
+                                                </div>
+
+                                      </div>
+
+                                      <% } %>
+            </a>
+        </div>
+      </div>
+      <button class="scroll-button right-scroll">&#10095;</button>
+    </div>
+
+
+    <div class="snacksCarousel">
+      <span class="carousel-title">Snacks</span>
+      <button class="scroll-button left-scroll">&#10094;</button>
+      <!-- Snacks recipes -->
+      <!-- <h4>Snacks</h4> -->
+      <div class="snacksContainer">
+
+        <div class="recipeWrapper">
+          <% for(let i=0; i < snackRecipes.length; i++){%>
+            <a href="/recipe/<%=snackRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
+
+              <% let recipeData="" ; recipeData +=snackRecipes.at(i).name + "\n" + snackRecipes.at(i).description;%>
+                <!--tools-->
+                <% if(typeof snackRecipes.at(i).tools !=='undefined' ) {for(let j=0; j <
+                  snackRecipes.at(i).tools.length; j++){recipeData +=snackRecipes.at(i).tools.at(j) + "," ;}}%>
+                  <% recipeData +="\n" ;%>
+                    <!--ingredients-->
+                    <% for(let j=0; j < snackRecipes.at(i).ingredients.length; j++){ %>
+                      <% var ingredientId=snackRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=> item.id
+                        === ingredientId);
+                        if (ingredient) {
+                        ingredient = ingredient.name;
+                        } else {
+                        ingredient = 'Unknown Ingredient';
+                        }
+                        recipeData += ingredient + "," ; %>
+                        <% } %>
+                          <% recipeData +="\n" ;%>
+                            <!--instructions-->
+                            <% for(let j=0; j < snackRecipes.at(i).instructions.length; j++){
+                              recipeData+=snackRecipes.at(i).instructions.at(j) + "," ;}%>
+                              <% recipeData +="\n" ;%>
+                                <!--tags-->
+                                <% for(let j=0; j < snackRecipes.at(i).tags.length; j++){
+                                  recipeData+=snackRecipes.at(i).tags.at(j) + "," ; }%>
+                                  <% recipeData +="\n" ;%>
+                                    <!--mealType-->
+                                    <% recipeData +="Snack" ;%>
+                                      <div data-recipe="<%= recipeData %>" class="recipeSnacks">
+                                        <!-- If image does not have an image need default image loaded instead-->
+                                        <% if(snackRecipes[i].thumbnail==null) { %>
+                                          <img src="plate.png" class="recipeSnacksPic"
+                                            alt="<%= snackRecipes[i].name %> Thumbnail">
+                                          <% } else { %>
+                                            <img
+                                              src="data:image/jpeg;base64,<%= snackRecipes[i].thumbnail.toString('base64') %>"
+                                              class="recipeSnacksPic" alt="<%= snackRecipes[i].name %> Thumbnail">
+                                            <% } %>
+                                              <h7 class="snack-recipe-name">
+                                                <%=snackRecipes.at(i).name%>
+                                              </h7>
+                                              <% const creatorDetails=recipeMemberMap[snackRecipes[i]._id]; %>
+                                                <div class="creator-info">
+                                                  <% if (creatorDetails.profilePicture) { %>
+                                                    <img src="<%= creatorDetails.profilePicture %>"
+                                                      alt="<%= creatorDetails.name %> Thumbnail">
+                                                    <% } %>
+                                                      <p>
+                                                        <%= creatorDetails.firstName %>
+                                                          <%= creatorDetails.lastName %>
+                                                      </p>
+                                                </div>
+
+                                      </div>
+                                      <% } %>
+            </a>
+        </div>
+      </div>
+      <button class="scroll-button right-scroll">&#10095;</button>
+    </div>
 
   </div> <!-- recipe container end-->
 </body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script>
-    $(document).ready(function(){
-      $("#search").on('keyup', function(){
-        let filterText = $(this).val();
-        filterArray = filterText.split(" ");
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#search").on('keyup', function () {
+      let filterText = $(this).val();
+      filterArray = filterText.split(" ");
       //Search breakfast recipes
       $(".recipeBreakfast").each(function (i, obj) {
         $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
-      $(".recipeBreakfastPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
+        for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
           let upSearch = new RegExp(upText);
           let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
@@ -285,7 +398,7 @@
       //Search lunch recipes
       $(".recipeLunch").each(function (i, obj) {
         $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
+        for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
           let upSearch = new RegExp(upText);
           let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
@@ -298,25 +411,11 @@
           }
         }
       });
-      $(".recipeLunchPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
+
       //Search dinner recipes
       $(".recipeDinner").each(function (i, obj) {
         $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
+        for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
           let upSearch = new RegExp(upText);
           let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
@@ -329,25 +428,11 @@
           }
         }
       });
-      $(".recipeDinnerPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
+
       //Search snack recipes
-      $(".recipeSnack").each(function (i, obj) {
+      $(".recipeSnacks").each(function (i, obj) {
         $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
+        for (let i = 0; i < filterArray.length; i++) {
           let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
           let upSearch = new RegExp(upText);
           let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
@@ -359,23 +444,55 @@
             $(this).css("display", "none");
           }
         }
-      });
-      $(".recipeSnackPic").each(function (i, obj) {
-        $(this).css("display", "block");
-        for(let i = 0; i < filterArray.length; i++){
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
       });
     });
-  </script>
+  });
+
+  //recipes scrolling
+  document.addEventListener('DOMContentLoaded', function () {
+    // Breakfast Container Scroll
+    const breakfastContainer = document.querySelector('.breakfastContainer');
+
+    document.querySelector('.breakfastCarousel .left-scroll').addEventListener('click', function () {
+      // Scroll left
+      breakfastContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+
+    document.querySelector('.breakfastCarousel .right-scroll').addEventListener('click', function () {
+      // Scroll right
+      breakfastContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
+
+    // Lunch Container Scroll
+    const lunchContainer = document.querySelector('.lunchContainer');
+    document.querySelector('.lunchCarousel .left-scroll').addEventListener('click', function () {
+      lunchContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+    document.querySelector('.lunchCarousel .right-scroll').addEventListener('click', function () {
+      lunchContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
+
+    // Dinner Container Scroll
+    const dinnerContainer = document.querySelector('.dinnerContainer');
+    document.querySelector('.dinnerCarousel .left-scroll').addEventListener('click', function () {
+      dinnerContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+    document.querySelector('.dinnerCarousel .right-scroll').addEventListener('click', function () {
+      dinnerContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
+
+    // Snacks Container Scroll
+    const snacksContainer = document.querySelector('.snacksContainer');
+    document.querySelector('.snacksCarousel .left-scroll').addEventListener('click', function () {
+      snacksContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+    document.querySelector('.snacksCarousel .right-scroll').addEventListener('click', function () {
+      snacksContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
+
+  });
+
+
+</script>
+
 </html>

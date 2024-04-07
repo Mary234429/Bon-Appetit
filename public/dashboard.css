@@ -1,31 +1,28 @@
 .black-rectangle-top {
   width: 100%;
-  height: 30px; /* Adjust height as needed */
+  height: 20px; 
   background-color: black;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999; /* Ensure it appears above other content */
+  z-index: 9999;
 }
 .dashboard-page {
-  background-color: #d9d9d9;
+  background-color: #f0f0f0;
   width: 100%;
   height: 100%;
-  /* font-family: Lustria; */
 }
-/* dashboard.css */
-
 /* Navbar styles */
 .navbar {
-  background-color: #d9d9d9; /* Navbar background color */
+  background-color: #f0f0f0; /* Navbar background color */
   padding: 10px; /* Padding around navbar */
-  margin-top: 30px;
+  margin-top: 10px;
   text-align: center;
   /* position: fixed; */
 }
 
 .navbar ul {
-  list-style-type: none; /* Remove default bullet points */
+  list-style-type: none; 
   margin-top: 0;
   padding: 0;
 }
@@ -38,21 +35,20 @@
 .navbar ul li a {
   color: rgb(0, 0, 0); /* Text color of navbar links */
   font-family: Lustria;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
   text-decoration: none;
-  padding:19px;
+  padding:17px;
 }
 .navbar ul li a:hover {
   background-color: #94a874af;
-  border-radius: 10px;
+  border-radius: 15px;
 
 }
 /* Dropdown Menu */
 .dropdown {
   position: relative;
   display: inline-block;
-  /* background-color:pink; */
 }
 
 .dropdown-content {
@@ -62,7 +58,7 @@
   transform: translateX(-50%); /* Center the menu horizontally */
   top: 150%; /* Position the top edge of the menu below the parent */
   background-color: #f9f9f9f5;
-  min-width: 160px;
+  min-width: 150px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
   z-index: 1;
 }
@@ -88,16 +84,16 @@
   align-items: center;
   width: 100%;
   height: 40%;
-  background-color: #d9d9d9;
+  background-color: #f0f0f0;
 }
 
 .wheat_1,
 .wheat_2 {
   flex: 0 0 auto;
-  width: 200px;
-  height: 200px;
+  width: 110px;
+  height: 110px;
   background-size: cover;
-  margin: 0 10px; 
+  margin: 5px 3px 20px;
 }
 
 .wheat_1 {
@@ -114,22 +110,22 @@ header {
 }
 
 h1 {
-  margin-bottom: -20px;
-  margin-top: -45px;
+  margin-bottom: -10px;
+  margin-top: -73px;
   font-family: Lustria;
-  font-size: 76px; /* Adjust the font size */
+  font-size: 60px; /* Adjust the font size */
   font-weight: lighter; /* Make the font weight lighter */
   letter-spacing: 2px; /* Add letter spacing */
   line-height: 1.5; /* Adjust the line height */
 }
 t {
   color: #6c8347;
-  font-family: Brush Script MT;
-  /* font-family: "Lucida Handwriting"; */
-  font-size: 65px;
+  font-family: 'Lovers Quarrel';
+  font-size: 63px;
   font-weight: 10;
   font-style: italic;
   line-height: normal;
+
 }
 .bottomPanel {
   /* position: relative;  */
@@ -138,7 +134,7 @@ t {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 28%;
+  height: 26%;
   /* background-color: rgb(59, 21, 21); */
 }
 .dashboard_pic {
@@ -157,16 +153,16 @@ t {
   align-items: center;
   width: 100%;
   height: 35%;
-  background-color: #d9d9d9;
+  background-color: #f0f0f0;
 }
 
 h2 {
    
   margin-top:175px;
-  margin-left: -400px;
+  margin-left: -300px;
   color: #000000;
   font-family: Lustria;
-  font-size: 42px;
+  font-size: 37px;
   font-weight: 50;
   font-style: normal;
   line-height: normal;
@@ -175,23 +171,18 @@ h2 {
 
 h3 {
   /* position: relative;  */
-  margin-left: 100px;
-  margin-top: -69px; /* Adjust percentage value as needed */
+  margin-left: 58px;
+  margin-top: -79px; /* Adjust percentage value as needed */
   color: #6c8347;
-  font-family: Brush Script MT;
-  font-size: 160px;
-  font-style: normal;
+  font-family: 'Lovers Quarrel';
+  font-size: 140px;
+  font-weight: 10;
+  font-style: italic;
   line-height: normal;
 }
 
 /* Search bar styles */
-/* .inputContainer {
-  display: flex;
-  margin-bottom: 25px;
-  width: 100%;
-  height: 30%;
-  background-color: rgb(35, 110, 209);
-} */
+
 .inputField {
   width: 100%;
   height: 10%;
@@ -199,7 +190,8 @@ h3 {
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
   margin-right: 65px;
-  background-color: #d9d9d9;
+  margin-bottom: 50px;
+  background-color: #f0f0f0;
 }
 
 .SearchTextBox {
@@ -210,7 +202,7 @@ h3 {
   padding-left: 55px;
   width: 800px;
   height: 45px;
-  background-color: #b4b4b4;
+  background-color: #d9d9d9;
   border-radius: 20px;
   border: none;
   padding: 20px;
@@ -222,129 +214,189 @@ h3 {
 
 
 .recipeContainer {
+  position: relative;
+
   max-width: 100%; /* Adjust to desired maximum width */
   max-height: 300%;
-  /* overflow-x: auto; */
-  /* display: flex; */
-  /* margin-top:7%; */
   flex-wrap: nowrap;
-  background-color: #d9d9d9;
+  background-color:#f0f0f0;
+}
+.recipeContainer::after {
+  /* content: ""; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px; /* Adjust the height of scrollbar */
+  background: linear-gradient(to right, rgba(240, 240, 240, 0) 0%, rgba(240, 240, 240, 1) 50%, rgba(240, 240, 240, 1) 100%);
 }
 
+/* .recipeContainer h4{
+  color:rgb(80, 80, 80);
+  margin-top:-2%;
+  font-family: Lustria;
+} */
 
-.breakfastContainer {
-  height: 380px;
-  background-color: #d9d9d9; 
+.carousel-title {
+  position: absolute;
+  top: -30px; /* Adjust this value as needed */
+  left: 20px;
+  color: #474747; /* Example text color */
+  padding: 5px 10px; /* Example padding */
+  border-radius: 0 0 0 5px; /* Rounded bottom-left corner */
+  font-size: 16px; /* Example font size */
+  z-index: 2; /* Ensure it's above other content */
+ 
+}
+.breakfastCarousel,
+.lunchCarousel,
+.dinnerCarousel,
+.snacksCarousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This remains as is to spread children */
+  position: relative;
+  max-width: 860px; /* Adjust this value based on your layout's needs */
+  margin: auto;
+  /* margin-top: 60px; */
+  position: relative;
+ 
 }
 
-
-.recipeBreakfastPic {
-  width: 160px;
-  height: 150px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #aca033;
-  margin-left: 19px;
-  margin-top: -100px;
-  object-fit: cover;
+.breakfastContainer,
+.lunchContainer,
+.dinnerContainer,
+.snacksContainer {
+  display: flex;
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: auto;
+  max-width: calc(230px * 3 + 30px * 3);
+  margin: 0 10px 0 10px; /* Adjusts horizontal margins; retains your current setting */
+  margin-bottom: 80px; 
+  flex-shrink: 0; 
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  /* background-color: #cc8585; */
+  /* padding-bottom: 45px;  */
 }
+
+.scroll-button {
+  cursor: pointer;
+  z-index: 2; /* Keep if needed for layering, but might not be necessary with flex */
+  width: 40px; /* Adjust as needed */
+  height: 40px;
+  margin-bottom:9%;
+  border: none;
+}
+.scroll-button:hover {
+  transform: scale(1.7); 
+
+}
+
+.breakfastContainer .left-scroll,
+.lunchContainer .left-scroll {
+  left: 0; 
+}
+
+.breakfastContainer .right-scroll,
+.lunchContainer .right-scroll {
+  right: 0; 
+}
+
 .recipeWrapper {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  margin: 50px -10px; 
 }
 
-.recipeBreakfast {
-  width: 190px;
-  height: 200px;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
-  background-color: #b4b4b4;
-  margin-left: 100px;
-  margin-top: 90px;
-  padding:2px;
+
+.recipeBreakfast,
+.recipeLunch,
+.recipeDinner,
+.recipeSnacks {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 calc(35% - 25px); /* Adjust width for 3 recipes */
+  margin-right: 25px; 
+  margin-left: 25px;
+  flex: 0 0 calc(25% - 20px);
+  background-color: #d9d9d9;
+  border-radius: 5px;
+  padding: 10px;
+  width: 180px; /* Set a fixed width for all recipe containers */
+  height: 190px; /* Set a fixed height for all recipe containers */
+  /* position: relative;  */
 }
-.snack-recipe-name,
-.dinner-recipe-name,
+.recipeBreakfast:hover,
+.recipeLunch:hover,
+.recipeDinner:hover,
+.recipeSnacks:hover{
+  transform: scale(1.1); 
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+
+.lunchContainer::-webkit-scrollbar ,
+.dinnerContainer::-webkit-scrollbar ,
+.snacksContainer::-webkit-scrollbar ,
+.breakfastContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.recipeBreakfastPic,
+.recipeLunchPic,
+.recipeDinnerPic,
+.recipeSnacksPic
+{
+  
+background-color:white;
+margin-top:-30px;
+width:100%;
+height:70%;
+box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
+
+}
+
+/* recipe name */
+.breakfast-recipe-name,
 .lunch-recipe-name,
-.breakfast-recipe-name {
-  /* Your styles here */
+.dinner-recipe-name,
+.snack-recipe-name {
   color: rgb(0, 0, 0);
   font-size: 21px;
   font-family: Lustria;
-  position: relative;
-  top: 90px;
- 
-}
-.lunchContainer {
-  /* width: 200px; */
-  height: 380px;
   background-color: #d9d9d9;
-  margin: 0 auto; /* Center the container horizontally */
-  /* margin-top: 20px; Add space between breakfast and lunch */
-  /* margin-bottom: 50px; Add space between lunch and dinner */
-}
-.recipeLunchPic {
-  width: 160px;
-  height: 150px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #6c8347;
-  margin-left: -173px;
-  margin-top: 10px;
-  object-fit: cover;
-}
-.recipeLunch {
-  width: 190px;
-  height: 200px;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
-  background-color: #b4b4b4;
-  margin-left: 100px;
-  margin-top: 90px;
+  text-align: left; /* Align text to the left */
+  display: flex; /* Use flexbox */
+  /* justify-content: center;  */
+  align-items: center;
+  flex: 1; /* Allow the name to take up remaining space */
 }
 
-.dinnerContainer {
-  /* width: 1300px; */
-  height: 380px;
-  background-color: #d9d9d9;
-  margin: 0 auto; /* Center the container horizontally */
-  margin-top: 50px; /* Add space between lunch and dinner */
+
+.creator-info {
+  display: flex;
+  /* justify-content: space-between; Align items at the ends of the container */
+  align-items: flex-end; /* Align items to the bottom of the container */
+  /* position: absolute; 
+  bottom: 10px;  */
+  width: 100%; /* Ensure it spans the entire width */
 }
-.recipeDinnerPic {
-  width: 160px;
-  height: 150px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #6c8347;
-  margin-left: -173px;
-  margin-top: 10px;
-  object-fit: cover;
-}
-.recipeDinner {
-  width: 190px;
-  height: 200px;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
-  background-color: #b4b4b4;
-  margin-left: 100px;
-  margin-top: 90px;
+.creator-info p{
+  margin-right:10%;
+  margin-bottom:5%;
+  /* background-color: pink; */
+  font-size:13px;
 }
 
-.snacksContainer {
-  height: 380px;
-  /* width:300px; */
-  background-color: #d9d9d9;
-  margin: 0 auto; /* Center the container horizontally */
-  margin-top: 50px; /* Add space between lunch and dinner */
+.creator-info img {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  margin-right: 10px; /* adjust as needed to create space between image and text */
 }
 
-.recipeSnacksPic {
-  width: 160px;
-  height: 150px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #4764bc;
-  margin-left: -173px;
-  margin-top: 10px;
-  object-fit: cover;
-}
-.recipeSnacks {
-  width: 190px;
-  height: 200px;
-  background-color: #8236b4;
-  margin-left: 100px;
-  margin-top: 90px;
-}
