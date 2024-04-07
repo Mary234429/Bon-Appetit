@@ -790,25 +790,6 @@ app.post("/deleteComment", ensureAuthenticated, async function (req, res) {
  ************************************
  */
 
-// app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
-//   try {
-//     const loggedInMember = await Member.findOne({ googleID: req.user.id });
-//     const dietitian = await Member.findOne({ dietitian: req.user.id })
-//     const listOfDietitians = await Member.find({ usertype: "dietitian" }); // Fetch all dietitians
-//     console.log(dietitian);
-//     // render page
-//     res.render("dietitian", {
-//       user: req.user,
-//       loggedInMember: loggedInMember,
-//       dietitian: dietitian,
-//       listOfDietitians: listOfDietitians
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-
 app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
   try {
     const loggedInMember = await Member.findOne({ googleID: req.user.id });
