@@ -28,7 +28,7 @@
         <% for(let i=0; i < breakfastNames.length; i++) { %>
           <div data-recipe="<%= breakfastNames.at(i) %>" class="recipeBreakfast">
             <h7 class="breakfast-recipe-name">
-              <%= breakfastNames.at(i).recipe %>
+              <%= breakfastNames.at(i) %>
             </h7>
           </div>
           <% } %>
@@ -45,9 +45,16 @@
 			 <button type="submit">Add food</button>
 		 </form>
 	<h2>Lunch</h2>
-	<h3>
-		<%= lunchTracked %>
-	</h3>
+		<div class="recipeWrapper">
+			<% for(let i=0; i< lunchNames.length; i++) { %>
+			<div data-recipe=""
+				<%= lunchNames.at(i) %>" class="recipeLunch">
+				<h7 class="Lunch-recipe-name">
+					<%= lunchNames.at(i) %>
+				</h7>
+			</div>
+				<% } %>
+			</div>
 	<form action="/addFood" method="get">
 		<input type="hidden"
 			   value="<%= formatedDate %>"
@@ -60,9 +67,16 @@
 		<button type="submit">Add food</button>
 	</form>
 	<h2>Dinner</h2>
-	<h3>
-		<%= dinnerTracked %>
-	</h3>
+		<div class="recipeWrapper">
+			<% for(let i=0; i< dinnerNames.length; i++) { %>
+			<div data-recipe=""
+				<%= dinnerNames.at(i) %>" class="recipeDinner">
+				<h7 class="Dinner-recipe-name">
+					<%= dinnerNames.at(i) %>
+				</h7>
+			</div>
+			<% } %>
+		</div>
 	<form action="/addFood" method="get">
 		<input type="hidden"
 			   value="<%= formatedDate %>"
@@ -75,9 +89,16 @@
 		<button type="submit">Add food</button>
 	</form>
 	<h2>Snacks</h2>
-	<h3>
-		<%= snackTracked %>
-	</h3>
+	<div class="recipeWrapper">
+		<% for(let i=0; i< snackNames.length; i++) { %>
+		<div data-recipe=""
+			<%= snackNames.at(i) %>" class="recipeSnack">
+			<h7 class="Snack-recipe-name">
+				<%= snackNames.at(i) %>
+			</h7>
+		</div>
+		<% } %>
+	</div>
 	<form action="/addFood" method="get">
 		<input type="hidden"
 			   value="<%= formatedDate %>"

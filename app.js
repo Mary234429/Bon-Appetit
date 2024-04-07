@@ -299,21 +299,40 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
                     if (tracker.at(i).typeOfMeal == "Dinner") {
                         dinnerTracked.push(tracker.at(i));
                     }
-                    if (tracker.at(i).typeOfMeal == "Snack") {
+                    if (tracker.at(i).typeOfMeal == "Snacks") {
                         snackTracked.push(tracker.at(i));
                     }
                 }
             }
             for (let i = 0; i < breakfastTracked.length; i++) {
                 for (let j = 0; j < MealList.length; j++) {
-                    console.log(breakfastTracked.at(i).recipe);
-                    console.log(MealList.at(j)._id);
                     if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
-                        breakfastNames.push(MealList.at(j)._id);
+                        breakfastNames.push(MealList.at(j).name);
                     }
                 }
             }
-            res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchTracked, dinnerTracked, snackTracked });
+            for (let i = 0; i < lunchTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
+                        lunchNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            for (let i = 0; i < dinnerTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
+                        dinnerNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            for (let i = 0; i < snackTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (snackTracked.at(i).recipe == MealList.at(j)._id) {
+                        snackNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames });
         });
     });
 });
