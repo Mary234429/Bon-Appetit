@@ -190,6 +190,7 @@ h3 {
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
   margin-right: 65px;
+  margin-bottom: 50px;
   background-color: #f0f0f0;
 }
 
@@ -213,38 +214,103 @@ h3 {
 
 
 .recipeContainer {
+  position: relative;
+
   max-width: 100%; /* Adjust to desired maximum width */
   max-height: 300%;
   flex-wrap: nowrap;
   background-color:#f0f0f0;
 }
+.recipeContainer::after {
+  /* content: ""; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px; /* Adjust the height of scrollbar */
+  background: linear-gradient(to right, rgba(240, 240, 240, 0) 0%, rgba(240, 240, 240, 1) 50%, rgba(240, 240, 240, 1) 100%);
+}
 
-.recipeContainer h4{
+/* .recipeContainer h4{
   color:rgb(80, 80, 80);
-  margin-left:18%;
-  margin-bottom:-2%;
+  margin-top:-2%;
   font-family: Lustria;
+} */
+
+.carousel-title {
+  position: absolute;
+  top: -30px; /* Adjust this value as needed */
+  left: 20px;
+  color: #474747; /* Example text color */
+  padding: 5px 10px; /* Example padding */
+  border-radius: 0 0 0 5px; /* Rounded bottom-left corner */
+  font-size: 16px; /* Example font size */
+  z-index: 2; /* Ensure it's above other content */
+ 
+}
+.breakfastCarousel,
+.lunchCarousel,
+.dinnerCarousel,
+.snacksCarousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This remains as is to spread children */
+  position: relative;
+  max-width: 860px; /* Adjust this value based on your layout's needs */
+  margin: auto;
+  /* margin-top: 60px; */
+  position: relative;
+ 
 }
 
 .breakfastContainer,
 .lunchContainer,
 .dinnerContainer,
 .snacksContainer {
-  display: flex; 
-  flex-wrap: wrap; 
-  justify-content: center;
-  align-items: flex-start; 
-  height: 300px; 
-  background-color: #f0f0f0;
+  display: flex;
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: auto;
+  max-width: calc(230px * 3 + 30px * 3);
+  margin: 0 10px 0 10px; /* Adjusts horizontal margins; retains your current setting */
+  margin-bottom: 80px; 
+  flex-shrink: 0; 
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  /* background-color: #cc8585; */
+  /* padding-bottom: 45px;  */
+}
+
+.scroll-button {
+  cursor: pointer;
+  z-index: 2; /* Keep if needed for layering, but might not be necessary with flex */
+  width: 40px; /* Adjust as needed */
+  height: 40px;
+  margin-bottom:9%;
+  border: none;
+}
+.scroll-button:hover {
+  transform: scale(1.7); 
 
 }
 
+.breakfastContainer .left-scroll,
+.lunchContainer .left-scroll {
+  left: 0; 
+}
+
+.breakfastContainer .right-scroll,
+.lunchContainer .right-scroll {
+  right: 0; 
+}
 
 .recipeWrapper {
   display: flex;
-  flex-wrap: wrap;
-  margin: 20px -10px; 
+  /* flex-wrap: wrap; */
+  margin: 50px -10px; 
 }
+
 
 .recipeBreakfast,
 .recipeLunch,
@@ -252,7 +318,9 @@ h3 {
 .recipeSnacks {
   display: flex;
   flex-direction: column;
-  margin: 50px;
+  flex: 0 0 calc(35% - 25px); /* Adjust width for 3 recipes */
+  margin-right: 25px; 
+  margin-left: 25px;
   flex: 0 0 calc(25% - 20px);
   background-color: #d9d9d9;
   border-radius: 5px;
@@ -261,12 +329,30 @@ h3 {
   height: 190px; /* Set a fixed height for all recipe containers */
   /* position: relative;  */
 }
+.recipeBreakfast:hover,
+.recipeLunch:hover,
+.recipeDinner:hover,
+.recipeSnacks:hover{
+  transform: scale(1.1); 
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+
+.lunchContainer::-webkit-scrollbar ,
+.dinnerContainer::-webkit-scrollbar ,
+.snacksContainer::-webkit-scrollbar ,
+.breakfastContainer::-webkit-scrollbar {
+  display: none;
+}
 
 .recipeBreakfastPic,
 .recipeLunchPic,
 .recipeDinnerPic,
 .recipeSnacksPic
 {
+  
 background-color:white;
 margin-top:-30px;
 width:100%;
