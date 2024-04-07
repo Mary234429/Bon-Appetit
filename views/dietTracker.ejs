@@ -25,22 +25,38 @@
 	<h1>Calories 0/2000</h1>
 	<h2>Breakfast</h2>
 		 <div class="recipeWrapper">
-        <% for(let i=0; i < breakfastTracked.length; i++) { %>
-          <div data-recipe="<%= breakfastTracked.at(i) %>" class="recipeBreakfast">
+        <% for(let i=0; i < breakfastNames.length; i++) { %>
+          <div data-recipe="<%= breakfastNames.at(i) %>" class="recipeBreakfast">
             <h7 class="breakfast-recipe-name">
-              <%= breakfastTracked.at(i).recipe %>
+              <%= breakfastNames.at(i).recipe %>
             </h7>
           </div>
           <% } %>
       </div>
-	<form action="/addFood" method="get">
-		<button type="submit">Add food</button>
-	</form>
+		 <form action="/addFood" method="get">
+			 <input type="hidden"
+				 value="<%= formatedDate %>"
+				 name="date"
+				 id="date" />
+			 <input type="hidden"
+				 value="Breakfast"
+				 name="mealType"
+				 id="mealType" />
+			 <button type="submit">Add food</button>
+		 </form>
 	<h2>Lunch</h2>
 	<h3>
 		<%= lunchTracked %>
 	</h3>
 	<form action="/addFood" method="get">
+		<input type="hidden"
+			   value="<%= formatedDate %>"
+			   name="date"
+			   id="date" />
+		<input type="hidden"
+			   value="Lunch"
+			   name="mealType"
+			   id="mealType" />
 		<button type="submit">Add food</button>
 	</form>
 	<h2>Dinner</h2>
@@ -48,6 +64,14 @@
 		<%= dinnerTracked %>
 	</h3>
 	<form action="/addFood" method="get">
+		<input type="hidden"
+			   value="<%= formatedDate %>"
+			   name="date"
+			   id="date" />
+		<input type="hidden"
+			   value="Dinner"
+			   name="mealType"
+			   id="mealType" />
 		<button type="submit">Add food</button>
 	</form>
 	<h2>Snacks</h2>
@@ -55,6 +79,14 @@
 		<%= snackTracked %>
 	</h3>
 	<form action="/addFood" method="get">
+		<input type="hidden"
+			   value="<%= formatedDate %>"
+			   name="date"
+			   id="date" />
+		<input type="hidden"
+			   value="Snacks"
+			   name="mealType"
+			   id="mealType"/>
 		<button type="submit">Add Snacks</button>
 	</form>
 </html>

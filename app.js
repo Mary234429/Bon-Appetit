@@ -147,10 +147,30 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/addFood", (req, res) => {
-    Recipes.find().then(function (ingredients) {
-        res.render("addFood", { ingredients });
+app.get("/addFood",ensureAuthenticated,(req, res) => {
+    Recipes.find().then(function (Recipes) {
+        formatedDate = req.query.date;
+        mealType = req.query.mealType;
+        res.render("addFood", { Recipes, formatedDate, mealType });
     });
+});
+
+app.post("/addDiet", ensureAuthenticated, (req, res) => {
+    let formatedDate = req.body.date;
+    let user = req.user.id;
+    let mealType = req.body.mealType;
+    let recipe = req.body.RecipeName;
+    console.log(recipe);
+    const diettracker = new DietTracker({
+        user: user,
+        timeOfDay: formatedDate,
+        typeOfMeal: mealType,
+        recipe: recipe,
+    });
+    //Save the recipe to the database
+    diettracker.save();
+    console.log("Diet Added Successfully!");
+    res.redirect("/dietTracker");
 });
 
 //Set up application port
@@ -259,44 +279,42 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formatedDate = `${year}-${month}-${day}`;
     DietTracker.find().then((tracker) => {
-        let breakfastTracked = [];
-        let lunchTracked = [];
-        let dinnerTracked = [];
-        let snackTracked = [];
-        console.log(tracker.at(0).timeOfDay)
-        console.log(formatedDate)
-        for (let i = 0; i < tracker.length; i++) {
-            if (tracker.at(i).timeOfDay == formatedDate) {
-                if (tracker.at(i).typeOfMeal == "Breakfast") {
-                    breakfastTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Lunch") {
-                    lunchTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Dinner") {
-                    dinnerTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Snack") {
-                    snackTracked.push(tracker.at(i));
-                }
-            }
-        }
-
-
-        /*for (let i = 0; i < tracker.length; i++) {
-            for (let j = 0; j < tracker.at(i).mealType.length; j++) {
-                if (breakfastRegex.test(tracker.at(i).mealType.at(j))) {
-                    breakfastTracked.push(tracker.at(i));
-                } else if (lunchRegex.test(tracker.at(i).mealType.at(j))) {
-                    lunchTracked.push(tracker.at(i));
-                } else if (dinnerRegex.test(tracker.at(i).mealType.at(j))) {
-                    dinnerTracked.push(tracker.at(i));
-                } else if (snackRegex.test(tracker.at(i).mealType.at(j))) {
-                    snackTracked.push(tracker.at(i));
+        Recipes.find().then((MealList) => {
+            let breakfastTracked = [];
+            let lunchTracked = [];
+            let dinnerTracked = [];
+            let snackTracked = [];
+            let breakfastNames = [];
+            let lunchNames = [];
+            let dinnerNames = [];
+            let snackNames = [];
+            for (let i = 0; i < tracker.length; i++) {
+                if (tracker.at(i).timeOfDay == formatedDate) {
+                    if (tracker.at(i).typeOfMeal == "Breakfast") {
+                        breakfastTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Lunch") {
+                        lunchTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Dinner") {
+                        dinnerTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Snack") {
+                        snackTracked.push(tracker.at(i));
+                    }
                 }
             }
-        }*/
-        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastTracked, lunchTracked, dinnerTracked, snackTracked });
+            for (let i = 0; i < breakfastTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    console.log(breakfastTracked.at(i).recipe);
+                    console.log(MealList.at(j)._id);
+                    if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
+                        breakfastNames.push(MealList.at(j)._id);
+                    }
+                }
+            }
+            res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchTracked, dinnerTracked, snackTracked });
+        });
     });
 });
 
