@@ -1,21 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//     const searchBar = document.getElementById('searchBar');
-//     const dietitianList = document.getElementById('dietitianList').getElementsByTagName('li');
-//
-//     searchBar.addEventListener('input', function() {
-//         const searchText = searchBar.value.toLowerCase();
-//
-//         Array.from(dietitianList).forEach(function(item) {
-//             const name = item.getAttribute('data-name').toLowerCase();
-//             if (name.indexOf(searchText) !== -1) {
-//                 item.style.display = '';
-//             } else {
-//                 item.style.display = 'none';
-//             }
-//         });
-//     });
-// });
-
 document.addEventListener("DOMContentLoaded", function() {
     const searchBar = document.getElementById('searchBar');
     const dietitianList = document.getElementById('dietitianList').getElementsByTagName('li');
@@ -33,16 +15,21 @@ document.addEventListener("DOMContentLoaded", function() {
     Array.from(dietitianList).forEach(function(item) {
         item.addEventListener('click', function() {
             const name = item.getAttribute('data-name');
-            const dietType = item.getAttribute('data-dietType'); // Assuming these attributes exist
-            const gender = item.getAttribute('data-gender'); // Assuming these attributes exist
+            const dietType = item.getAttribute('data-dietType');
+            const gender = item.getAttribute('data-gender');
+            const dietitianId = item.getAttribute('data-id'); // Assuming the dietitian items have a data-id attribute
 
             document.getElementById('dietitianName').innerText = `Name: ${name}`;
             document.getElementById('dietitianDietType').innerText = `Diet Type: ${dietType}`;
             document.getElementById('dietitianGender').innerText = `Gender: ${gender}`;
 
+            // Set the dietitianId on the modal
+            modal.setAttribute('data-id', dietitianId);
+
             modal.style.display = "block";
         });
     });
+
 
     closeModal.addEventListener('click', function() {
         modal.style.display = "none";

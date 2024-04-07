@@ -647,10 +647,19 @@ app.get("/profile", ensureAuthenticated, async function (req, res) {
       .sort({ timestamp: -1 })
       .limit(3);
     //console.log(recentRecipes);
+    let dietitianName = "Not Assigned";
+    // If a dietitian is assigned, fetch their name
+    if (loggedInMember.dietitian) {
+      const dietitian = await Member.findOne({ googleID: loggedInMember.dietitian });
+      if (dietitian) {
+        dietitianName = `${dietitian.firstName} ${dietitian.lastName}`;
+      }
+    }
     // render page
     res.render("profile", {
       user: req.user,
       loggedInMember: loggedInMember,
+      dietitianName: dietitianName,
       recipes: recentRecipes,
     });
   } catch (error) {

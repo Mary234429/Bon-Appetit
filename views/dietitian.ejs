@@ -7,16 +7,14 @@
 
     <p>List of Dietitians:</p>
     <input type="text" id="searchBar" placeholder="Search dietitians..." autocomplete="off">
+
     <ul id="dietitianList">
         <% dietitians.forEach(function(dietitian) { %>
-            <li class="dietitian-item" data-id="<%= dietitian.googleID %>" data-name="<%= dietitian.firstName %> <%= dietitian.lastName %>" data-gender="<%= dietitian.gender %>" data-diettype="<%= dietitian.diettype %>">
+            <li class="dietitian-item" data-id="<%= dietitian.googleID %>" data-name="<%= dietitian.firstName %> <%= dietitian.lastName %>" data-gender="<%= dietitian.gender %>" data-dietType="<%= dietitian.diettype %>">
                 <a href="javascript:void(0);"><%= dietitian.firstName %> <%= dietitian.lastName %></a>
             </li>
         <% }); %>
     </ul>
-
-
-
 
     <form action="/dashboard" method="get">
         <button type="submit">Dashboard</button>
@@ -34,7 +32,6 @@
         <p id="dietitianDietType"></p>
         <p id="dietitianGender"></p>
         <button id="assignDietitianButton" onclick="assignDietitian()">Assign as My Dietitian</button>
-        <button>Button 2</button>
     </div>
 </div>
 </body>
