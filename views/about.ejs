@@ -1,78 +1,56 @@
 <html>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
   crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" type="text/css" href="/css/navbar.css">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="about.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<!-- Navbar -->
-  <nav class="navbar">
-    <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-      <li><a href="/contact">Contact</a></li>
-      
-
-      <li class="dropdown">
-        <a href="/profile" class="dropbtn">
-
-          Profile
-          <i class="fa fa-caret-down"></i>
-        </a>
-        <div class="dropdown-content">
-          <a href="/dietTracker">Diet Tracker</a>
-          <a href="/recipeCreate">Recipe Create</a>
-          <a href="/dietPlanCreate">Diet Plan Create</a>
+  <%- include('navbar') %>
+    <div class="wheat-container">
+      <div class="left-wheat">
+        <div class="left-image">
+          <img src="wheat_1.png" alt="wheat1" />
         </div>
-      </li>
-    </ul>
-  </nav>
-  <div>
-    <br>
-    <h1>ABOUT US</h1>
-  </div>
-  <!--wheat contianer-->
-  <div class = "wheat-container">
-    <div class="left-wheat">
-      <div class="left-image">
-        <img src="wheat_1.png" alt="wheat1"/>
+      </div>
+      <div class="middle1-wheat">
+        <div class="middle1-image">
+          <img src="wheat_2.png" alt="wheat2" />
+        </div>
+      </div>
+      <div class="middle2-wheat">
+        <div class="middle2-image">
+          <img src="wheat_2.png" alt="wheat2" />
+        </div>
+      </div>
+      <div class="middle3-wheat">
+        <div class="middle3-image">
+          <img src="wheat_2.png" alt="wheat2" />
+        </div>
+      </div>
+      <div class="right-wheat">
+        <div class="right-image">
+          <img src="wheat_2.png" alt="wheat2" />
+        </div>
       </div>
     </div>
-    <div class="middle1-wheat">
-      <div class="middle1-image">
-        <img src="wheat_2.png" alt="wheat2"/>
+    <!--green box contianer-->
+    <div class="outer-container">
+      <div class="left-container">
+        <img src="bowl.png" alt="bowl" s />
+      </div>
+      <div class="right-container">
+        <p>Welcome to Bon Appetit, your go-to destination for delicious recipes
+          and nourishing culinary inspiration!</p>
       </div>
     </div>
-    <div class="middle2-wheat">
-      <div class="middle2-image">
-        <img src="wheat_2.png" alt="wheat2"/>
-      </div>
-    </div>
-    <div class="middle3-wheat">
-      <div class="middle3-image">
-        <img src="wheat_2.png" alt="wheat2"/>
-      </div>
-    </div>
-    <div class="right-wheat">
-      <div class="right-image">
-        <img src="wheat_2.png" alt="wheat2"/>
-      </div>
-    </div>
-  </div>
-<!--green box contianer-->
-  <div class="outer-container">
-    <div class="left-container">
-      <img src="bowl.png" alt="bowl"s/>
-    </div>
-    <div class="right-container">
-      <p>Welcome to Bon Appetit, your go-to destination for delicious recipes 
-        and nourishing culinary inspiration!</p>
-    </div>
-  </div>
 </body>
+
 </html>

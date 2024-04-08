@@ -1,46 +1,62 @@
 <!--recipe Create page-->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div>
-      <h1>Create a New Recipe</h1>
-      <a href="/dashboard">Go to Dashboard</a>
-      <p>Fill out the form below to create a custom recipe:</p>
-      <form
-        id="ingredientForm"
-        autocomplete="off"
-        action="/addIngredient"
-        method="post"
-        style="display: none"
-      >
-        <input
-          type="text"
-          placeholder="Ingredient Name"
-          name="ingredientName"
-          id="ingredientName"
-        />
-        <input
-          type="text"
-          list="ingredientUnitList"
-          name="ingredientUnit"
-          placeholder="Unit of Measurement"
-          id="ingredientUnit"
-        />
-        <input
-          type="number"
-          name="caloriesPerUnit"
-          placeholder="Calories Per Unit"
-          id="ingredientCalories"
-        />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="recipeCreate.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+  <%- include('navbar') %>
+    <div class="container">
+
+      <!-- left container -->
+      <!--<li>
+            <input
+              
+              class="recipeTools"
+              placeholder="Tools Required"
+              name="recipeTools[]"
+            />
+          </li>-->
+      <!-- <div class="left-container">
+      <h1>Create Recipe</h1>
+      <label for="thumbnail" class="custom-file-upload">
+        <i class="fa fa-upload"></i> Upload Image
+      </label>
+      <input type="file" id="thumbnail" name="thumbnail" required accept="image/*" style="display:none;" /><br />
+
+
+      <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
+      <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br />
+      <ul id="tools">
+        
+      </ul>
+      <button type="button" id="addTool"><i class="fas fa-plus"></i>Add New Tool</button>
+    </div> -->
+
+      <!-- right container -->
+      <!-- <form action="/dashboard" method="get">
+      <button type="submit">Go to Main Page</button>
+    </form> -->
+      <h1>Create Recipe</h1>
+      <!-- <div class="right-container"> -->
+      <form id="ingredientForm" autocomplete="off" action="/addIngredient" method="post" style="display: none">
+        <input type="text" placeholder="Ingredient Name" name="ingredientName" id="ingredientName" />
+        <input type="text" list="ingredientUnitList" name="ingredientUnit" placeholder="Unit of Measurement"
+          id="ingredientUnit" />
+        <input type="number" name="caloriesPerUnit" placeholder="Calories Per Unit" id="ingredientCalories" />
         <datalist id="ingredientUnitList">
           <option value="cup"></option>
           <option value="oz"></option>
@@ -52,68 +68,42 @@
         </datalist>
         <button type="button" onclick="addIngredient()">Submit</button>
       </form>
-      <form
-        id="recipeForm"
-        autocomplete="off"
-        action="/recipeCreate"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          name="recipeName"
-          id="recipeName"
-        /><br />
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Recipe Description"
-        ></textarea
-        ><br />
-        <label for="thumbnail">Choose Image:</label>
-        <input
-          type="file"
-          id="thumbnail"
-          name="thumbnail"
-          required
-          accept="image/*"
-        /><br />
+
+      <form id="recipeForm" autocomplete="off" action="/recipeCreate" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
+        <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br />
+
+        <label for="thumbnail" class="custom-file-upload">
+          <i class="fa fa-upload"></i> Upload Image
+        </label>
+        <input type="file" id="thumbnail" name="thumbnail" style="display:none;" required accept="image/*" />
+        <span id="file-name"></span>
+        <br />
 
         <ul id="tools">
           <!--<li>
-            <input
-              
-              class="recipeTools"
-              placeholder="Tools Required"
-              name="recipeTools[]"
-            />
-          </li>-->
+          <input
+            
+            class="recipeTools"
+            placeholder="Tools Required"
+            name="recipeTools[]"
+          />
+        </li>-->
         </ul>
         <button type="button" id="addTool">Add New Tool</button>
 
         <ul id="ingredientList">
           <li>
-            <input
-              class="ingredientAmount"
-              placeholder="Amount"
-              name="ingredientAmounts[]"
-            />
+            <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" />
             <div style="display: inline"></div>
-            <select
-              class="ingredient js-example-basic-single"
-              name="ingredients[]"
-            >
+            <select class="ingredient js-example-basic-single" name="ingredients[]">
               <option selected value=""></option>
               <option value="addIngredient">Add New Ingredient</option>
-              <% for(let i = 0; i < ingredients.length; i++){%>
-              <option
-                value="<%=ingredients.at(i)._id%>"
-                data-unit="<%=ingredients.at(i).unit%>"
-              >
-                <%=ingredients.at(i).name%>
-              </option>
-              <%}%>
+              <% for(let i=0; i < ingredients.length; i++){%>
+                <option value="<%=ingredients.at(i)._id%>" data-unit="<%=ingredients.at(i).unit%>">
+                  <%=ingredients.at(i).name%>
+                </option>
+                <%}%>
             </select>
           </li>
         </ul>
@@ -133,12 +123,7 @@
         </ul>
         <button type="button" id="addTag">Add New Tag</button>
         <label for="breakfast">Breakfast</label>
-        <input
-          id="breakfast"
-          type="checkbox"
-          value="Breakfast"
-          name="mealType[]"
-        />
+        <input id="breakfast" type="checkbox" value="Breakfast" name="mealType[]" />
         <label for="lunch">Lunch</label>
         <input type="checkbox" id="lunch" value="Lunch" name="mealType[]" />
         <label for="dinner">Dinner</label>
@@ -153,7 +138,23 @@
 
         <input type="submit" value="Submit" />
       </form>
+
+
+
+      <!-- </div> -->
+
+
+
+
+
+
+
+
     </div>
+
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -178,12 +179,12 @@
             newIngredient.setAttribute('data-unit', ingredient.unit);
             let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
             newSelectedIngredient.setAttribute('data-unit', ingredient.unit);
-            $('#ingredientList li .js-example-basic-single').each(function(){
-              if($(this).select2('data').at(0).element.value == "addIngredient"){
+            $('#ingredientList li .js-example-basic-single').each(function () {
+              if ($(this).select2('data').at(0).element.value == "addIngredient") {
                 $(this).append(newSelectedIngredient).trigger('change');
                 $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
               }
-              else{
+              else {
                 $(this).append(newIngredient).trigger('change');
               }
             });
@@ -240,6 +241,17 @@
           );
         });
       });
+      document.getElementById('thumbnail').onchange = function () {
+        // Check if any files were selected
+        if (this.files && this.files.length > 0) {
+          // Update the file-name span with the name of the file
+          document.getElementById('file-name').innerText = this.files[0].name;
+        } else {
+          // Reset the text if no file is selected
+          document.getElementById('file-name').innerText = '';
+        }
+      };
     </script>
-  </body>
+</body>
+
 </html>
