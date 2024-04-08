@@ -1,0 +1,286 @@
+<!--recipe Create page-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%if(edit){%>Edit<%}else{%>Customize<%}%> <%=recipe.name%></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div>
+      <h1><%if(edit){%>Edit<%}else{%>Customize<%}%> the <%=recipe.name%> Recipe</h1>
+      <a href="/dashboard">Go to Dashboard</a>
+      <p>Fill out the form below to create a custom recipe:</p>
+      <form
+        id="ingredientForm"
+        autocomplete="off"
+        action="/addIngredient"
+        method="post"
+        style="display: none"
+      >
+        <input
+          type="text"
+          placeholder="Ingredient Name"
+          name="ingredientName"
+          id="ingredientName"
+        />
+        <input
+          type="text"
+          list="ingredientUnitList"
+          name="ingredientUnit"
+          placeholder="Unit of Measurement"
+          id="ingredientUnit"
+        />
+        <input
+          type="number"
+          name="caloriesPerUnit"
+          placeholder="Calories Per Unit"
+          id="ingredientCalories"
+        />
+        <datalist id="ingredientUnitList">
+          <option value="cup"></option>
+          <option value="oz"></option>
+          <option value="fl oz"></option>
+          <option value="fl oz"></option>
+          <option value="tbsp"></option>
+          <option value="tsp"></option>
+          <option value="g"></option>
+        </datalist>
+        <button type="button" onclick="addIngredient()">Submit</button>
+      </form>
+      <form
+        id="recipeForm"
+        autocomplete="off"
+        action="/recipe<% if(edit){%>/edit/<%=recipe._id%><%}else{%>Create<%}%>"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input
+          type="text"
+          placeholder="Recipe Name"
+          name="recipeName"
+          id="recipeName"
+          value="<%=recipe.name%>"
+        /><br />
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Recipe Description"
+        ><%=recipe.description%></textarea
+        ><br />
+        <label for="thumbnail">Choose Image:</label>
+        <input
+          type="file"
+          id="thumbnail"
+          name="thumbnail"
+          <%if(!edit){%>required<%}%>
+          accept="image/*"
+          value="<%=recipe.thumbnail%>"
+        /><br />
+
+        <ul id="tools">
+          <%if(typeof recipe.toolsNeeded !== "undefined"){ for(let i = 0; i < recipe.toolsNeeded.length; i++){ %><li>
+            <input 
+              class="recipeTools"
+              placeholder="Tools Required"
+              name="recipeTools[]"
+              value = <%=recipe.tools.at(i)%>
+            />
+            <%if (i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
+          </li>
+        <%}}%>
+        </ul>
+        <button type="button" id="addTool">Add New Tool</button>
+
+        <ul id="ingredientList">
+          <li>
+            <input
+              class="ingredientAmount"
+              placeholder="Amount"
+              name="ingredientAmounts[]"
+            />
+            <div style="display: inline"></div>
+            <select
+              class="ingredient js-example-basic-single"
+              name="ingredients[]"
+            >
+              <option selected value=""></option>
+              <option value="addIngredient">Add New Ingredient</option>
+              <% for(let i = 0; i < ingredients.length; i++){%>
+              <option
+                value="<%=ingredients.at(i)._id%>"
+                data-unit="<%=ingredients.at(i).unit%>"
+              >
+                <%=ingredients.at(i).name%>
+              </option>
+              <%}%>
+            </select>
+          </li>
+          <% for(let j = 0; j < recipe.ingredients.length; j++){%><li>
+            <input
+              class="ingredientAmount"
+              placeholder="Amount"
+              name="ingredientAmounts[]"
+              value = <%=recipe.ingredientAmounts.at(j)%>
+            />
+            <div style="display: inline"></div>
+            <select
+              class="ingredient js-example-basic-single"
+              name="ingredients[]"
+            >
+              <option selected value=""></option>
+              <option value="addIngredient">Add New Ingredient</option>
+              <% for(let i = 0; i < ingredients.length; i++){%>
+              <option
+                value="<%=ingredients.at(i)._id%>"
+                data-unit="<%=ingredients.at(i).unit%>"
+                <%if(ingredients.at(i)._id==recipe.ingredients.at(j)){%>selected<%}%>
+              >
+                <%=ingredients.at(i).name%>
+              </option>
+              <%}%>
+            </select>
+            <% if(j > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
+          </li>
+          <%}%>
+        </ul>
+        <button type="button" id="addIngredient">Add New Ingredient</button>
+
+        <ol id="instructions">
+          <% for(let i = 0; i < recipe.instructions.length; i++){%>
+          <li>
+            <input name="instructions[]" placeholder="Instruction" value="<%=recipe.instructions.at(i)%>"/>
+            <% if(i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
+          </li>
+          <%}%>
+        </ol>
+        <button type="button" id="addInstruction">Add New Instruction</button>
+
+        <ul id="recipeTags">
+          <% for(let i = 0; i < recipe.instructions.size; i++){%>
+          <li>
+            <input name="recipeTags[]" placeholder="Recipe Tag" value = <%=recipe.instructions.at(i)%>/>
+            <%if(i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
+          </li>
+          <%}%>
+        </ul>
+        <button type="button" id="addTag">Add New Tag</button>
+        <label for="breakfast">Breakfast</label>
+        <input
+          id="breakfast"
+          type="checkbox"
+          value="Breakfast"
+          name="mealType[]"
+          <%if(/Breakfast/.test(recipe.mealType)){%>checked<%}%>
+        />
+        <label for="lunch">Lunch</label>
+        <input type="checkbox" id="lunch" value="Lunch" name="mealType[]" <%if(/Lunch/.test(recipe.mealType)){%>checked<%}%>/>
+        <label for="dinner">Dinner</label>
+        <input type="checkbox" id="dinner" value="Dinner" name="mealType[]" <%if(/Dinner/.test(recipe.mealType)){%>checked<%}%>/>
+        <label for="snack">Snack</label>
+        <input type="checkbox" id="snack" value="Snack" name="mealType[]" <%if(/Snack/.test(recipe.mealType)){%>checked<%}%>/>
+        <br />
+        <select id="privacyLevel" name="privacyLevel">
+          <option value="Public"<%if(recipe.privacyLevel=="Public"){%>selected<%}%>>Public</option>
+          <option value="Private" <%if(!recipe.privacyLevel=="Public"){%>selected<%}%>>Private</option>
+        </select>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      //delete parent element
+      function deleteParent(element) {
+        element.parent().remove();
+      }
+
+      function addIngredient(ingredients) {
+        var url = "/addIngredient";
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: $("#ingredientForm").serialize(),
+          success: function (data) {
+            console.log(data);
+            let ingredient = JSON.parse(data);
+            console.log(ingredient);
+            $("#ingredientForm").css("display", "none");
+            let newIngredient = new Option(ingredient.name, ingredient._id, false, false);
+            let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
+            $('#ingredientList li .js-example-basic-single').each(function(){
+              if($(this).select2('data').at(0).element.value == "addIngredient"){
+                $(this).append(newSelectedIngredient).trigger('change');
+                $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
+              }
+              else{
+                $(this).append(newIngredient).trigger('change');
+              }
+            });
+          },
+        });
+        return false;
+      }
+
+      $(document).ready(function () {
+        
+        let ingredient = $("#ingredientList").children("li").children("select").eq(0).prop("outerHTML");
+        if($('#ingredientList').children('li').length > 1){
+          $("#ingredientList").children('li').eq(0).remove();
+        }
+        let deleteButton = '<button type="button" onClick="deleteParent($(this))">Delete</button>';
+
+        $(".js-example-basic-single").select2();
+
+        //Add a Tool Field
+        $("#addTool").click(function () {
+          $("#tools").append(
+            $(
+              '<li><input  class="recipeTools" placeholder="Tools Required" name="recipeTools[]"/>' + deleteButton + '</li>'
+            )
+          );
+        });
+
+        //Add an Ingredient field
+        $("#addIngredient").click(function () {
+          let toAdd = '<li> <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <div style="display: inline"></div>' + ingredient + deleteButton + '</li>'
+          $("#ingredientList").append($(toAdd));
+          $(".js-example-basic-single").select2();
+        });
+        //Change ingredient field
+        $("body").on("change", ".ingredient", function () {
+          if ($(this).find(":selected").data("unit") == undefined) {
+            $(this).siblings("div").text("");
+          } else {
+            $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
+          }
+          if ($(this).select2('data').at(0).element.value == "addIngredient") {
+            $("#ingredientForm").css("display", "block");
+          }
+        });
+        //Add an Instruction field
+        $("#addInstruction").click(function () {
+          $("#instructions").append(
+            $(
+              '<li> <input  name="instructions[]" placeholder="Instruction" />' + deleteButton + '</li>'
+            )
+          );
+        });
+        //Add a Tag field
+        $("#addTag").click(function () {
+          $("#recipeTags").append(
+            $(
+              '<li> <input  name="recipeTags[]" placeholder="Recipe Tag" />' + deleteButton + '</li>'
+            )
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

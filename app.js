@@ -147,10 +147,30 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/addFood", (req, res) => {
-    Recipes.find().then(function (ingredients) {
-        res.render("addFood", { ingredients });
+app.get("/addFood",ensureAuthenticated,(req, res) => {
+    Recipes.find().then(function (Recipes) {
+        formatedDate = req.query.date;
+        mealType = req.query.mealType;
+        res.render("addFood", { Recipes, formatedDate, mealType });
     });
+});
+
+app.post("/addDiet", ensureAuthenticated, (req, res) => {
+    let formatedDate = req.body.date;
+    let user = req.user.id;
+    let mealType = req.body.mealType;
+    let recipe = req.body.RecipeName;
+    console.log(recipe);
+    const diettracker = new DietTracker({
+        user: user,
+        timeOfDay: formatedDate,
+        typeOfMeal: mealType,
+        recipe: recipe,
+    });
+    //Save the recipe to the database
+    diettracker.save();
+    console.log("Diet Added Successfully!");
+    res.redirect("/dietTracker");
 });
 
 //Set up application port
@@ -259,44 +279,61 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formatedDate = `${year}-${month}-${day}`;
     DietTracker.find().then((tracker) => {
-        let breakfastTracked = [];
-        let lunchTracked = [];
-        let dinnerTracked = [];
-        let snackTracked = [];
-        console.log(tracker.at(0).timeOfDay)
-        console.log(formatedDate)
-        for (let i = 0; i < tracker.length; i++) {
-            if (tracker.at(i).timeOfDay == formatedDate) {
-                if (tracker.at(i).typeOfMeal == "Breakfast") {
-                    breakfastTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Lunch") {
-                    lunchTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Dinner") {
-                    dinnerTracked.push(tracker.at(i));
-                }
-                if (tracker.at(i).typeOfMeal == "Snack") {
-                    snackTracked.push(tracker.at(i));
-                }
-            }
-        }
-
-
-        /*for (let i = 0; i < tracker.length; i++) {
-            for (let j = 0; j < tracker.at(i).mealType.length; j++) {
-                if (breakfastRegex.test(tracker.at(i).mealType.at(j))) {
-                    breakfastTracked.push(tracker.at(i));
-                } else if (lunchRegex.test(tracker.at(i).mealType.at(j))) {
-                    lunchTracked.push(tracker.at(i));
-                } else if (dinnerRegex.test(tracker.at(i).mealType.at(j))) {
-                    dinnerTracked.push(tracker.at(i));
-                } else if (snackRegex.test(tracker.at(i).mealType.at(j))) {
-                    snackTracked.push(tracker.at(i));
+        Recipes.find().then((MealList) => {
+            let breakfastTracked = [];
+            let lunchTracked = [];
+            let dinnerTracked = [];
+            let snackTracked = [];
+            let breakfastNames = [];
+            let lunchNames = [];
+            let dinnerNames = [];
+            let snackNames = [];
+            for (let i = 0; i < tracker.length; i++) {
+                if (tracker.at(i).timeOfDay == formatedDate) {
+                    if (tracker.at(i).typeOfMeal == "Breakfast") {
+                        breakfastTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Lunch") {
+                        lunchTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Dinner") {
+                        dinnerTracked.push(tracker.at(i));
+                    }
+                    if (tracker.at(i).typeOfMeal == "Snacks") {
+                        snackTracked.push(tracker.at(i));
+                    }
                 }
             }
-        }*/
-        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastTracked, lunchTracked, dinnerTracked, snackTracked });
+            for (let i = 0; i < breakfastTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
+                        breakfastNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            for (let i = 0; i < lunchTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
+                        lunchNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            for (let i = 0; i < dinnerTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
+                        dinnerNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            for (let i = 0; i < snackTracked.length; i++) {
+                for (let j = 0; j < MealList.length; j++) {
+                    if (snackTracked.at(i).recipe == MealList.at(j)._id) {
+                        snackNames.push(MealList.at(j).name);
+                    }
+                }
+            }
+            res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames });
+        });
     });
 });
 
@@ -382,7 +419,7 @@ app.get("/recipeCreate", ensureAuthenticated, function (req, res) {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
+app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -398,12 +435,12 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-
+  let imageBuffer="";
   const { originalname, mimetype, buffer } = req.file;
 
-  let imageBuffer = buffer;
-
+  imageBuffer = buffer;
   console.log("Uploaded image size:", imageBuffer.length, "bytes");
+  
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -429,11 +466,11 @@ app.post("/recipeCreate", upload.single("thumbnail"), function (req, res) {
     googleID: userID,
     timestamp: timestamp,
   });
-  createdRecipe.save();
-  res.redirect("/recipeCreate");
+  await createdRecipe.save();
+  res.redirect("/dashboard");
 });
 
-app.post("/addIngredient", function (req, res) {
+app.post("/addIngredient", ensureAuthenticated, function (req, res) {
   const ingredient = new Ingredients({
     name: req.body.ingredientName,
     unit: req.body.ingredientUnit,
@@ -450,6 +487,78 @@ app.post("/addIngredient", function (req, res) {
       req.body.caloriesPerUnit +
       "}"
   );
+});
+
+app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
+  let edit = true;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
+});
+
+app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function(req, res){
+  
+  //retrieve variables from request
+  let recipeName = req.body.recipeName;
+  let recipeDescription = req.body.description;
+  let tools = req.body.recipeTools;
+  let ingredients = req.body.ingredients;
+  let ingredientAmounts = req.body.ingredientAmounts;
+  let instructions = req.body.instructions;
+  let tags = req.body.recipeTags;
+  let mealType = req.body.mealType;
+  let privacy = req.body.privacyLevel;
+  
+  if(!req.file){
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+    }});
+  }else{
+    const { originalname, mimetype, buffer } = req.file;
+
+    let imageBuffer = buffer;
+    //Create a recipe object from submitted data
+    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: tools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: tags,
+      mealType: mealType,
+      publicity: privacy,
+      thumbnail: imageBuffer,
+    }});
+  }
+  //save who created the recipe & timestamp to the database
+  let timestamp = new Date();
+  let userID = req.user.id;
+  Recipes.findOneAndUpdate({$and:{googleID: userID, recipeID: req.params.recipeID}, $set:{timestamp: timestamp}});
+  res.redirect("/dashboard");
+});
+
+app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,res){
+  let edit = false;
+  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let ingredients = await Ingredients.find();
+  res.render("recipeEdit.ejs", {
+    edit: edit,
+    recipe: recipe,
+    ingredients: ingredients
+  });
 });
 
 app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
@@ -521,7 +630,7 @@ app.get("/contact", (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
-app.post("/contactSubmit", async (req, res) => {
+app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
   //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;

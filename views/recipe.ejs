@@ -37,6 +37,7 @@
     <form action="/dashboard" method="get">
         <button type="submit">Go to Main Page</button>
     </form>
+    
     <% if (createdRecipe[0].googleID == author) { %>
         <form action="/recipe/edit/<%= recipe.id %>" method="get">
             <button type="submit">Edit Recipe</button>
@@ -46,7 +47,7 @@
             <button type="submit">Customize Recipe</button>
         </form>
     <% } %>
-
+    
     <h1><%= recipe.name %></h1>
     <p>Posted at <%= formattedTime %> on <%= formattedDate %></p>
     <% members.forEach(function(members) { %>
