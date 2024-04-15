@@ -1,0 +1,23 @@
+<!-- navbar.ejs -->
+<link rel="stylesheet" type="text/css" href="navbar.css" />
+
+<nav class="navbar">
+    <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/about">About us</a></li>
+        <li class="dropdown">
+            <a href="/profile" class="dropbtn">
+
+                Profile
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <div class="dropdown-content">
+                <a href="/dietTracker">Diet Tracker</a>
+                <a href="/recipeCreate">Recipe Create</a>
+                <a href="/dietPlanCreate">Diet Plan Create</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </li>
+    </ul>
+</nav>

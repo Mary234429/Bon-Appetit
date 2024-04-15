@@ -40,6 +40,7 @@
     <form action="/dashboard" method="get">
         <button type="submit">Go to Main Page</button>
     </form>
+    
     <% if (createdRecipe[0].googleID == author) { %>
         <form action="/recipe/edit/<%= recipe.id %>" method="get">
             <button type="submit">Edit Recipe</button>
@@ -49,6 +50,7 @@
             <button type="submit">Customize Recipe</button>
         </form>
     <% } %>
+
     <div class="image-container">
         <% if(recipe.thumbnail==null) { %>
             <img src="plate.png"
@@ -62,6 +64,8 @@
         <div class="text">
             <h1><%= recipe.name %></h1>
             <p><%= recipe.description %></p>
+
+   
             
             <% members.forEach(function(members) { %>
                 <% if (members.googleID === createdRecipe[0].googleID) { %>

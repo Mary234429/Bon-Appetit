@@ -1,0 +1,153 @@
+/* General styles to ensure the content fits the viewport width and padding */
+body {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Lustria';
+}
+
+/* The container that holds both left and right sections */
+.container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: flex-start;
+gap: 20px; /* Adds some space between the two containers */
+padding: 20px;
+}
+
+h1 {
+    font-family: 'Lustria';
+    font-size: 2.5rem; 
+    color: #333; 
+    text-align: left; 
+    margin-right: 290px; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  }
+/* The left container styles for the image upload section */
+.left-container {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+max-width: 50%; /* Limits the maximum width to half of the container */
+}
+
+/* The right container styles for form inputs */
+.right-container {
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+max-width: 50%; /* Same as left container to maintain balance */
+}
+
+/* Styles for form elements to make them full width within their containers */
+input[type="text"],
+textarea,
+select {
+width: 100%;
+padding: 10px;
+margin-bottom: 20px; /* Adds some space below each input */
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+input[type="file"] {
+margin-bottom: 20px;
+
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 12px 30px;
+    cursor: pointer;
+    /* border-radius: 25px; */
+    background: linear-gradient(45deg, #6c8347, #b0d674);
+    color: white;
+    margin-right:390px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 1px 1px #000;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.custom-file-upload:hover {
+    background: linear-gradient(45deg, #95b465, #dbffa1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.custom-file-upload:active {
+    background: linear-gradient(45deg, #485730, #8aa55e);
+    box-shadow: inset 0 3px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(2px);
+}
+
+.fa-cloud-upload {
+    margin-right: 10px;
+}
+
+/* Button styles */
+button, input[type="submit"] {
+padding: 10px 20px;
+background-color: #969696;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin-bottom: 20px; /* Adds some space below the button */
+}
+
+button:hover, input[type="submit"]:hover {
+background-color: #1e1e1f;
+}
+#tools {
+    list-style: none; /* Removes default list styling */
+    padding: 0;
+    margin: 0 0 20px 0; /* Add some space below the list */
+    /* margin-right:200px; */
+}
+
+#tools li {
+    margin-bottom: 10px; /* Space out individual tool inputs */
+}
+
+#tools input {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 8px 10px; /* Comfortable padding around text */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding in width calculation */
+    font-size: 16px; /* Slightly larger font for readability */
+    margin-right: 210px;
+}
+
+#addTool {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 410px;
+    background-color: #6c8347; /* A bright, noticeable color */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+#addTool:hover {
+    background-color: #455231; /* Darker shade on hover for feedback */
+}
+
+#addTool:focus {
+    outline: none; /* Remove focus outline to maintain styled look */
+    box-shadow: 0 0 0 2px #475336; /* Custom focus style */
+}
