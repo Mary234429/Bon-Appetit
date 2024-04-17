@@ -1,18 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"> 
 <head>
-    <title>Contact Us - Bon Appetit</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="contact.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
+<body>
+    <form action="/dashboard" method="get">
+        <button type="submit">Go to Main Page</button>
+    </form>
+    <div class="outer-container">
+        <h1>C&nbsp;O&nbsp;N&nbsp;T&nbsp;A&nbsp;C&nbsp;T</h1>
+        <div class="inner-container">
+            <div class="left-container">
+                <div class="wheat"></div>
+            </div>
+            <div class="right-container">
+                <form action="/contactSubmit" method="post">
+                    <input type="text" class="line" placeholder="NAME" name="name" id="name"><br>
+                    <input type="email" class="line"placeholder="EMAIL" name="email" id="email">
+                    <p>MESSAGE</p>
+                    <br>
+                    <br>
+                    <input type="text" id="message" class="message"name="message"></input>
+                    <input type="submit" class="button" value="SUBMIT">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
 
-<div>
-        <h1><%= title %></h1>
-        <form action="/dashboard" method="get">
-                <button type="submit">Go to Main Page</button>
-            </form>
-        <p>This is the Contact page.</p>
-        <form action="/contactSubmit" method="post">
-            <input type="text" placeholder="Name" name="name" id="name"><br>
-                <input type="email" placeholder="Email" name="email" id="email"><br>
-                    <textarea id="message" name="message" placeholder="Message"></textarea><br>
-                        <input type="submit" value="Submit">
-                        </form>
-                    </div>

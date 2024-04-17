@@ -1,3 +1,51 @@
+body {
+  background-color: #D9D9D9;
+  font-family: Lustria;
+}
+.comment{
+  text-align: left;
+  margin-top: 3vh;
+  border-bottom: 2px solid #F0F0F0; /* Add a solid line between each comment */
+}
+.image-container {
+  position: relative;
+}
+.text {
+  color: white;
+  position: absolute;
+  transform: translate(2vw, -35vh);
+  text-align: left;
+}
+.inner-container {
+  margin: 0 auto;
+  max-width: 60vw;
+  max-height: 80vh;
+  display: flex;
+  transform: translate(0, -8vh);
+}
+.left-container {
+  padding-left: 1vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: left; /* Center items horizontally */
+  background-color: #F0F0F0;
+
+}
+.right-container{
+  padding-left: 5vw;
+  flex: 2;
+  position: relative;
+  align-items: left;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  background-color: #F0F0F0;
+}
+.banner-image{
+  width: 98vw; 
+  height: 60vh; 
+  filter: brightness(0.35);  
+}
 .comment-container {
     display: flex; /* Use flexbox layout */
     align-items: center; /* Center items vertically */
@@ -6,6 +54,7 @@
   .profile-picture {
     width: 30px;
     height: 30px;
+    margin-top: 3vh;
     margin-right: 10px; /* Add some space between the image and the form */
     border-radius: 50%; /* Set border-radius to 50% to make it a circle */
     overflow: hidden; /* Hide overflow to ensure the image remains within the circle */
@@ -21,4 +70,16 @@
   
   .comment-form {
     flex: 1; /* Take remaining space in the flex container */
+  }
+  .button{
+    height:35px;
+    max-width: 100px;
+    font-family: Lustria;
+    border:none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F0F0F0;
+  }
+  .button:hover{
+   background-color: #dddd;
   }
