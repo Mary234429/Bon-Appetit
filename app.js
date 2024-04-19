@@ -66,7 +66,10 @@ const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const GOOGLE_CLIENT_ID =
   "1045442076562-7vtmju1qqq6aahdjrqpnesusknidfirr.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
+
+// IF LOGIN IS BROKEN LOCALLY UNCOMMENT THE BELOW LINE AND COMMENT THE LINE BELOW IT
 const CALLBACK_URL = "http://localhost:3000/auth/google/callback";
+//const CALLBACK_URL = "https://oyster-app-fi55f.ondigitalocean.app/auth/google/callback";
 
 // Initializing passport and session middleware
 app.use(passport.initialize());
@@ -85,7 +88,7 @@ app.get(
     // change landing page after (un)successful logins
     failureRedirect: "/register",
     // if you are not Max and changing the redirect below ask him to change it in the google api dashbaord :)
-    // for Max: https://console.cloud.google.com/apis/credentials?project=sacred-armor-399615
+    // for Max: https://console.cloud.google.com/apis/credentials?project=bon-appetit-414116
     successRedirect: "/dashboard",
   })
 );
