@@ -68,8 +68,8 @@ const GOOGLE_CLIENT_ID =
 const GOOGLE_CLIENT_SECRET = "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";
 
 // IF LOGIN IS BROKEN LOCALLY UNCOMMENT THE BELOW LINE AND COMMENT THE LINE BELOW IT
-const CALLBACK_URL = "http://localhost:3000/auth/google/callback";
-//const CALLBACK_URL = "https://oyster-app-fi55f.ondigitalocean.app/auth/google/callback";
+//const CALLBACK_URL = "http://localhost:3000/auth/google/callback";
+const CALLBACK_URL = "https://oyster-app-fi55f.ondigitalocean.app/auth/google/callback";
 
 // Initializing passport and session middleware
 app.use(passport.initialize());
