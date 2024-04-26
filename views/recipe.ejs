@@ -74,8 +74,6 @@
             <h1><%= recipe.name %></h1>
             <p><%= recipe.description %></p>
 
-   
-            
             <% members.forEach(function(members) { %>
                 <% if (members.googleID === createdRecipe[0].googleID) { %>
                     <p>Authored by: <img src="<%= members.profilePicture %>" alt="Profile Picture of recipe creator" class="author-profile-picture"> <%= members.firstName %> <%= members.lastName %></p>

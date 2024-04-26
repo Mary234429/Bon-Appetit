@@ -878,7 +878,6 @@ app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
   }
 });
 
-
 app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
   console.log("-----POST-----")
   try {
