@@ -233,6 +233,17 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
 
     const joke = await getJoke();
 
+      const userGoogleID = req.user.id; // Google ID of the logged-in user
+
+      // Get all documents with the logged-in user's googleID from SavedRecipes
+      const savedRecipesDocs = await SavedRecipes.find({ googleID: userGoogleID });
+
+      // Extract the recipeID from each document and store in an array
+      const bookmarkedRecipeIDs = savedRecipesDocs.map((doc) => doc.recipeID);
+
+      // Fetch recipe details from Recipes collection using the recipeIDs
+      const bookmarkedRecipes = await Recipes.find({ _id: { $in: bookmarkedRecipeIDs } });
+
     res.render("dashboard", {
       member: members,
       CRecipes: createdRecipes,
@@ -241,6 +252,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
       lunchRecipes,
       dinnerRecipes,
       snackRecipes,
+        bookmarkedRecipes,
       joke,
       recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
@@ -564,8 +576,16 @@ app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,r
   });
 });
 
-app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
+app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
   const recipeID = req.params.recipeId;
+  const userGoogleID = req.user.id;
+
+  const isBookmarked = await SavedRecipes.findOne({
+      googleID: userGoogleID,
+      recipeID: recipeID,
+  });
+  //console.log("Is Recipe Bookmarked: " + isBookmarked);
+
     Recipes.findOne({_id: recipeID}).then(function(theRecipe){
       Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
         CreatedRecipes.find({recipeID: recipeID}).then(function(createdRecipe){
@@ -584,6 +604,8 @@ app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
                   };      
                 }
               }
+
+
               res.render("recipe.ejs", {
                 recipe: theRecipe,
                 ingredients: ingredients,
@@ -593,6 +615,7 @@ app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
                 author: req.user.id,
                 createdRecipe: createdRecipe,
                 members: members,
+                  isBookmarked,
               });
             })
           })
@@ -860,16 +883,16 @@ app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
   console.log("-----POST-----")
   try {
     const userId = req.user.id; // Use the correct method to get the logged-in user's ID
-    console.log("User ID: " + userId);
+    //console.log("User ID: " + userId);
     const { dietitianId } = req.body;
-    console.log("Dietitian ID: " + dietitianId);
+    //console.log("Dietitian ID: " + dietitianId);
 
     // Update the logged-in user's dietitian
     await Member.updateOne({ googleID: userId }, { $set: { dietitian: dietitianId } });
 
     // Fetch the assigned dietitian's name
     const assignedDietitian = await Member.findOne({ googleID: dietitianId });
-    console.log(assignedDietitian);
+    //console.log(assignedDietitian);
     const dietitianName = `${assignedDietitian.firstName} ${assignedDietitian.lastName}`;
 
     res.json({ message: 'Dietitian assigned successfully', dietitianName: dietitianName });
@@ -879,3 +902,68 @@ app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
   }
 });
 
+// app.post('/bookmarkRecipe', ensureAuthenticated, async (req, res) => {
+//     const { recipeID, userGoogleID } = req.body;
+//     const timestamp = new Date();
+//
+//     try {
+//         // Create a new bookmarked recipe document
+//         const newBookmark = new BookmarkedRecipes({
+//             googleID: userGoogleID,
+//             recipeID: recipeID,
+//             timestamp,
+//         });
+//
+//         // Save to the collection
+//         await newBookmark.save();
+//
+//         // Redirect or send a response indicating success
+//         res.redirect(`/recipe/${recipeID}`);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
+
+app.post("/bookmarkRecipe/:recipeId", ensureAuthenticated, async (req, res) => {
+    const { recipeID, userGoogleID } = req.body;
+
+    try {
+        // Check if the recipe is already bookmarked
+        const existingBookmark = await SavedRecipes.findOne({
+            googleID: userGoogleID,
+            recipeID: recipeID,
+        });
+
+        if (!existingBookmark) {
+            const newBookmark = new SavedRecipes({
+                googleID: userGoogleID,
+                recipeID: recipeID,
+            });
+
+            await newBookmark.save(); // Save the new bookmark
+        }
+
+        res.redirect(`/recipe/${recipeID}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.post("/removeBookmark/:recipeId", ensureAuthenticated, async (req, res) => {
+    const { recipeID, userGoogleID } = req.body;
+
+    try {
+        // Remove the bookmark from the database
+        await SavedRecipes.findOneAndDelete({
+            googleID: userGoogleID,
+            recipeID: recipeID,
+        });
+
+        res.redirect(`/recipe/${recipeID}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});

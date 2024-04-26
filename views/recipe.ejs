@@ -52,6 +52,14 @@
         </form>
     <% } %>
 
+    <!-- Add a 'Bookmark Recipe' button on the recipe page -->
+    <form action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>" method="post">
+        <input type="hidden" name="recipeID" value="<%= recipe._id %>">
+        <input type="hidden" name="userGoogleID" value="<%= author %>">
+        <button type="submit"><% if (isBookmarked) { %>Remove Bookmark<% } else { %>Bookmark Recipe<% } %></button>
+    </form>
+
+
     <div class="image-container">
         <% if(recipe.thumbnail==null) { %>
             <img src="plate.png"
@@ -167,3 +175,4 @@
         <% }; %>
 
 </body>
+</html>

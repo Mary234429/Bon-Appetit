@@ -376,6 +376,45 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
+    <div class="bookmarkCarousel">
+      <span class="carousel-title">Bookmarked Recipes</span>
+      <button class="scroll-button left-scroll">&#10094;</button>
+      <div class="bookmarkContainer">
+        <div class="recipeWrapper">
+          <% bookmarkedRecipes.forEach((recipe) => { %> <!-- Display all bookmarked recipes -->
+          <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+            <div class="recipeBookmark">
+              <% if (recipe.thumbnail == null) { %>
+                <img src="plate.png" class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+              <% } else { %>
+                <img
+                        src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
+                        class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+              <% } %>
+              <h7 class="bookmark-recipe-name">
+                <%= recipe.name %>
+              </h7>
+              <!-- Optional creator details -->
+              <% const creatorDetails = recipeMemberMap[recipe._id]; %>
+              <% if (creatorDetails && creatorDetails.profilePicture) { %>
+                <div class="creator-info">
+                  <img src="<%= creatorDetails.profilePicture %>" alt="<%= creatorDetails.firstName %> Thumbnail">
+                  <p>
+                    <%= creatorDetails.firstName %> <%= creatorDetails.lastName %>
+                  </p>
+                </div>
+              <% } %>
+            </div>
+          </a>
+          <% }); %>
+        </div>
+      </div>
+      <button class="scroll-button right-scroll">&#10095;</button>
+    </div>
+
+
+
+
   </div> <!-- recipe container end-->
 </body>
 
@@ -496,6 +535,19 @@
       snacksContainer.scrollBy({ left: 700, behavior: 'smooth' });
     });
 
+  });
+
+  // Bookmarked
+  document.addEventListener('DOMContentLoaded', function () {
+    const bookmarkContainer = document.querySelector('.bookmarkContainer');
+
+    document.querySelector('.bookmarkCarousel .left-scroll').addEventListener('click', function () {
+      bookmarkContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+
+    document.querySelector('.bookmarkCarousel .right-scroll').addEventListener('click', function () {
+      bookmarkContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
   });
 
 
