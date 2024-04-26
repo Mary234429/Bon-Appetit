@@ -879,7 +879,7 @@ app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
 });
 
 app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
-  console.log("-----POST-----")
+  //console.log("-----POST-----")
   try {
     const userId = req.user.id; // Use the correct method to get the logged-in user's ID
     //console.log("User ID: " + userId);

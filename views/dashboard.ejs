@@ -487,6 +487,23 @@
           }
         }
       });
+
+      // Search Bookmarks? Maybe?
+      $(".recipeBookmark").each(function (i, obj) {
+        $(this).css("display", "block");
+        for (let i = 0; i < filterArray.length; i++) {
+          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
+          let upSearch = new RegExp(upText);
+          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
+          let downSearch = new RegExp(downText);
+          if (
+                  !upSearch.test($(this).attr("data-recipe")) &&
+                  !downSearch.test($(this).attr("data-recipe"))
+          ) {
+            $(this).css("display", "none");
+          }
+        }
+      });
     });
   });
 
