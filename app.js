@@ -902,29 +902,6 @@ app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
   }
 });
 
-// app.post('/bookmarkRecipe', ensureAuthenticated, async (req, res) => {
-//     const { recipeID, userGoogleID } = req.body;
-//     const timestamp = new Date();
-//
-//     try {
-//         // Create a new bookmarked recipe document
-//         const newBookmark = new BookmarkedRecipes({
-//             googleID: userGoogleID,
-//             recipeID: recipeID,
-//             timestamp,
-//         });
-//
-//         // Save to the collection
-//         await newBookmark.save();
-//
-//         // Redirect or send a response indicating success
-//         res.redirect(`/recipe/${recipeID}`);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
-
 app.post("/bookmarkRecipe/:recipeId", ensureAuthenticated, async (req, res) => {
     const { recipeID, userGoogleID } = req.body;
 
