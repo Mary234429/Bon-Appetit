@@ -1,6 +1,0 @@
-
-> bon-appetit@1.0.0 start
-> node app.js
-
-Server has started on port 3000
-Database connection successful.
