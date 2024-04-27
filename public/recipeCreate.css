@@ -3,7 +3,7 @@ body {
 margin: 0;
 padding: 0;
 box-sizing: border-box;
-font-family: 'Lustria';
+font-family: Lustria;
 }
 
 /* The container that holds both left and right sections */
@@ -17,15 +17,15 @@ padding: 20px;
 }
 
 h1 {
-    font-family: 'Lustria';
-    font-size: 2.5rem; 
+    /* font-family: 'Lustria'; */
+    font-size: 2.1rem; 
     color: #333; 
     text-align: left; 
     margin-right: 290px; 
     padding: 10px; 
-    background-color: #f0f0f0; 
-    border-radius: 10px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    /* background-color: #f0f0f0;  */
+    border-radius: 15px; 
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.1);  */
   }
 /* The left container styles for the image upload section */
 .left-container {
@@ -50,27 +50,36 @@ max-width: 50%; /* Same as left container to maintain balance */
 input[type="text"],
 textarea,
 select {
-width: 100%;
+width: 84%;
 padding: 10px;
-margin-bottom: 20px; /* Adds some space below each input */
+margin-bottom: 25px; /* Adds some space below each input */
 border: 1px solid #ccc;
-border-radius: 5px;
+border-radius: 15px;
+font-family: Lustria;
 }
+textarea{
+  margin-bottom: -5px;
+}
+input[type="text"]{
+  margin-top: 80px;
+
+}
+
 
 input[type="file"] {
 margin-bottom: 20px;
+font-family: Lustria;
 
 }
 .custom-file-upload {
     display: inline-block;
-    padding: 12px 30px;
+    padding: 70px 90px;
     cursor: pointer;
-    /* border-radius: 25px; */
+    border-radius: 15px;
     background: linear-gradient(45deg, #6c8347, #b0d674);
     color: white;
-    margin-right:390px;
+    margin-right:240px;
     font-size: 16px;
-    font-family: 'Arial', sans-serif;
     text-shadow: 1px 1px #000;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
@@ -78,6 +87,7 @@ margin-bottom: 20px;
     outline: none;
     text-align: center;
     vertical-align: middle;
+    font-family: Lustria;
 }
 
 .custom-file-upload:hover {
@@ -98,22 +108,130 @@ margin-bottom: 20px;
 
 /* Button styles */
 button, input[type="submit"] {
-padding: 10px 20px;
-background-color: #969696;
-color: white;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-margin-bottom: 20px; /* Adds some space below the button */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6c8347; /* Green background */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
 }
 
 button:hover, input[type="submit"]:hover {
-background-color: #1e1e1f;
+    background-color: #b0d674; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift */
 }
+button:active {
+    transform: translateY(1px); /* Push down */
+  }
+  input[type="number"]{
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-family: Lustria;
+    padding:6px;
+  }
+ 
+  /* Styling for ingredient amount input */
+.ingredientAmount {
+    flex: 1; /* Takes up available space */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin-right: 10px; /* Adds space between this input and the select dropdown */
+  }
+  
+  /* General styles for select dropdowns, enhancing the select2 plugin */
+  .select2-container--default .select2-selection--single {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    height: 38px; /* Match height to other input fields */
+    line-height: 38px; /* Vertically center the text */
+    width:85%
+  }
+  
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px; /* Ensure the arrow aligns with the height of the select box */
+    position: absolute;
+    right: 5px;
+    top: 1px; /* Adjust top position for centering */
+  }
+  
+  /* Specific styling for the ingredient select dropdown */
+  .ingredient.js-example-basic-single {
+    width: 60%; /* Takes up a portion of the space, adjust as needed */
+    display: inline-block; /* Keeps the dropdown inline with other elements */
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .ingredientAmount, .ingredient.js-example-basic-single {
+      width: 100%; /* Full width on smaller screens for better accessibility */
+      margin-bottom: 10px; /* Adds space between stacked elements */
+    }
+  }
+  .meal-type-checkboxes {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: raw;
+  }
+  
+  .meal-type-checkboxes label {
+    margin-left: 15px;
+  }
+  
+  .meal-type-checkboxes input {
+    margin-bottom: 5px;
+  }
+  
+  /* Styling for instruction and tag input fields */
+input[name="instructions[]"], input[name="recipeTags[]"] {
+    width: 88%; /* Full width to match the container */
+    padding: 8px 12px; /* Adequate padding for text entry */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 15px; /* Rounded corners */
+    margin-bottom: 10px; /* Space below each input for separation */
+    box-sizing: border-box; /* Include padding and border in the width */
+  }
+  
+  /* Hover and focus states to enhance user interaction */
+  input[name="instructions[]"]:hover, input[name="recipeTags[]"]:hover,
+  input[name="instructions[]"]:focus, input[name="recipeTags[]"]:focus {
+    border-color: #888; /* Darker border on hover/focus for visibility */
+    outline: none; /* Remove default focus outline */
+  }
+  
+  /* Button styling to match form controls */
+  #addInstruction, #addTag {
+    padding: 10px 20px;
+    background-color: #6c8347; /* Consistent button color */
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 5px; /* Slight space above the button */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  #addInstruction:hover, #addTag:hover {
+    background-color: #b0d674; /* Slightly darker on hover */
+  }
+  
+  /* Ensure buttons are full width on smaller screens for easier access */
+  @media (max-width: 768px) {
+    #addInstruction, #addTag {
+      width: 100%;
+    }
+  }
+  
+
+
 #tools {
     list-style: none; /* Removes default list styling */
     padding: 0;
-    margin: 0 0 20px 0; /* Add some space below the list */
+    margin: 0 0 40px 0; /* Add some space below the list */
     /* margin-right:200px; */
 }
 
@@ -122,13 +240,14 @@ background-color: #1e1e1f;
 }
 
 #tools input {
-    width: calc(100% - 20px); /* Full width minus padding */
+    width: calc(91% - 20px); /* Full width minus padding */
     padding: 8px 10px; /* Comfortable padding around text */
     border: 1px solid #ccc; /* Subtle border */
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 15px; /* Rounded corners */
     box-sizing: border-box; /* Include padding in width calculation */
-    font-size: 16px; /* Slightly larger font for readability */
+   
     margin-right: 210px;
+    font-family: Lustria;
 }
 
 #addTool {
@@ -138,16 +257,39 @@ background-color: #1e1e1f;
     background-color: #6c8347; /* A bright, noticeable color */
     color: #fff; /* White text */
     border: none; /* No border */
-    border-radius: 5px; /* Rounded corners for the button */
+    border-radius: 15px; /* Rounded corners for the button */
     cursor: pointer; /* Change cursor to indicate it's clickable */
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 #addTool:hover {
-    background-color: #455231; /* Darker shade on hover for feedback */
+    background-color: #b0d674; /* Darker shade on hover for feedback */
 }
+
 
 #addTool:focus {
     outline: none; /* Remove focus outline to maintain styled look */
-    box-shadow: 0 0 0 2px #475336; /* Custom focus style */
+    box-shadow: 0 0 0 2px #6c8347; /* Custom focus style */
 }
+.add-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6c8347; /* Green background */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+  }
+  
+  .add-button:hover {
+    background-color: #b0d674; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift */
+  }
+  
+  .add-button:active {
+    transform: translateY(1px); /* Push down */
+  }
+  

@@ -1,43 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Dietitians!</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="dietitian.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Dietitian</title>
 </head>
 <body>
-<div>
-    <h1>My Dietitian</h1>
-
-    <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
-    <p id="currentActiveDietitian">Current Active Dietitian: <%= currentActiveDietitianName %></p>
-
-    <p>List of Dietitians:</p>
-    <input type="text" id="searchBar" placeholder="Search dietitians..." autocomplete="off">
-
-    <ul id="dietitianList">
-        <% dietitians.forEach(function(dietitian) { %>
-            <li class="dietitian-item" data-id="<%= dietitian.googleID %>" data-name="<%= dietitian.firstName %> <%= dietitian.lastName %>" data-gender="<%= dietitian.gender %>" data-dietType="<%= dietitian.diettype %>">
-                <a href="javascript:void(0);"><%= dietitian.firstName %> <%= dietitian.lastName %></a>
-            </li>
-        <% }); %>
-    </ul>
-
     <form action="/dashboard" method="get">
         <button type="submit">Dashboard</button>
-    </form>
-</div>
-
-<!-- Place this at the bottom of your EJS file, before the closing </body> tag -->
-<div id="dietitianModal"
-     style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
-    <div style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%;">
-        <span id="closeModal"
-              style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-        <h2>Dietitian Details</h2>
-        <p id="dietitianName"></p>
-        <p id="dietitianDietType"></p>
-        <p id="dietitianGender"></p>
-        <button id="assignDietitianButton" onclick="assignDietitian()">Assign as My Dietitian</button>
+      </form>
+    <div class="top-container">
+        <h1>My Dietitian</h1>
+        <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
+        <p id="currentActiveDietitian">Current Active Dietitian: <%= currentActiveDietitianName %></p>
+        
+        <input type="text" id="searchBar" class="SearchTextBox" placeholder="Search dietitians..." autocomplete="off">
     </div>
-</div>
-</body>
+    <div class="dietitianCarousel">
+      <img src="leaf.png" alt="leaf" id = "leaf1"/>
+      <img src="leaf.png" alt="leaf" id = "leaf2"/>
+      <button class="scroll-button left-scroll" onclick=>&#10094;</button>
+      <div class="dietitianContainer">
+        <!-- Each dietitian in a box -->
+        <% dietitians.forEach(function(dietitian) { %>
+          <div class="box">
+            <div class="upper-container">
+            <ul id="dietitianList">
+              <li class="dietitian-item" data-id="<%= dietitian.googleID %>" data-name="<%= dietitian.firstName %> <%= dietitian.lastName %>" data-gender="<%= dietitian.gender %>" data-dietType="<%= dietitian.diettype %>">
+                <a href="javascript:void(0);"><%= dietitian.firstName %> <%= dietitian.lastName %></a>
+              </li>
+            </ul>
+          </div>
+          <div class="lower-container">
+            <div class="left-lower">
+              <p>Clinic Name<br><br>1234 Doctor Drive Menomonie, WI 54751</p>
+            </div>
+            <div class="right-lower">
+              <button class="assign-button" id="assignDietitianButton" onclick="assignDietitian()">Assign as My Dietitian</button>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <button class="scroll-button right-scroll" onclick=>&#10095;</button>
+    </div>
 
-<script src="/script.js"></script>
+  <!-- Modal -->
+  <div id="dietitianModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <div style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%;">
+      <span id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+      <h2>Dietitian Details</h2>
+      <p id="dietitianName"></p>
+      <p id="dietitianDietType"></p>
+      <p id="dietitianGender"></p>
+    </div>
+  </div>
+    <script src="/script.js"></script>
+    <script>
+      // Define the amount to scroll in viewport units (vw)
+      var leftScrollAmount = -21; 
+      
+      // Calculate the equivalent pixel value based on viewport width
+      var leftScroll = leftScrollAmount * window.innerWidth / 100;
+
+        //recipes scrolling// Define the amount to scroll in viewport units (vw)
+      var rightScrollAmount = 21; 
+
+        // Calculate the equivalent pixel value based on viewport width
+        var rightScroll = rightScrollAmount * window.innerWidth / 100;
+
+        document.addEventListener('DOMContentLoaded', function () {
+        // Dietitian Container Scroll
+        const dietitianContainer = document.querySelector('.dietitianContainer');
+
+        document.querySelector('.dietitianCarousel .left-scroll').addEventListener('click', function () {
+        // Scroll left
+        dietitianContainer.scrollBy({ left: leftScroll, behavior: 'smooth' });
+        });
+
+        document.querySelector('.dietitianCarousel .right-scroll').addEventListener('click', function () {
+        // Scroll right
+        dietitianContainer.scrollBy({ left: rightScroll, behavior: 'smooth' });
+        });
+    });
+    </script>
+</body>
+</html>
