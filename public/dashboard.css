@@ -266,6 +266,7 @@ h3 {
 .breakfastCarousel,
 .lunchCarousel,
 .dinnerCarousel,
+.bookmarkCarousel,
 .snacksCarousel {
   display: flex;
   align-items: center;
@@ -281,6 +282,7 @@ h3 {
 .breakfastContainer,
 .lunchContainer,
 .dinnerContainer,
+.bookmarkContainer,
 .snacksContainer {
   display: flex;
   scroll-behavior: smooth;
@@ -330,6 +332,7 @@ h3 {
 .recipeBreakfast,
 .recipeLunch,
 .recipeDinner,
+.recipeBookmark,
 .recipeSnacks {
   display: flex;
   flex-direction: column;
@@ -347,6 +350,7 @@ h3 {
 .recipeBreakfast:hover,
 .recipeLunch:hover,
 .recipeDinner:hover,
+.recipeBookmark:hover,
 .recipeSnacks:hover{
   transform: scale(1.1); 
   text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
@@ -358,6 +362,7 @@ transition: all 0.4s ease 0s;
 .lunchContainer::-webkit-scrollbar ,
 .dinnerContainer::-webkit-scrollbar ,
 .snacksContainer::-webkit-scrollbar ,
+.bookmarkContainer::-webkit-scrollbar,
 .breakfastContainer::-webkit-scrollbar {
   display: none;
 }
@@ -365,6 +370,7 @@ transition: all 0.4s ease 0s;
 .recipeBreakfastPic,
 .recipeLunchPic,
 .recipeDinnerPic,
+.recipeBookmarkPic,
 .recipeSnacksPic
 {
   
@@ -380,6 +386,7 @@ box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
 .breakfast-recipe-name,
 .lunch-recipe-name,
 .dinner-recipe-name,
+.bookmark-recipe-name,
 .snack-recipe-name {
   color: rgb(0, 0, 0);
   font-size: 21px;
