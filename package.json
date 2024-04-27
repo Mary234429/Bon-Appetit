@@ -23,7 +23,8 @@
     "react-dom": "^16.14.0"
   },
   "scripts": {
-    "devStart": "nodemon app.js"
+    "devStart": "nodemon app.js",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
