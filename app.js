@@ -150,30 +150,30 @@ app.get("/logout", function (req, res) {
  *** END GOOGLE OAUTH PASSPORT CODE :) ***
  *****************************************
  */
-app.get("/addFood",ensureAuthenticated,(req, res) => {
-    Recipes.find().then(function (Recipes) {
-        formatedDate = req.query.date;
-        mealType = req.query.mealType;
-        res.render("addFood", { Recipes, formatedDate, mealType });
-    });
+app.get("/addFood", ensureAuthenticated, (req, res) => {
+  Recipes.find().then(function (Recipes) {
+    formatedDate = req.query.date;
+    mealType = req.query.mealType;
+    res.render("addFood", { Recipes, formatedDate, mealType });
+  });
 });
 
 app.post("/addDiet", ensureAuthenticated, (req, res) => {
-    let formatedDate = req.body.date;
-    let user = req.user.id;
-    let mealType = req.body.mealType;
-    let recipe = req.body.RecipeName;
-    console.log(recipe);
-    const diettracker = new DietTracker({
-        user: user,
-        timeOfDay: formatedDate,
-        typeOfMeal: mealType,
-        recipe: recipe,
-    });
-    //Save the recipe to the database
-    diettracker.save();
-    console.log("Diet Added Successfully!");
-    res.redirect("/dietTracker");
+  let formatedDate = req.body.date;
+  let user = req.user.id;
+  let mealType = req.body.mealType;
+  let recipe = req.body.RecipeName;
+  console.log(recipe);
+  const diettracker = new DietTracker({
+    user: user,
+    timeOfDay: formatedDate,
+    typeOfMeal: mealType,
+    recipe: recipe,
+  });
+  //Save the recipe to the database
+  diettracker.save();
+  console.log("Diet Added Successfully!");
+  res.redirect("/dietTracker");
 });
 
 //Set up application port
@@ -187,14 +187,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", ensureAuthenticated, async function (req, res) {
-  try{
-  const privateRecipes = await CreatedRecipes.find({googleID: req.user.id})
+  try {
+    const privateRecipes = await CreatedRecipes.find({ googleID: req.user.id })
     let recipeIDs = [];
-    for(let i = 0; i < privateRecipes.length; i++){
+    for (let i = 0; i < privateRecipes.length; i++) {
       recipeIDs.push(privateRecipes.at(i).recipeID);
     }
-  const ingredients = await Ingredients.find();
-  const recipes = await Recipes.find({ $or: [{ _id: {$in: recipeIDs} }, {publicity: /Public/}]});
+    const ingredients = await Ingredients.find();
+    const recipes = await Recipes.find({ $or: [{ _id: { $in: recipeIDs } }, { publicity: /Public/ }] });
     let breakfastRecipes = [];
     let lunchRecipes = [];
     let dinnerRecipes = [];
@@ -218,7 +218,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
     // Map to store member names for each recipe
-    const recipeMemberMap = {}; 
+    const recipeMemberMap = {};
     for (const createdRecipe of createdRecipes) {
       const { recipeID, googleID } = createdRecipe;
       const member = members.find(member => member.googleID === googleID);
@@ -226,12 +226,23 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
         recipeMemberMap[recipeID] = {
           firstName: member.firstName,
           lastName: member.lastName,
-          profilePicture: member.profilePicture, 
-        };      
+          profilePicture: member.profilePicture,
+        };
       }
     }
 
     const joke = await getJoke();
+
+    const userGoogleID = req.user.id; // Google ID of the logged-in user
+
+    // Get all documents with the logged-in user's googleID from SavedRecipes
+    const savedRecipesDocs = await SavedRecipes.find({ googleID: userGoogleID });
+
+    // Extract the recipeID from each document and store in an array
+    const bookmarkedRecipeIDs = savedRecipesDocs.map((doc) => doc.recipeID);
+
+    // Fetch recipe details from Recipes collection using the recipeIDs
+    const bookmarkedRecipes = await Recipes.find({ _id: { $in: bookmarkedRecipeIDs } });
 
     res.render("dashboard", {
       member: members,
@@ -241,14 +252,20 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
       lunchRecipes,
       dinnerRecipes,
       snackRecipes,
+      bookmarkedRecipes,
       joke,
       recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+
+
 
 async function getJoke() {
   try {
@@ -268,76 +285,76 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/dietTracker", ensureAuthenticated, function (req, res) {
-    let currentDate;
-    if (req.query.datepicker) {
-        // If datepicker is provided in the query parameters
-        currentDate = new Date(req.query.datepicker);
-        currentDate.setDate(currentDate.getDate() + 1);
-    } else {
-        // If datepicker is not provided, use the current date
-        currentDate = new Date();
-    }
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const formatedDate = `${year}-${month}-${day}`;
-    DietTracker.find().then((tracker) => {
-        Recipes.find().then((MealList) => {
-            let breakfastTracked = [];
-            let lunchTracked = [];
-            let dinnerTracked = [];
-            let snackTracked = [];
-            let breakfastNames = [];
-            let lunchNames = [];
-            let dinnerNames = [];
-            let snackNames = [];
-            for (let i = 0; i < tracker.length; i++) {
-                if (tracker.at(i).timeOfDay == formatedDate) {
-                    if (tracker.at(i).typeOfMeal == "Breakfast") {
-                        breakfastTracked.push(tracker.at(i));
-                    }
-                    if (tracker.at(i).typeOfMeal == "Lunch") {
-                        lunchTracked.push(tracker.at(i));
-                    }
-                    if (tracker.at(i).typeOfMeal == "Dinner") {
-                        dinnerTracked.push(tracker.at(i));
-                    }
-                    if (tracker.at(i).typeOfMeal == "Snacks") {
-                        snackTracked.push(tracker.at(i));
-                    }
-                }
-            }
-            for (let i = 0; i < breakfastTracked.length; i++) {
-                for (let j = 0; j < MealList.length; j++) {
-                    if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
-                        breakfastNames.push(MealList.at(j).name);
-                    }
-                }
-            }
-            for (let i = 0; i < lunchTracked.length; i++) {
-                for (let j = 0; j < MealList.length; j++) {
-                    if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
-                        lunchNames.push(MealList.at(j).name);
-                    }
-                }
-            }
-            for (let i = 0; i < dinnerTracked.length; i++) {
-                for (let j = 0; j < MealList.length; j++) {
-                    if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
-                        dinnerNames.push(MealList.at(j).name);
-                    }
-                }
-            }
-            for (let i = 0; i < snackTracked.length; i++) {
-                for (let j = 0; j < MealList.length; j++) {
-                    if (snackTracked.at(i).recipe == MealList.at(j)._id) {
-                        snackNames.push(MealList.at(j).name);
-                    }
-                }
-            }
-            res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames });
-        });
+  let currentDate;
+  if (req.query.datepicker) {
+    // If datepicker is provided in the query parameters
+    currentDate = new Date(req.query.datepicker);
+    currentDate.setDate(currentDate.getDate() + 1);
+  } else {
+    // If datepicker is not provided, use the current date
+    currentDate = new Date();
+  }
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const formatedDate = `${year}-${month}-${day}`;
+  DietTracker.find().then((tracker) => {
+    Recipes.find().then((MealList) => {
+      let breakfastTracked = [];
+      let lunchTracked = [];
+      let dinnerTracked = [];
+      let snackTracked = [];
+      let breakfastNames = [];
+      let lunchNames = [];
+      let dinnerNames = [];
+      let snackNames = [];
+      for (let i = 0; i < tracker.length; i++) {
+        if (tracker.at(i).timeOfDay == formatedDate) {
+          if (tracker.at(i).typeOfMeal == "Breakfast") {
+            breakfastTracked.push(tracker.at(i));
+          }
+          if (tracker.at(i).typeOfMeal == "Lunch") {
+            lunchTracked.push(tracker.at(i));
+          }
+          if (tracker.at(i).typeOfMeal == "Dinner") {
+            dinnerTracked.push(tracker.at(i));
+          }
+          if (tracker.at(i).typeOfMeal == "Snacks") {
+            snackTracked.push(tracker.at(i));
+          }
+        }
+      }
+      for (let i = 0; i < breakfastTracked.length; i++) {
+        for (let j = 0; j < MealList.length; j++) {
+          if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
+            breakfastNames.push(MealList.at(j).name);
+          }
+        }
+      }
+      for (let i = 0; i < lunchTracked.length; i++) {
+        for (let j = 0; j < MealList.length; j++) {
+          if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
+            lunchNames.push(MealList.at(j).name);
+          }
+        }
+      }
+      for (let i = 0; i < dinnerTracked.length; i++) {
+        for (let j = 0; j < MealList.length; j++) {
+          if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
+            dinnerNames.push(MealList.at(j).name);
+          }
+        }
+      }
+      for (let i = 0; i < snackTracked.length; i++) {
+        for (let j = 0; j < MealList.length; j++) {
+          if (snackTracked.at(i).recipe == MealList.at(j)._id) {
+            snackNames.push(MealList.at(j).name);
+          }
+        }
+      }
+      res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames });
     });
+  });
 });
 
 app.get("/register", (req, res) => {
@@ -438,12 +455,12 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-  let imageBuffer="";
+  let imageBuffer = "";
   const { originalname, mimetype, buffer } = req.file;
 
   imageBuffer = buffer;
   console.log("Uploaded image size:", imageBuffer.length, "bytes");
-  
+
   //Create a recipe object from submitted data
   const recipe = new Recipes({
     name: recipeName,
@@ -481,20 +498,20 @@ app.post("/addIngredient", ensureAuthenticated, function (req, res) {
   });
   ingredient.save();
   res.end(
-    '{"_id":"' + ingredient._id + '",' + 
-      '"name":"' +
-      req.body.ingredientName +
-      '","unit":"' +
-      req.body.ingredientUnit +
-      '","caloriesPerUnit":' +
-      req.body.caloriesPerUnit +
-      "}"
+    '{"_id":"' + ingredient._id + '",' +
+    '"name":"' +
+    req.body.ingredientName +
+    '","unit":"' +
+    req.body.ingredientUnit +
+    '","caloriesPerUnit":' +
+    req.body.caloriesPerUnit +
+    "}"
   );
 });
 
-app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
+app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function (req, res) {
   let edit = true;
-  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let recipe = await Recipes.findOne({ _id: req.params.recipeID });
   let ingredients = await Ingredients.find();
   res.render("recipeEdit.ejs", {
     edit: edit,
@@ -502,60 +519,58 @@ app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function(req, res){
     ingredients: ingredients
   });
 });
+
 
 app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function(req, res){
-  
-  //retrieve variables from request
-  let recipeName = req.body.recipeName;
-  let recipeDescription = req.body.description;
-  let tools = req.body.recipeTools;
-  let ingredients = req.body.ingredients;
-  let ingredientAmounts = req.body.ingredientAmounts;
-  let instructions = req.body.instructions;
-  let tags = req.body.recipeTags;
-  let mealType = req.body.mealType;
-  let privacy = req.body.privacyLevel;
-  
-  if(!req.file){
-    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
-      name: recipeName,
-      description: recipeDescription,
-      toolsNeeded: tools,
-      ingredients: ingredients,
-      ingredientAmounts: ingredientAmounts,
-      instructions: instructions,
-      tags: tags,
-      mealType: mealType,
-      publicity: privacy,
-    }});
-  }else{
-    const { originalname, mimetype, buffer } = req.file;
+  try {
+    let recipeName = req.body.recipeName;
+    let recipeDescription = req.body.description;
+    let recipeTools = req.body.recipeTools;
+    let ingredients = req.body.ingredients;
+    let ingredientAmounts = req.body.ingredientAmounts;
+    let instructions = req.body.instructions;
+    let recipeTags = req.body.recipeTags;
+    let mealType = req.body.mealType;
+    let privacyLevel = req.body.privacyLevel;
 
-    let imageBuffer = buffer;
-    //Create a recipe object from submitted data
-    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
+    let updateFields = {
       name: recipeName,
       description: recipeDescription,
-      toolsNeeded: tools,
+      toolsNeeded: recipeTools,
       ingredients: ingredients,
       ingredientAmounts: ingredientAmounts,
       instructions: instructions,
-      tags: tags,
+      tags: recipeTags,
       mealType: mealType,
-      publicity: privacy,
-      thumbnail: imageBuffer,
-    }});
+      privacyLevel: privacyLevel
+    };
+
+    if(req.file) {
+      updateFields.thumbnail = req.file.buffer;
+    }
+
+    await Recipes.findByIdAndUpdate(req.params.recipeID, {$set: updateFields}).exec();
+
+    // Save who created the recipe & timestamp to the database
+    let timestamp = new Date();
+    let userID = req.user.id;
+
+    await Recipes.findOneAndUpdate(
+      { googleID: userID, recipeID: req.params.recipeID },
+      { $set: { timestamp: timestamp }}
+    ).exec();
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error('Error updating recipe:', error);
+    res.status(500).send('Error updating recipe. Please try again later.');
   }
-  //save who created the recipe & timestamp to the database
-  let timestamp = new Date();
-  let userID = req.user.id;
-  Recipes.findOneAndUpdate({$and:{googleID: userID, recipeID: req.params.recipeID}, $set:{timestamp: timestamp}});
-  res.redirect("/dashboard");
+
 });
 
-app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,res){
+app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function (req, res) {
   let edit = false;
-  let recipe = await Recipes.findOne({_id: req.params.recipeID});
+  let recipe = await Recipes.findOne({ _id: req.params.recipeID });
   let ingredients = await Ingredients.find();
   res.render("recipeEdit.ejs", {
     edit: edit,
@@ -564,45 +579,56 @@ app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function(req,r
   });
 });
 
-app.get('/recipe/:recipeId', ensureAuthenticated, function (req, res) {
+app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
   const recipeID = req.params.recipeId;
-    Recipes.findOne({_id: recipeID}).then(function(theRecipe){
-      Ingredients.find({_id: {$in: theRecipe.ingredients}}).then(function(ingredients){
-        CreatedRecipes.find({recipeID: recipeID}).then(function(createdRecipe){
-          Member.find().then(function(members){
-            Comment.find({recipeID: recipeID}).then(function(createdComments){
-              const commentMemberMap = {}; // Map to store member names for each comment
-  
-              for (const createdComment of createdComments) {
-                const {_id, authorID } = createdComment;
-                const member = members.find(member => member.googleID === authorID);
-                if (member) {
-                  commentMemberMap[createdComment._id] = {
-                    firstName: member.firstName,
-                    lastName: member.lastName,
-                    profilePicture: member.profilePicture, 
-                  };      
-                }
+  const userGoogleID = req.user.id;
+
+  const isBookmarked = await SavedRecipes.findOne({
+    googleID: userGoogleID,
+    recipeID: recipeID,
+  });
+  //console.log("Is Recipe Bookmarked: " + isBookmarked);
+
+  Recipes.findOne({ _id: recipeID }).then(function (theRecipe) {
+    Ingredients.find({ _id: { $in: theRecipe.ingredients } }).then(function (ingredients) {
+      CreatedRecipes.find({ recipeID: recipeID }).then(function (createdRecipe) {
+        Member.find().then(function (members) {
+          Comment.find({ recipeID: recipeID }).then(function (createdComments) {
+            const commentMemberMap = {}; // Map to store member names for each comment
+
+            for (const createdComment of createdComments) {
+              const { _id, authorID } = createdComment;
+              const member = members.find(member => member.googleID === authorID);
+              if (member) {
+                commentMemberMap[createdComment._id] = {
+                  firstName: member.firstName,
+                  lastName: member.lastName,
+                  profilePicture: member.profilePicture,
+                };
               }
-              res.render("recipe.ejs", {
-                recipe: theRecipe,
-                ingredients: ingredients,
-                map: commentMemberMap,
-                comments: createdComments,
-                picture: req.user.picture,
-                author: req.user.id,
-                createdRecipe: createdRecipe,
-                members: members,
-              });
-            })
+            }
+
+
+            res.render("recipe.ejs", {
+              recipe: theRecipe,
+              ingredients: ingredients,
+              map: commentMemberMap,
+              comments: createdComments,
+              picture: req.user.picture,
+              author: req.user.id,
+              createdRecipe: createdRecipe,
+              members: members,
+              isBookmarked,
+            });
           })
         })
       })
     })
   })
+})
 
 
-    
+
 
 app.get("/image/:recipeId", async (req, res) => {
   try {
@@ -676,6 +702,10 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
+app.get("/myRecipesPage", (req, res) => {
+  res.render("myRecipesPage", { title: "Recipes" });
+});
+
 app.get("/profile", ensureAuthenticated, async function (req, res) {
   // try statement getting all recent recipes created by logged in user
   try {
@@ -744,29 +774,29 @@ app.post("/editProfile", ensureAuthenticated, function (req, res) {
  **************************************
  */
 app.get("/comments", ensureAuthenticated, async function (req, res) {
-      const members = await Member.find();
-      // im betting that this might load all comments ignoring recipeIDs
-      const createdComments = await Comment.find();
-        // uncomment when on recipe page
-      // const createdComments = await Comment.findById(req.params.id);
-      const commentMemberMap = {}; // Map to store member names for each comment
+  const members = await Member.find();
+  // im betting that this might load all comments ignoring recipeIDs
+  const createdComments = await Comment.find();
+  // uncomment when on recipe page
+  // const createdComments = await Comment.findById(req.params.id);
+  const commentMemberMap = {}; // Map to store member names for each comment
 
-      for (const createdComment of createdComments) {
-        const {_id, authorID } = createdComment;
-        const member = members.find(member => member.googleID === authorID);
-        if (member) {
-          commentMemberMap[createdComment._id] = {
-            firstName: member.firstName,
-            lastName: member.lastName,
-            profilePicture: member.profilePicture, 
-          };      
-        }
-      }
-      res.render("comments.ejs", {
-        map: commentMemberMap,
-        comments: createdComments,
-        picture: req.user.picture,
-        author: req.user.id,
+  for (const createdComment of createdComments) {
+    const { _id, authorID } = createdComment;
+    const member = members.find(member => member.googleID === authorID);
+    if (member) {
+      commentMemberMap[createdComment._id] = {
+        firstName: member.firstName,
+        lastName: member.lastName,
+        profilePicture: member.profilePicture,
+      };
+    }
+  }
+  res.render("comments.ejs", {
+    map: commentMemberMap,
+    comments: createdComments,
+    picture: req.user.picture,
+    author: req.user.id,
   });
 });
 
@@ -836,9 +866,9 @@ app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
     const dietitians = await Member.find({ usertype: "dietitian" });
     let currentActiveDietitianName = "None";
 
-    if(loggedInMember.dietitian) {
+    if (loggedInMember.dietitian) {
       const currentActiveDietitian = await Member.findOne({ googleID: loggedInMember.dietitian });
-      if(currentActiveDietitian) {
+      if (currentActiveDietitian) {
         currentActiveDietitianName = `${currentActiveDietitian.firstName} ${currentActiveDietitian.lastName}`;
       }
     }
@@ -855,21 +885,20 @@ app.get("/mydietitian", ensureAuthenticated, async function (req, res) {
   }
 });
 
-
 app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
-  console.log("-----POST-----")
+  //console.log("-----POST-----")
   try {
     const userId = req.user.id; // Use the correct method to get the logged-in user's ID
-    console.log("User ID: " + userId);
+    //console.log("User ID: " + userId);
     const { dietitianId } = req.body;
-    console.log("Dietitian ID: " + dietitianId);
+    //console.log("Dietitian ID: " + dietitianId);
 
     // Update the logged-in user's dietitian
     await Member.updateOne({ googleID: userId }, { $set: { dietitian: dietitianId } });
 
     // Fetch the assigned dietitian's name
     const assignedDietitian = await Member.findOne({ googleID: dietitianId });
-    console.log(assignedDietitian);
+    //console.log(assignedDietitian);
     const dietitianName = `${assignedDietitian.firstName} ${assignedDietitian.lastName}`;
 
     res.json({ message: 'Dietitian assigned successfully', dietitianName: dietitianName });
@@ -879,3 +908,45 @@ app.post('/assign-dietitian', ensureAuthenticated, async (req, res) => {
   }
 });
 
+app.post("/bookmarkRecipe/:recipeId", ensureAuthenticated, async (req, res) => {
+  const { recipeID, userGoogleID } = req.body;
+
+  try {
+    // Check if the recipe is already bookmarked
+    const existingBookmark = await SavedRecipes.findOne({
+      googleID: userGoogleID,
+      recipeID: recipeID,
+    });
+
+    if (!existingBookmark) {
+      const newBookmark = new SavedRecipes({
+        googleID: userGoogleID,
+        recipeID: recipeID,
+      });
+
+      await newBookmark.save(); // Save the new bookmark
+    }
+
+    res.redirect(`/recipe/${recipeID}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/removeBookmark/:recipeId", ensureAuthenticated, async (req, res) => {
+  const { recipeID, userGoogleID } = req.body;
+
+  try {
+    // Remove the bookmark from the database
+    await SavedRecipes.findOneAndDelete({
+      googleID: userGoogleID,
+      recipeID: recipeID,
+    });
+
+    res.redirect(`/recipe/${recipeID}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
