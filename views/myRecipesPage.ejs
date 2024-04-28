@@ -17,229 +17,106 @@
     <%- include('navbar') %>
         <div class="main-container">
             <h1>Recipes</h1>
-            <div class="inputField">
-                <input type="text" class="SearchTextBox" placeholder="Search for recipe" name="search" id="search"
-                  onchange="filterRecipes(this.value)" />
-              </div>
-            <div class="content">
-                <div class="side-header" id="my-recipes-header">
-                    My Recipes
-                </div>
-                <div class="recipes-container">
-                    <div class="side-header" id="my-recipes-header">
-                        <div class="myRecipeCarousel">
-                            <span class="carousel-title">My Recipes</span>
-                            <button class="scroll-button left-scroll">&#10094;</button>
-                            <div class="recipeWrapper">
+            <div class="search-bar">
+                <input type="text" placeholder="Search for recipe" id="searchInput" onkeyup="filterRecipes()">
+            </div>
 
-                                <% for(let i=0; i < recentRecipes.length; i++) { %>
-                                  <a href="/recipe/<%=recentRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-                      
-                                    <% let recipeData="" ; recipeData +=recentRecipes.at(i).name + "\n" +
-                                    recentRecipes.at(i).description;%>
-                                      <!--tools-->
-                                      <% if(typeof recentRecipes.at(i).tools !=='undefined' ) for(let j=0; j <
-                                      recentRecipes.at(i).tools.length; j++){recipeData +=recentRecipes.at(i).tools.at(j) + "," ;}%>
-                                        <% recipeData +="\n" ;%>
-                                          <!--ingredients-->
-                                          <% for(let j=0; j < recentRecipes.at(i).ingredients.length; j++){ %>
-                                            <% var ingredientId=recentRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=>
-                                              item.id === ingredientId);
-                                              if (ingredient) {
-                                              ingredient = ingredient.name;
-                                              } else {
-                                              ingredient = 'Unknown Ingredient';
-                                              }
-                                              recipeData += ingredient + "," ; %>
-                                              <% } %>
-                                                <% recipeData +="\n" ;%>
-                                                  <!--instructions-->
-                                                  <% for(let j=0; j < recentRecipes.at(i).instructions.length; j++){recipeData
-                                                    +=recentRecipes.at(i).instructions.at(j) + "," ;}%>
-                                                    <% recipeData +="\n" ;%>
-                                                      <!--tags-->
-                                                      <% for(let j=0; j < recentRecipes.at(i).tags.length; j++){recipeData
-                                                        +=recentRecipes.at(i).tags.at(j) + "," ;}%>
-                                                        <% recipeData +="\n" ;%>
-                                                          <!--mealType-->
-                                                          <% recipeData +="My" ;%>
-                                                            <div data-recipe="<%= recipeData %>" class="myRecipe">
-                                                              <!-- If image does not have an image need default image loaded instead-->
-                                                              <% if(recentRecipes[i].thumbnail==null) { %>
-                                                                <img src="plate.png" class="myRecipePic"
-                                                                  alt="<%= recentRecipes[i].name %> Thumbnail">
-                                                                <% } else { %>
-                                                                  <img
-                                                                    src="data:image/jpeg;base64,<%= recentRecipes[i].thumbnail.toString('base64') %>"
-                                                                    class="myRecipePic"
-                                                                    alt="<%= recentRecipes[i].name %> Thumbnail">
-                                                                  <% } %>
-                                                                    <h7 class="my-recipe-name">
-                                                                      <%= recentRecipes.at(i).name %>
-                                                                    </h7>
-                                                                    <% const creatorDetails=recipeMemberMap[recentRecipes[i]._id]; %>
-                                                                      <div class="creator-info">
-                                                                        <% if (creatorDetails.profilePicture) { %>
-                                                                          <img src="<%= creatorDetails.profilePicture %>"
-                                                                            alt="<%= creatorDetails.name %> Thumbnail">
-                                                                          <% } %>
-                                                                            <p>
-                                                                              <%= creatorDetails.firstName %>
-                                                                                <%= creatorDetails.lastName %>
-                                                                            </p>
-                                                                      </div>
-                      
-                                                            </div> <!-- data-recipe-->
-                                                            <% } %>
-                                  </a>
-                              </div> <!-- end recipe wrapper-->
-                            </div>
-                            <% }); %>
-                    </div>
-                    <button class="scroll-button right-scroll">&#10095;</button>
-                </div>
-
-                <div class="saved-recipes-container">
-                        <div class="bookmarkCarousel">
-                            <span class="carousel-title">Bookmarked Recipes</span>
-                            <button class="scroll-button left-scroll">&#10094;</button>
-                            <div class="recipeWrapper">
-
-                                <% for(let i=0; i < bookmarkedRecipes.length; i++) { %>
-                                  <a href="/recipe/<%=bookmarkedRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
-                      
-                                    <% let recipeData="" ; recipeData +=bookmarkedRecipes.at(i).name + "\n" +
-                                    bookmarkedRecipes.at(i).description;%>
-                                      <!--tools-->
-                                      <% if(typeof bookmarkedRecipes.at(i).tools !=='undefined' ) for(let j=0; j <
-                                      bookmarkedRecipes.at(i).tools.length; j++){recipeData +=bookmarkedRecipes.at(i).tools.at(j) + "," ;}%>
-                                        <% recipeData +="\n" ;%>
-                                          <!--ingredients-->
-                                          <% for(let j=0; j < bookmarkedRecipes.at(i).ingredients.length; j++){ %>
-                                            <% var ingredientId=bookmarkedRecipes[i].ingredients[j]; var ingredient=ingredients.find(item=>
-                                              item.id === ingredientId);
-                                              if (ingredient) {
-                                              ingredient = ingredient.name;
-                                              } else {
-                                              ingredient = 'Unknown Ingredient';
-                                              }
-                                              recipeData += ingredient + "," ; %>
-                                              <% } %>
-                                                <% recipeData +="\n" ;%>
-                                                  <!--instructions-->
-                                                  <% for(let j=0; j < bookmarkedRecipes.at(i).instructions.length; j++){recipeData
-                                                    +=bookmarkedRecipes.at(i).instructions.at(j) + "," ;}%>
-                                                    <% recipeData +="\n" ;%>
-                                                      <!--tags-->
-                                                      <% for(let j=0; j < bookmarkedRecipes.at(i).tags.length; j++){recipeData
-                                                        +=bookmarkedRecipes.at(i).tags.at(j) + "," ;}%>
-                                                        <% recipeData +="\n" ;%>
-                                                          <!--mealType-->
-                                                          <% recipeData +="My" ;%>
-                                                            <div data-recipe="<%= recipeData %>" class="bookmarkedRecipe">
-                                                              <!-- If image does not have an image need default image loaded instead-->
-                                                              <% if(bookmarkedRecipes[i].thumbnail==null) { %>
-                                                                <img src="plate.png" class="bookmarkedRecipePic"
-                                                                  alt="<%= bookmarkedRecipes[i].name %> Thumbnail">
-                                                                <% } else { %>
-                                                                  <img
-                                                                    src="data:image/jpeg;base64,<%= bookmarkedRecipes[i].thumbnail.toString('base64') %>"
-                                                                    class="bookmarkedRecipePic"
-                                                                    alt="<%= bookmarkedRecipes[i].name %> Thumbnail">
-                                                                  <% } %>
-                                                                    <h7 class="bookmarked-recipe-name">
-                                                                      <%= bookmarkedRecipes.at(i).name %>
-                                                                    </h7>
-                                                                    <% const creatorDetails=recipeMemberMap[bookmarkedRecipes[i]._id]; %>
-                                                                      <div class="creator-info">
-                                                                        <% if (creatorDetails.profilePicture) { %>
-                                                                          <img src="<%= creatorDetails.profilePicture %>"
-                                                                            alt="<%= creatorDetails.name %> Thumbnail">
-                                                                          <% } %>
-                                                                            <p>
-                                                                              <%= creatorDetails.firstName %>
-                                                                                <%= creatorDetails.lastName %>
-                                                                            </p>
-                                                                      </div>
-                      
-                                                            </div> <!-- data-recipe-->
-                                                            <% } %>
-                                  </a>
-                              </div> <!-- end recipe wrapper-->
+            <!-- My Recipes Section -->
+            <div class="recipes-section">
+                <h2 class="section-header">My Recipes</h2>
+                <div class="recipes-carousel">
+                    <button class="scroll-button left-scroll">&#10094;</button>
+                    <div class="recipes-container" id="myRecipesContainer">
+                        <% recentRecipes.forEach(recipe=> { %>
+                            <div class="recipe-card" data-name="<%= recipe.name.toLowerCase() %>">
+                                <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <img src="<%= recipe.thumbnail ? `data:image/jpeg;base64,${recipe.thumbnail.toString('base64')}` : 'plate.png' %>"
+                                        alt="<%= recipe.name %> Thumbnail">
+                                    <div class="recipe-info">
+                                        <h3>
+                                            <%= recipe.name %>
+                                        </h3>
+                                    </div>
+                                </a>
                             </div>
                             <% }); %>
                     </div>
                     <button class="scroll-button right-scroll">&#10095;</button>
                 </div>
             </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-    $("#search").on('keyup', function () {
-        let filterText = $(this).val();
-        filterArray = filterText.split(" ");
-        // search your mom
-        $(".myRecipe").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
-        
-        // Search Bookmarks? Maybe?
-        $(".bookmarkedRecipe").each(function (i, obj) {
-            $(this).css("display", "block");
-                for (let i = 0; i < filterArray.length; i++) {
-                let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-                let upSearch = new RegExp(upText);
-                let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-                let downSearch = new RegExp(downText);
-                if (
-                    !upSearch.test($(this).attr("data-recipe")) &&
-                    !downSearch.test($(this).attr("data-recipe"))
-                    ) {
-                        $(this).css("display", "none");
-                    }
+
+            <!-- Saved Recipes Section -->
+            <div class="recipes-section">
+                <h2 class="section-header">Saved Recipes</h2>
+                <div class="recipes-carousel">
+                    <button class="scroll-button left-scroll">&#10094;</button>
+                    <div class="recipes-container" id="savedRecipesContainer">
+                        <% bookmarkedRecipes.forEach(recipe=> { %>
+                            <div class="recipe-card" data-name="<%= recipe.name.toLowerCase() %>">
+                                <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <img src="<%= recipe.thumbnail ? `data:image/jpeg;base64,${recipe.thumbnail.toString('base64')}` : 'plate.png' %>"
+                                        alt="<%= recipe.name %> Thumbnail">
+                                    <div class="recipe-info">
+                                        <h3>
+                                            <%= recipe.name %>
+                                        </h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <button class="scroll-button right-scroll">&#10095;</button>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Function to handle scrolling
+                function scrollContainer(direction, container) {
+                    const scrollAmount = 500; // Adjust the scroll amount (px) based on your design needs
+                    const currentScrollPosition = container.scrollLeft;
+                    const newScrollPosition = direction === 'left' ? currentScrollPosition - scrollAmount : currentScrollPosition + scrollAmount;
+                    container.scrollTo({
+                        top: 0,
+                        left: newScrollPosition,
+                        behavior: 'smooth'
+                    });
                 }
+
+                // Attach event listeners to scroll buttons
+                const leftScrollButtons = document.querySelectorAll('.left-scroll');
+                const rightScrollButtons = document.querySelectorAll('.right-scroll');
+
+                leftScrollButtons.forEach(button => {
+                    const container = button.nextElementSibling;
+                    button.addEventListener('click', () => scrollContainer('left', container));
+                });
+
+                rightScrollButtons.forEach(button => {
+                    const container = button.previousElementSibling;
+                    button.addEventListener('click', () => scrollContainer('right', container));
+                });
+
+                // Filtering recipes on search
+                function filterRecipes() {
+                    var input = document.getElementById('searchInput').value.toLowerCase();
+                    ['myRecipesContainer', 'savedRecipesContainer'].forEach(containerId => {
+                        var container = document.getElementById(containerId);
+                        var cards = container.getElementsByClassName('recipe-card');
+                        Array.from(cards).forEach(card => {
+                            var name = card.getAttribute('data-name');
+                            card.style.display = name.includes(input) ? '' : 'none';
+                        });
+                    });
+                }
+
+                // Link the filterRecipes function to the search input
+                document.getElementById('searchInput').addEventListener('keyup', filterRecipes);
             });
-            });
-        });
-    </script>
+        </script>
 
 </body>
-
-<script>
-      // Bookmarked
-  document.addEventListener('DOMContentLoaded', function () {
-    const bookmarkContainer = document.querySelector('.saved-recipes-container');
-
-    document.querySelector('.bookmarkCarousel .left-scroll').addEventListener('click', function () {
-      bookmarkContainer.scrollBy({ left: -700, behavior: 'smooth' });
-    });
-
-    document.querySelector('.bookmarkCarousel .right-scroll').addEventListener('click', function () {
-      bookmarkContainer.scrollBy({ left: 700, behavior: 'smooth' });
-    });
-  });
-
-      // my recipes Container Scroll
-      const recentRecipesContainer = document.querySelector('.recipe-container');
-    document.querySelector('.myRecipeCarousel .left-scroll').addEventListener('click', function () {
-        recentRecipesContainer.scrollBy({ left: -700, behavior: 'smooth' });
-    });
-    document.querySelector('.myRecipeCarousel .right-scroll').addEventListener('click', function () {
-        recentRecipesContainer.scrollBy({ left: 700, behavior: 'smooth' });
-    });
-
-</script>
 
 </html>
