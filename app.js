@@ -166,6 +166,7 @@ app.post("/addDiet", ensureAuthenticated, (req, res) => {
         timeOfDay: formatedDate,
         typeOfMeal: mealType,
         recipe: recipe,
+        calories: 0,
     });
     //Save the recipe to the database
     diettracker.save();
@@ -436,8 +437,12 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
   let imageBuffer="";
-  const { originalname, mimetype, buffer } = req.file;
-
+    const { originalname, mimetype, buffer } = req.file;
+  TotalCalories = 0;
+    for (let i = 0; i < req.body.ingredients.size(); i++) {
+        TotalCalories += req.body.ingredients.at(i).caloriesPerUnit * ingredientAmounts;
+    }
+  let calories = TotalCalories
   imageBuffer = buffer;
   console.log("Uploaded image size:", imageBuffer.length, "bytes");
   
@@ -449,6 +454,7 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
     ingredients: ingredients,
     ingredientAmounts: ingredientAmounts,
     instructions: instructions,
+    calories: calories,
     tags: tags,
     mealType: mealType,
     publicity: privacy,
