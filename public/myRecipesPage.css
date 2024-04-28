@@ -3,8 +3,8 @@
     text-align: center;
 }
 
-.inputField[type="text"] {
-    width: 80%;
+.search-bar input[type="text"] {
+    width: 78%;
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ccc;
@@ -15,28 +15,45 @@
 }
 
 .section-header {
-    font-size: 24px;
+    font-size: 20px;
+    width:60%;
     color: #333;
+    margin-left:10%;
+    text-align: left; 
 }
 
 .recipes-carousel {
     display: flex;
     align-items: center;
     position: relative;
+    overflow: hidden; /* Hides any part of the container that overflows */
+    margin: 0 auto; /* Centering the carousel if needed */
+    width: 90%; /* Adjust width based on your design preference */
 }
 
 .recipes-container {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 10px 0;
+    width: 90%; /* Full width of its parent to show more content */
+    position: relative; /* Relative positioning for internal absolute elements */
+    margin-left:50px;
 }
 
 .recipe-card {
-    width: 200px;
-    margin: 0 10px;
+    flex: 0 0 calc((100% / 4) - 20px); /* Adjusts each card to be 1/4th of the container minus some margin */
+    margin: 0 10px; /* Provides spacing between cards */
     text-align: center;
+    box-sizing: border-box
 }
+.recipe-card:hover{
+    transform: scale(1.1); 
+    text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.4s ease 0s;
+  }
+
 
 .recipe-card img {
     width: 100%;
@@ -50,14 +67,37 @@
     font-size: 16px;
 }
 
+
 .scroll-button {
     cursor: pointer;
-    background: none;
+    background: rgba(179, 176, 176, 0); /* Slightly transparent background */
     border: none;
     font-size: 24px;
+    position: absolute; /* Positioned absolutely within the relative container */
+    top: 40%; /* Center vertically */
+    transform: translateY(-50%);
+    z-index: 10; /* Ensure it's above other content */
+    padding:10px;
+}
+
+.scroll-button.left-scroll {
+    left: 10px; /* Closer to the recipes, adjust as needed */
+}
+
+.scroll-button.right-scroll {
+    right: 1px; /* Closer to the recipes, adjust as needed */
 }
 
 .scroll-button:hover {
-    background-color: #ddd;
+    background-color: #ddddddc7;
 }
 
+/* Hide scrollbar visually */
+.recipes-container::-webkit-scrollbar {
+    height: 0px; /* For WebKit browsers */
+}
+
+.recipes-container {
+    -ms-overflow-style: none; /* For IE and Edge */
+    scrollbar-width: none; /* For Firefox */
+}
