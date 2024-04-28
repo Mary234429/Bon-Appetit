@@ -380,7 +380,7 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
-    <div class="bookmarkCarousel">
+    <!-- <div class="bookmarkCarousel">
       <span class="carousel-title">Bookmarked Recipes</span>
       <button class="scroll-button left-scroll">&#10094;</button>
       <div class="bookmarkContainer">
@@ -398,7 +398,7 @@
                         <%= recipe.name %>
                       </h7>
 
-                      <!-- Optional creator details -->
+                     
                       <% const creatorDetails=recipeMemberMap[recipe._id]; %>
                         <% if (creatorDetails && creatorDetails.profilePicture) { %>
                           <div class="creator-info">
@@ -416,7 +416,7 @@
         </div>
       </div>
       <button class="scroll-button right-scroll">&#10095;</button>
-    </div> 
+    </div>  -->
 
   </div> <!-- recipe container end-->
 </body>
@@ -495,21 +495,21 @@
       });
 
       // Search Bookmarks? Maybe?
-      $(".recipeBookmark").each(function (i, obj) {
-        $(this).css("display", "block");
-        for (let i = 0; i < filterArray.length; i++) {
-          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-          let upSearch = new RegExp(upText);
-          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-          let downSearch = new RegExp(downText);
-          if (
-            !upSearch.test($(this).attr("data-recipe")) &&
-            !downSearch.test($(this).attr("data-recipe"))
-          ) {
-            $(this).css("display", "none");
-          }
-        }
-      });
+    //   $(".recipeBookmark").each(function (i, obj) {
+    //     $(this).css("display", "block");
+    //     for (let i = 0; i < filterArray.length; i++) {
+    //       let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
+    //       let upSearch = new RegExp(upText);
+    //       let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
+    //       let downSearch = new RegExp(downText);
+    //       if (
+    //         !upSearch.test($(this).attr("data-recipe")) &&
+    //         !downSearch.test($(this).attr("data-recipe"))
+    //       ) {
+    //         $(this).css("display", "none");
+    //       }
+    //     }
+    //   });
     });
   });
 
@@ -557,18 +557,18 @@
 
   });
 
-  // Bookmarked
-  document.addEventListener('DOMContentLoaded', function () {
-    const bookmarkContainer = document.querySelector('.bookmarkContainer');
+  // // Bookmarked
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   const bookmarkContainer = document.querySelector('.bookmarkContainer');
 
-    document.querySelector('.bookmarkCarousel .left-scroll').addEventListener('click', function () {
-      bookmarkContainer.scrollBy({ left: -700, behavior: 'smooth' });
-    });
+  //   document.querySelector('.bookmarkCarousel .left-scroll').addEventListener('click', function () {
+  //     bookmarkContainer.scrollBy({ left: -700, behavior: 'smooth' });
+  //   });
 
-    document.querySelector('.bookmarkCarousel .right-scroll').addEventListener('click', function () {
-      bookmarkContainer.scrollBy({ left: 700, behavior: 'smooth' });
-    });
-  });
+  //   document.querySelector('.bookmarkCarousel .right-scroll').addEventListener('click', function () {
+  //     bookmarkContainer.scrollBy({ left: 700, behavior: 'smooth' });
+  //   });
+  // });
 
 
 </script>
