@@ -27,16 +27,88 @@
                     My Recipes
                 </div>
                 <div class="recipes-container">
-                    <!-- Dynamic recipe items will be added here -->
+                    <div class="side-header" id="my-recipes-header">
+                        <% console.log(recentRecipes); %>
+                        <div class="bookmarkCarousel">
+                            <span class="carousel-title">My Recipes</span>
+                            <button class="scroll-button left-scroll">&#10094;</button>
+                            <div class="bookmarkContainer">
+                              <div class="recipeWrapper">
+                                <% recentRecipes.forEach((recipe)=> { %>
+                                  <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <div class="recipeBookmark">
+                                      <% if (recipe.thumbnail==null) { %>
+                                        <img src="plate.png" class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                                        <% } else { %>
+                                          <img src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
+                                            class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                                          <% } %>
+                                            <h7 class="bookmark-recipe-name">
+                                              <%= recipe.name %>
+                                            </h7>
+                      
+                                            <!-- Optional creator details -->
+                                            <% const creatorDetails=recipeMemberMap[recipe._id]; %>
+                                              <% if (creatorDetails && creatorDetails.profilePicture) { %>
+                                                <div class="creator-info">
+                                                  <img src="<%= creatorDetails.profilePicture %>"
+                                                    alt="<%= creatorDetails.firstName %> Thumbnail">
+                                                  <p>
+                                                    <%= creatorDetails.firstName %>
+                                                      <%= creatorDetails.lastName %>
+                                                  </p>
+                                                </div>
+                                                <% } %>
+                                    </div>
+                                  </a>
+                                  <% }); %>
+                              </div>
+                            </div>
+                            <button class="scroll-button right-scroll">&#10095;</button>
+                          </div>
                 </div>
                 <div class="side-header" id="saved-recipes-header">
                     Saved Recipes
                 </div>
                 <div class="saved-recipes-container">
-                    <!-- Saved recipes will be displayed here -->
-                </div>
-            </div>
-        </div>
+                        <% console.log(bookmarkedRecipes); %>
+                        <div class="bookmarkCarousel">
+                            <span class="carousel-title">Bookmarked Recipes</span>
+                            <button class="scroll-button left-scroll">&#10094;</button>
+                            <div class="bookmarkContainer">
+                              <div class="recipeWrapper">
+                                <% bookmarkedRecipes.forEach((recipe)=> { %>
+                                  <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <div class="recipeBookmark">
+                                      <% if (recipe.thumbnail==null) { %>
+                                        <img src="plate.png" class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                                        <% } else { %>
+                                          <img src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
+                                            class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                                          <% } %>
+                                            <h7 class="bookmark-recipe-name">
+                                              <%= recipe.name %>
+                                            </h7>
+                      
+                                            <!-- Optional creator details -->
+                                            <% const creatorDetails=recipeMemberMap[recipe._id]; %>
+                                              <% if (creatorDetails && creatorDetails.profilePicture) { %>
+                                                <div class="creator-info">
+                                                  <img src="<%= creatorDetails.profilePicture %>"
+                                                    alt="<%= creatorDetails.firstName %> Thumbnail">
+                                                  <p>
+                                                    <%= creatorDetails.firstName %>
+                                                      <%= creatorDetails.lastName %>
+                                                  </p>
+                                                </div>
+                                                <% } %>
+                                    </div>
+                                  </a>
+                                  <% }); %>
+                              </div>
+                            </div>
+                            <button class="scroll-button right-scroll">&#10095;</button>
+                          </div>
 
         <script>
             function searchRecipes() {
