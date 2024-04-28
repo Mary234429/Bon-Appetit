@@ -31,10 +31,11 @@ p{
   }
 .outer-container {
     max-width: 60vw;
-    height: 85vh;
+    height: 88vh;
     position: relative;
     margin: 0 auto;
     background-color: #F9F9F9;
+    border-radius: 30px;
   }
 .inner-container {
     max-width: 60vw;
@@ -73,15 +74,18 @@ p{
   font-size: medium;
 }
 .button{
-  height:35px;
+  height: 35px;
   width: 25vw;
   font-family: Lustria;
-  border:none;
+  border: none;
   border-radius: 5px;
   font-size: 16px;
   margin-right: 2%;
-  color:black;
+  margin-bottom: 53px;  /* You might want to increase this value */
+  color: black;
   background-color: #dadada;
+  position: relative;
+  bottom: 30px;  
 }
 .button:hover{
  background-color: #D2D2D2;
