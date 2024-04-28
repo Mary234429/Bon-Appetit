@@ -702,8 +702,63 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About Us Page" });
 });
 
-app.get("/myRecipesPage", (req, res) => {
-  res.render("myRecipesPage", { title: "Recipes" });
+app.get("/myRecipesPage", ensureAuthenticated, async function(req, res){
+  try {
+    const privateRecipes = await CreatedRecipes.find({ googleID: req.user.id })
+    let recipeIDs = [];
+    for (let i = 0; i < privateRecipes.length; i++) {
+      recipeIDs.push(privateRecipes.at(i).recipeID);
+    }
+    const ingredients = await Ingredients.find();
+    const recipes = await Recipes.find({ $or: [{ _id: { $in: recipeIDs } }, { publicity: /Public/ }] });
+    const loggedInMember = await Member.findOne({ googleID: req.user.id });
+    const usercreatedRecipes = await CreatedRecipes.find({ googleID: req.user.id });
+    const recipeIds = usercreatedRecipes.map((recipe) => recipe.recipeID);
+    const recentRecipes = await Recipes.find({ _id: { $in: recipeIds } })
+
+    
+
+    const members = await Member.find();
+    const createdRecipes = await CreatedRecipes.find();
+    // Map to store member names for each recipe
+    const recipeMemberMap = {};
+    for (const createdRecipe of createdRecipes) {
+      const { recipeID, googleID } = createdRecipe;
+      const member = members.find(member => member.googleID === googleID);
+      if (member) {
+        recipeMemberMap[recipeID] = {
+          firstName: member.firstName,
+          lastName: member.lastName,
+          profilePicture: member.profilePicture,
+        };
+      }
+    }
+
+    const userGoogleID = req.user.id; // Google ID of the logged-in user
+
+    // Get all documents with the logged-in user's googleID from SavedRecipes
+    const savedRecipesDocs = await SavedRecipes.find({ googleID: userGoogleID });
+
+    // Extract the recipeID from each document and store in an array
+    const bookmarkedRecipeIDs = savedRecipesDocs.map((doc) => doc.recipeID);
+
+    // Fetch recipe details from Recipes collection using the recipeIDs
+    const bookmarkedRecipes = await Recipes.find({ _id: { $in: bookmarkedRecipeIDs } });
+
+    res.render("myRecipesPage", {
+      member: members,
+      CRecipes: createdRecipes,
+      URecipes: usercreatedRecipes,
+      ingredients,
+      recentRecipes,
+      bookmarkedRecipes,
+      recipeMemberMap, // Pass the map of recipe IDs to member names to the template
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get("/profile", ensureAuthenticated, async function (req, res) {
