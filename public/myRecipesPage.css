@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-.search-bar input[type="text"] {
+.inputField[type="text"] {
     width: 80%;
     padding: 10px;
     border-radius: 20px;
