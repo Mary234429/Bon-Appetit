@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Create a new Recipe</title>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="recipeCreate.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 </head>
 
@@ -51,39 +52,71 @@
       <!-- <form action="/dashboard" method="get">
       <button type="submit">Go to Main Page</button>
     </form> -->
-      <h1>Create Recipe</h1>
-      <!-- <div class="right-container"> -->
-      <form id="ingredientForm" autocomplete="off" action="/addIngredient" method="post" style="display: none">
-        <input type="text" placeholder="Ingredient Name" name="ingredientName" id="ingredientName" />
-        <input type="text" list="ingredientUnitList" name="ingredientUnit" placeholder="Unit of Measurement"
-          id="ingredientUnit" />
-        <input type="number" name="caloriesPerUnit" placeholder="Calories Per Unit" id="ingredientCalories" />
+      <!-- <div class="left-container">
+        <h1>Create Recipe</h1>
+        <!-- <form id="recipeForm" autocomplete="off" action="/recipeCreate" method="post" enctype="multipart/form-data">
+          <label for="thumbnail" class="custom-file-upload">
+            <i class="fa fa-upload"></i> Upload Image
+          </label>
+          <input type="file" id="thumbnail" name="thumbnail" style="display:none;" required accept="image/*" />
+          <span id="file-name"></span>
+        </form> -->
 
-        <datalist id="ingredientUnitList">
-          <option value="cup"></option>
-          <option value="oz"></option>
-          <option value="fl oz"></option>
-          <option value="fl oz"></option>
-          <option value="tbsp"></option>
-          <option value="tsp"></option>
-          <option value="g"></option>
-        </datalist>
-        <button type="button" onclick="addIngredient()">Submit</button>
-      </form>
 
-      <form id="recipeForm" autocomplete="off" action="/recipeCreate" method="post" enctype="multipart/form-data">
-        <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
-        <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br />
 
-        <label for="thumbnail" class="custom-file-upload">
+      <!-- <label for="thumbnail" class="custom-file-upload">
           <i class="fa fa-upload"></i> Upload Image
         </label>
         <input type="file" id="thumbnail" name="thumbnail" style="display:none;" required accept="image/*" />
         <span id="file-name"></span>
-        <br />
+        <br /> -->
 
-        <ul id="tools">
-          <!--<li>
+
+
+      <!-- </div> -->
+
+      <div class="right-container">
+
+        <h1>Create Recipe</h1>
+        <!-- <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
+
+        <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br /> -->
+
+        <form id="ingredientForm" autocomplete="off" action="/addIngredient" method="post" style="display: none">
+
+          <input type="text" placeholder="Ingredient Name" name="ingredientName" id="ingredientName" />
+
+          <input type="text" list="ingredientUnitList" name="ingredientUnit" placeholder="Unit of Measurement"
+            id="ingredientUnit" />
+
+          <input type="number" name="caloriesPerUnit" placeholder="Calories Per Unit" id="ingredientCalories" />
+
+          <datalist id="ingredientUnitList">
+            <option value="cup"></option>
+            <option value="oz"></option>
+            <option value="fl oz"></option>
+            <option value="fl oz"></option>
+            <option value="tbsp"></option>
+            <option value="tsp"></option>
+            <option value="g"></option>
+          </datalist>
+          <button type="button" onclick="addIngredient()">Submit</button>
+        </form>
+
+        <form id="recipeForm" autocomplete="off" action="/recipeCreate" method="post" enctype="multipart/form-data">
+          <label for="thumbnail" class="custom-file-upload">
+            <i class="fa fa-upload"></i> Upload Image
+          </label>
+          <input type="file" id="thumbnail" name="thumbnail" style="display:none;" required accept="image/*" />
+          <span id="file-name"></span>
+          <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
+          <textarea id="description" name="description" placeholder="Recipe Description"></textarea><br />
+
+
+          <br />
+
+          <ul id="tools">
+            <!--<li>
           <input
             
             class="recipeTools"
@@ -91,71 +124,64 @@
             name="recipeTools[]"
           />
         </li>-->
-        </ul>
-        <button type="button" id="addTool">Add New Tool</button>
+          </ul>
+          <button type="button" id="addTool">Tool</button>
 
-        <ul id="ingredientList">
-          <li>
-            <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" />
-            <div style="display: inline"></div>
-            <select class="ingredient js-example-basic-single" name="ingredients[]">
-              <option selected value=""></option>
-              <option value="addIngredient">Add New Ingredient</option>
-              <% for(let i=0; i < ingredients.length; i++){%>
-                <option value="<%=ingredients.at(i)._id%>" data-unit="<%=ingredients.at(i).unit%>">
-                  <%=ingredients.at(i).name%>
-                </option>
-                <%}%>
-            </select>
-          </li>
-        </ul>
-        <button type="button" id="addIngredient">Add New Ingredient</button>
+          <ul id="ingredientList">
+            <li>
+              <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" />
+              <div style="display: inline"></div>
+              <select class="ingredient js-example-basic-single" name="ingredients[]">
+                <option selected value=""></option>
+                <option value="addIngredient">Ingredient</option>
+                <% for(let i=0; i < ingredients.length; i++){%>
+                  <option value="<%=ingredients.at(i)._id%>" data-unit="<%=ingredients.at(i).unit%>">
+                    <%=ingredients.at(i).name%>
+                  </option>
+                  <%}%>
+              </select>
+            </li>
+          </ul>
+          <button type="button" id="addIngredient">Ingredients</button>
 
-        <ol id="instructions">
-          <li>
-            <input name="instructions[]" placeholder="Instruction" />
-          </li>
-        </ol>
-        <button type="button" id="addInstruction">Add New Instruction</button>
+          <ol id="instructions">
+            <li>
+              <input name="instructions[]" placeholder="Instruction" />
+            </li>
+          </ol>
+          <button type="button" id="addInstruction">Instruction</button>
 
-        <ul id="recipeTags">
-          <li>
-            <input name="recipeTags[]" placeholder="Recipe Tag" />
-          </li>
-        </ul>
-        <button type="button" id="addTag">Add New Tag</button>
-        <label for="breakfast">Breakfast</label>
-        <input id="breakfast" type="checkbox" value="Breakfast" name="mealType[]" />
-        <label for="lunch">Lunch</label>
-        <input type="checkbox" id="lunch" value="Lunch" name="mealType[]" />
-        <label for="dinner">Dinner</label>
-        <input type="checkbox" id="dinner" value="Dinner" name="mealType[]" />
-        <label for="snack">Snack</label>
-        <input type="checkbox" id="snack" value="Snack" name="mealType[]" />
-        <br />
-        <select id="privacyLevel" name="privacyLevel">
-          <option value="Public">Public</option>
-          <option value="Private" selected>Private</option>
-        </select>
+          <ul id="recipeTags">
+            <li>
+              <input name="recipeTags[]" placeholder="Recipe Tag" />
+            </li>
+          </ul>
+          <button type="button" id="addTag">Tag</button>
 
-        <input type="submit" value="Submit" />
-      </form>
+          <div class="meal-type-checkboxes">
+            <label for="breakfast">Breakfast</label>
+            <input id="breakfast" type="checkbox" value="Breakfast" name="mealType[]" />
+            <label for="lunch">Lunch</label>
+            <input id="lunch" type="checkbox" value="Lunch" name="mealType[]" />
+            <label for="dinner">Dinner</label>
+            <input id="dinner" type="checkbox" value="Dinner" name="mealType[]" />
+            <label for="snack">Snack</label>
+            <input id="snack" type="checkbox" value="Snack" name="mealType[]" />
+          </div>
+          <!-- <br /> -->
+          <select id="privacyLevel" name="privacyLevel">
+            <option value="Public">Public</option>
+            <option value="Private" selected>Private</option>
+          </select>
 
-
-
-      <!-- </div> -->
-
+          <input type="submit" value="Submit" />
+        </form>
 
 
 
-
-
-
+      </div>
 
     </div>
-
-
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

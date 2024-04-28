@@ -1,0 +1,141 @@
+body {
+    font-family: Lustria;
+    background-color: #ffffff;
+}
+
+.main-container {
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-weight: lighter; 
+}
+
+.search-bar {
+    margin-top: 20px;
+}
+
+.search-bar input[type="text"] {
+    background-image: url('search_icon.png');
+    background-size: 16px; 
+    background-repeat: no-repeat;
+    background-position: 30px center; 
+    padding-left: 55px;
+    width: 800px;
+    height: 45px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    box-sizing: border-box;
+    text-indent: 50px; 
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns items at the start of the flex container */
+}
+
+.side-header {
+    width: 70%; /* Ensures the header spans the full width of its parent container */
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    padding: 50px 0; /* Keeps top and bottom padding */
+    margin-left: 210px; /* Adds left margin to move the whole element to the right */
+    text-align:left;
+}
+.recipes-container,
+.saved-recipes-container {
+    width: 100%; /* Ensures containers take full width */
+    border: 1px solid gray;
+    background-color: pink;
+    padding: 10px;
+    min-height: 200px;
+}
+.bookmark-recipe-name
+ {
+  color: rgb(0, 0, 0);
+  font-size: 21px;
+  font-family: Lustria;
+  background-color: #d9d9d9;
+  text-align: left; /* Align text to the left */
+  display: flex; /* Use flexbox */
+  /* justify-content: center;  */
+  align-items: center;
+  flex: 1; /* Allow the name to take up remaining space */
+}
+.bookmarkCarousel
+ {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This remains as is to spread children */
+  position: relative;
+  max-width: 860px; /* Adjust this value based on your layout's needs */
+  margin: auto;
+  /* margin-top: 60px; */
+  position: relative;
+ 
+}
+.bookmarkContainer
+{
+  display: flex;
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: auto;
+  max-width: calc(230px * 3 + 30px * 3);
+  margin: 0 10px 0 10px; /* Adjusts horizontal margins; retains your current setting */
+  margin-bottom: 80px; 
+  flex-shrink: 0; 
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
+ 
+}
+.recipeBookmark
+ {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 calc(35% - 25px); /* Adjust width for 3 recipes */
+  margin-right: 25px; 
+  margin-left: 25px;
+  flex: 0 0 calc(25% - 20px);
+  background-color: #d9d9d9;
+  border-radius: 5px;
+  padding: 10px;
+  width: 180px; /* Set a fixed width for all recipe containers */
+  height: 190px; /* Set a fixed height for all recipe containers */
+  /* position: relative;  */
+}
+.recipeBookmark:hover{
+  transform: scale(1.1); 
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+.bookmarkContainer::-webkit-scrollbar {
+  display: none;
+}
+.recipeBookmarkPic
+{
+  
+background-color:white;
+margin-top:-30px;
+width:100%;
+height:70%;
+box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
+
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .side-header {
+        text-align: center;
+    }
+}
+
+
+

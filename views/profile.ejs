@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <link rel="stylesheet" href="profile.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -8,155 +8,142 @@
     <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Account Profile</title>
 
+
 </head>
+
 <body>
   <div>
     <form action="/dashboard" method="get">
       <button type="submit">Go to Main Page</button>
     </form>
-    <% 
-          // Server-side code to calculate age
-          const currentDate = new Date();
-          const diff = currentDate - loggedInMember.birthday;
-          const ageDate = new Date(diff);
-          const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-      %>
+    <!-- //Server-side code to calculate age -->
+    <% const currentDate=new Date(); const diff=currentDate - loggedInMember.birthday; const ageDate=new Date(diff);
+      const age=Math.abs(ageDate.getUTCFullYear() - 1970); %>
   </div>
-    <h1 class="title">P&nbsp;r&nbsp;o&nbsp;f&nbsp;i&nbsp;l&nbsp;e</h1>
-    <div class="outer-container">
-      <div class="left-container">
-        <img src=<%=user.picture %> style="border-radius:50%;width:150px;height:150px;">
-        <p>
-          <%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %>
-        </p>
-        <p>userType: <%= loggedInMember.usertype %></p>
+  <h1 class="title">P&nbsp;r&nbsp;o&nbsp;f&nbsp;i&nbsp;l&nbsp;e</h1>
+  <div class="outer-container">
+    <div class="left-container">
+      <img src=<%=user.picture %> style="border-radius:50%;width:150px;height:150px;">
+      <p>
+        <%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %>
+      </p>
+      <p>userType: <%= loggedInMember.usertype %>
+      </p>
 
-        <p><%= age %> Years Old</p>
-        <p><%= loggedInMember.gender %></p>
-        <p>Email: <%= loggedInMember.email %></p>
-      </div>
-      <div class="right-container">
-        <p class="about">
-          <%= loggedInMember.aboutMe ? loggedInMember.aboutMe : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' %>
-        </p>
-        <p>Dietitian: <%= dietitianName %></p>
-        <p>Diet Type: <%= loggedInMember.diettype %></p>
-
-        <p>Cuisines: <%= loggedInMember.cuisines %></p>
-        <br />
-        <button class="editButton" id="edit" onclick="edit()">
-          Edit Profile
-        </button>
-        <script>
-          function edit() {
-            window.location.href = "/profileEdit";
-          }
-        </script>
-      </div>
+      <p>
+        <%= age %> Years Old
+      </p>
+      <p>
+        <%= loggedInMember.gender %>
+      </p>
+      <p>Email: <%= loggedInMember.email %>
+      </p>
     </div>
-    <h1>Recent Recipes</h1>
-    <div class="recipe-container">
-      <% if (recipes[0]) { %>
-        <a href="/recipe/<%= recipes[0]._id %>" style="text-decoration:none; color:inherit;">
-      <% } %>
-        <!--<div class="left-recipe">-->
+    <div class="right-container">
+      <p class="about">
+        <%= loggedInMember.aboutMe ? loggedInMember.aboutMe
+          : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+          %>
+      </p>
+      <p>Dietitian: <%= dietitianName %>
+      </p>
+      <p>Diet Type: <%= loggedInMember.diettype %>
+      </p>
+
+      <p>Cuisines: <%= loggedInMember.cuisines %>
+      </p>
+      <br />
+      <button class="editButton" id="edit" onclick="edit()">
+        Edit Profile
+      </button>
+      <script>
+        function edit() {
+          window.location.href = "/profileEdit";
+        }
+      </script>
+    </div>
+  </div>
+  <h1>Recent Recipes</h1>
+  <div class="recipe-container">
+    <% if (recipes[0]) { %>
+      <a href="/recipe/<%= recipes[0]._id %>" style="text-decoration:none; color:inherit;">
+        <% } %>
+          <!--<div class="left-recipe">-->
           <div class="left-box">
             <p class="name">
               <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
-            </p>  
-              <% if (recipes[0] == null) { %>
-                <img
-                src="plate.png"
-                alt="Image of a plate"
-                class="left-image"/>
+            </p>
+            <% if (recipes[0]==null) { %>
+              <img src="plate.png" alt="Image of a plate" class="left-image" />
               <% } else { %>
                 <% if (recipes[0].thumbnail) { %>
-              <img
-                src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>"
-                alt="<%= recipes[0].name %> Thumbnail"
-                class="left-image" />
-              <% } else {%>
-                  <img
-                  src="plate.png"
-                  alt="<%= recipes[0].name %> Thumbnail" 
-                  class="left-image"/>
-                  <% } %>
-              <% } %>
-            
+                  <img src="data:image/jpeg;base64,<%= recipes[0].thumbnail.toString('base64') %>"
+                    alt="<%= recipes[0].name %> Thumbnail" class="left-image" />
+                  <% } else {%>
+                    <img src="plate.png" alt="<%= recipes[0].name %> Thumbnail" class="left-image" />
+                    <% } %>
+                      <% } %>
+
           </div>
-        
-      <% if (recipes[0]) { %>
+
+          <% if (recipes[0]) { %>
       </a>
       <% } %>
         <% if (recipes[1]) { %>
           <a href="/recipe/<%= recipes[1]._id %>" style="text-decoration:none; color:inherit;">
-        <% } %>
-          <!--<div class="left-recipe">-->
-            <div class="middle-box">
-              <p class="name">
-                <%= recipes[1] ? recipes[1].name : 'Create Another Recipe' %>
-              </p>
-                <% if (recipes[1] == null) { %>
-                  <img
-                  src="plate.png"
-                  alt="Image of a plate"
-                  class="middle-image"/>
-                <% } else { %>
-                  <% if (recipes[1].thumbnail) { %>
-                <img
-                  src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>"
-                  alt="<%= recipes[1].name %> Thumbnail"
-                  class="middle-image"/>
-                <% } else { %>
-                    <img
-                    src="plate.png"
-                    alt="<%= recipes[1].name %> Thumbnail"
-                    class="middle-image"/>
-                    <% } %>
+            <% } %>
+              <!--<div class="left-recipe">-->
+              <div class="middle-box">
+                <p class="name">
+                  <%= recipes[1] ? recipes[1].name : 'Create Another Recipe' %>
+                </p>
+                <% if (recipes[1]==null) { %>
+                  <img src="plate.png" alt="Image of a plate" class="middle-image" />
+                  <% } else { %>
+                    <% if (recipes[1].thumbnail) { %>
+                      <img src="data:image/jpeg;base64,<%= recipes[1].thumbnail.toString('base64') %>"
+                        alt="<%= recipes[1].name %> Thumbnail" class="middle-image" />
+                      <% } else { %>
+                        <img src="plate.png" alt="<%= recipes[1].name %> Thumbnail" class="middle-image" />
+                        <% } %>
+                          <% } %>
+
+              </div>
+
+              <% if (recipes[1]) { %>
+          </a>
+          <% } %>
+            <% if (recipes[2]) { %>
+              <a href="/recipe/<%= recipes[2]._id %>" style="text-decoration:none; color:inherit;">
                 <% } %>
-              
-            </div>
-          
-        <% if (recipes[1]) { %>
-            </a>
-        <% } %>
-      <% if (recipes[2]) { %>
-        <a href="/recipe/<%= recipes[2]._id %>" style="text-decoration:none; color:inherit;">
-      <% } %>
-        <!--<div class="left-recipe">-->
-          <div class="right-box">
-            <p class="name">
-              <%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %>
-            </p>
-              <% if (recipes[2] == null) { %>
-                <img
-                src="plate.png"
-                alt="Image of a plate"
-                class="right-image"/>
-              <% } else { %>
-                <% if (recipes[2].thumbnail) { %>
-              <img
-                src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>"
-                alt="<%= recipes[2].name %> Thumbnail"
-                class="right-image"/>
-              <% } else { %>
-                  <img
-                  src="plate.png"
-                  alt="<%= recipes[2].name %> Thumbnail"
-                  class="right-image"/>
-                  <% } %>
+                  <!--<div class="left-recipe">-->
+                  <div class="right-box">
+                    <p class="name">
+                      <%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %>
+                    </p>
+                    <% if (recipes[2]==null) { %>
+                      <img src="plate.png" alt="Image of a plate" class="right-image" />
+                      <% } else { %>
+                        <% if (recipes[2].thumbnail) { %>
+                          <img src="data:image/jpeg;base64,<%= recipes[2].thumbnail.toString('base64') %>"
+                            alt="<%= recipes[2].name %> Thumbnail" class="right-image" />
+                          <% } else { %>
+                            <img src="plate.png" alt="<%= recipes[2].name %> Thumbnail" class="right-image" />
+                            <% } %>
+                              <% } %>
+                  </div>
+
+                  <% if (recipes[2]) { %>
+              </a>
               <% } %>
-          </div>
-        
-      <% if (recipes[2]) { %>
-      </a>
-      <% } %>
-    <script>
-      function edit() {
-        window.location.href = "/profileEdit";
-      }
-    </script>
-  </body>
+                <script>
+                  function edit() {
+                    window.location.href = "/profileEdit";
+                  }
+                </script>
+</body>
+
 </html>

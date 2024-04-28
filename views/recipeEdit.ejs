@@ -83,12 +83,13 @@
         /><br />
 
         <ul id="tools">
-          <%if(typeof recipe.toolsNeeded !== "undefined"){ for(let i = 0; i < recipe.toolsNeeded.length; i++){ %><li>
+          <%if(recipe.toolsNeeded != "undefined"){ for(let i = 0; i < recipe.toolsNeeded.length; i++){ %><li>
+            <% console.log(recipe.toolsNeeded); %>
             <input 
               class="recipeTools"
               placeholder="Tools Required"
               name="recipeTools[]"
-              value = <%=recipe.tools.at(i)%>
+              value = <%=recipe.toolsNeeded.at(i)%>
             />
             <%if (i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
           </li>
@@ -161,9 +162,9 @@
         <button type="button" id="addInstruction">Add New Instruction</button>
 
         <ul id="recipeTags">
-          <% for(let i = 0; i < recipe.instructions.size; i++){%>
+          <% for(let i = 0; i < recipe.tags.size; i++){%>
           <li>
-            <input name="recipeTags[]" placeholder="Recipe Tag" value = <%=recipe.instructions.at(i)%>/>
+            <input name="recipeTags[]" placeholder="Recipe Tag" value = <%=recipe.tags.at(i)%>/>
             <%if(i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
           </li>
           <%}%>

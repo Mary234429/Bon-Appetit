@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes Page</title>
+    <link rel="stylesheet" href="myRecipesPage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('navbar') %>
+        <div class="main-container">
+            <h1>Recipes</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for recipe" id="searchInput">
+                <!-- <button onclick="searchRecipes()">Search</button> -->
+            </div>
+            <div class="content">
+                <div class="side-header" id="my-recipes-header">
+                    My Recipes
+                </div>
+                <div class="recipes-container">
+                    <!-- Dynamic recipe items will be added here -->
+                </div>
+                <div class="side-header" id="saved-recipes-header">
+                    Saved Recipes
+                </div>
+                <div class="saved-recipes-container">
+                    <!-- Saved recipes will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function searchRecipes() {
+                let input = document.getElementById('searchInput').value;
+                alert('Search for: ' + input);
+            }
+        </script>
+</body>
+
+</html>

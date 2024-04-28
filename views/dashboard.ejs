@@ -13,10 +13,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <title>Bon Appetit Dashboard</title>
 </head>
 
 <body class="dashboard-page">
-  <div class="black-rectangle-top"></div>
+  <div class="black-rectangle-top">
+    <button class="logout-button" onclick="location.href='/logout'">Logout</button>
+  </div>
   <div class="topPanel">
     <div class="wheat_1"></div>
     <div class="wheat_2"></div>
@@ -32,6 +36,7 @@
     <ul>
       <li><a href="/contact">Contact</a></li>
       <li><a href="/about">About Us</a></li>
+      <li><a href="/recipeCreate">Create a Recipe</a></li>
 
       <li class="dropdown">
         <a href="/profile" class="dropbtn">
@@ -40,11 +45,12 @@
           <i class="fa fa-caret-down"></i>
         </a>
         <div class="dropdown-content">
+          <a href="/profile">Profile</a>
+          <a href="/myRecipesPage">Recipes</a>
           <a href="/dietTracker">Diet Tracker</a>
-          <a href="/recipeCreate">Recipe Create</a>
           <a href="/dietPlanCreate">Diet Plan Create</a>
-            <a href="/mydietitian">My Dietitian</a>
-          <a href="/logout">Logout</a>
+          <a href="/mydietitian">My Dietitian</a>
+          <!-- <a href="/logout">Logout</a> -->
         </div>
       </li>
     </ul>
@@ -374,6 +380,44 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
+    <div class="bookmarkCarousel">
+      <span class="carousel-title">Bookmarked Recipes</span>
+      <button class="scroll-button left-scroll">&#10094;</button>
+      <div class="bookmarkContainer">
+        <div class="recipeWrapper">
+          <% bookmarkedRecipes.forEach((recipe)=> { %>
+            <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+              <div class="recipeBookmark">
+                <% if (recipe.thumbnail==null) { %>
+                  <img src="plate.png" class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                  <% } else { %>
+                    <img src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
+                      class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
+                    <% } %>
+                      <h7 class="bookmark-recipe-name">
+                        <%= recipe.name %>
+                      </h7>
+
+                      <!-- Optional creator details -->
+                      <% const creatorDetails=recipeMemberMap[recipe._id]; %>
+                        <% if (creatorDetails && creatorDetails.profilePicture) { %>
+                          <div class="creator-info">
+                            <img src="<%= creatorDetails.profilePicture %>"
+                              alt="<%= creatorDetails.firstName %> Thumbnail">
+                            <p>
+                              <%= creatorDetails.firstName %>
+                                <%= creatorDetails.lastName %>
+                            </p>
+                          </div>
+                          <% } %>
+              </div>
+            </a>
+            <% }); %>
+        </div>
+      </div>
+      <button class="scroll-button right-scroll">&#10095;</button>
+    </div> -->
+
   </div> <!-- recipe container end-->
 </body>
 
@@ -449,6 +493,23 @@
           }
         }
       });
+
+      // Search Bookmarks? Maybe?
+      $(".recipeBookmark").each(function (i, obj) {
+        $(this).css("display", "block");
+        for (let i = 0; i < filterArray.length; i++) {
+          let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
+          let upSearch = new RegExp(upText);
+          let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
+          let downSearch = new RegExp(downText);
+          if (
+            !upSearch.test($(this).attr("data-recipe")) &&
+            !downSearch.test($(this).attr("data-recipe"))
+          ) {
+            $(this).css("display", "none");
+          }
+        }
+      });
     });
   });
 
@@ -494,6 +555,19 @@
       snacksContainer.scrollBy({ left: 700, behavior: 'smooth' });
     });
 
+  });
+
+  // Bookmarked
+  document.addEventListener('DOMContentLoaded', function () {
+    const bookmarkContainer = document.querySelector('.bookmarkContainer');
+
+    document.querySelector('.bookmarkCarousel .left-scroll').addEventListener('click', function () {
+      bookmarkContainer.scrollBy({ left: -700, behavior: 'smooth' });
+    });
+
+    document.querySelector('.bookmarkCarousel .right-scroll').addEventListener('click', function () {
+      bookmarkContainer.scrollBy({ left: 700, behavior: 'smooth' });
+    });
   });
 
 
