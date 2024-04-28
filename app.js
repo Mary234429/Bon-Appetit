@@ -520,58 +520,52 @@ app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function (req, res)
   });
 });
 
-app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
 
-  //retrieve variables from request
-  let recipeName = req.body.recipeName;
-  let recipeDescription = req.body.description;
-  let tools = req.body.recipeTools;
-  let ingredients = req.body.ingredients;
-  let ingredientAmounts = req.body.ingredientAmounts;
-  let instructions = req.body.instructions;
-  let tags = req.body.recipeTags;
-  let mealType = req.body.mealType;
-  let privacy = req.body.privacyLevel;
+app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail"), async function(req, res){
+  try {
+    let recipeName = req.body.recipeName;
+    let recipeDescription = req.body.description;
+    let recipeTools = req.body.recipeTools;
+    let ingredients = req.body.ingredients;
+    let ingredientAmounts = req.body.ingredientAmounts;
+    let instructions = req.body.instructions;
+    let recipeTags = req.body.recipeTags;
+    let mealType = req.body.mealType;
+    let privacyLevel = req.body.privacyLevel;
 
-  if (!req.file) {
-    Recipes.findByIdAndUpdate(req.params.recipeID, {
-      $set: {
-        name: recipeName,
-        description: recipeDescription,
-        toolsNeeded: tools,
-        ingredients: ingredients,
-        ingredientAmounts: ingredientAmounts,
-        instructions: instructions,
-        tags: tags,
-        mealType: mealType,
-        publicity: privacy,
-      }
-    });
-  } else {
-    const { originalname, mimetype, buffer } = req.file;
+    let updateFields = {
+      name: recipeName,
+      description: recipeDescription,
+      toolsNeeded: recipeTools,
+      ingredients: ingredients,
+      ingredientAmounts: ingredientAmounts,
+      instructions: instructions,
+      tags: recipeTags,
+      mealType: mealType,
+      privacyLevel: privacyLevel
+    };
 
-    let imageBuffer = buffer;
-    //Create a recipe object from submitted data
-    Recipes.findByIdAndUpdate(req.params.recipeID, {
-      $set: {
-        name: recipeName,
-        description: recipeDescription,
-        toolsNeeded: tools,
-        ingredients: ingredients,
-        ingredientAmounts: ingredientAmounts,
-        instructions: instructions,
-        tags: tags,
-        mealType: mealType,
-        publicity: privacy,
-        thumbnail: imageBuffer,
-      }
-    });
+    if(req.file) {
+      updateFields.thumbnail = req.file.buffer;
+    }
+
+    await Recipes.findByIdAndUpdate(req.params.recipeID, {$set: updateFields}).exec();
+
+    // Save who created the recipe & timestamp to the database
+    let timestamp = new Date();
+    let userID = req.user.id;
+
+    await Recipes.findOneAndUpdate(
+      { googleID: userID, recipeID: req.params.recipeID },
+      { $set: { timestamp: timestamp }}
+    ).exec();
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error('Error updating recipe:', error);
+    res.status(500).send('Error updating recipe. Please try again later.');
   }
-  //save who created the recipe & timestamp to the database
-  let timestamp = new Date();
-  let userID = req.user.id;
-  Recipes.findOneAndUpdate({ $and: { googleID: userID, recipeID: req.params.recipeID }, $set: { timestamp: timestamp } });
-  res.redirect("/dashboard");
+
 });
 
 app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function (req, res) {
