@@ -4,10 +4,15 @@
 }
 
 .search-bar input[type="text"] {
-    width: 78%;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
+    background-image: url('search_icon.png'); /* Confirm the path is correct */
+    background-size: 16px 16px; /* Sets the size of the icon */
+    background-position: 10px center; /* Positions the icon 10px from the left, vertically centered */
+    background-repeat: no-repeat; /* Ensures the icon does not repeat */
+    width: 78%; /* Sets the width of the input */
+    padding: 10px; /* Adds padding all around the input */
+    padding-left: 40px; /* Adds extra padding on the left to prevent text overlap */
+    border-radius: 20px; /* Rounds the corners */
+    border: 1px solid #ccc; /* Sets the border color and width */
 }
 
 .recipes-section {
@@ -44,7 +49,7 @@
     flex: 0 0 calc((100% / 4) - 20px); /* Adjusts each card to be 1/4th of the container minus some margin */
     margin: 0 10px; /* Provides spacing between cards */
     text-align: center;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 .recipe-card:hover{
     transform: scale(1.1); 

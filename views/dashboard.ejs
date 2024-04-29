@@ -48,7 +48,7 @@
           <a href="/profile">Profile</a>
           <a href="/myRecipesPage">Recipes</a>
           <a href="/dietTracker">Diet Tracker</a>
-          <a href="/dietPlanCreate">Diet Plan Create</a>
+
           <a href="/mydietitian">My Dietitian</a>
           <!-- <a href="/logout">Logout</a> -->
         </div>
@@ -81,9 +81,9 @@
 
   <!-- Recipe container -->
   <div class="recipeContainer">
-
+    <span class="carousel-title">Breakfast</span>
     <div class="breakfastCarousel">
-      <span class="carousel-title">Breakfast</span>
+
       <!-- Left scroll button -->
       <button class="scroll-button left-scroll" onclick=>&#10094;</button>
       <!-- breakfast container -->
@@ -93,6 +93,7 @@
         <div class="recipeWrapper">
 
           <% for(let i=0; i < breakfastRecipes.length; i++) { %>
+
             <a href="/recipe/<%=breakfastRecipes.at(i)._id%>" style="text-decoration:none; color:inherit;">
 
               <% let recipeData="" ; recipeData +=breakfastRecipes.at(i).name + "\n" +
@@ -138,29 +139,22 @@
                                                 <%= breakfastRecipes.at(i).name %>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[breakfastRecipes[i]._id]; %>
-                                                <div class="creator-info">
-                                                  <% if (creatorDetails.profilePicture) { %>
-                                                    <img src="<%= creatorDetails.profilePicture %>"
-                                                      alt="<%= creatorDetails.name %> Thumbnail">
-                                                    <% } %>
-                                                      <p>
-                                                        <%= creatorDetails.firstName %>
-                                                          <%= creatorDetails.lastName %>
-                                                      </p>
-                                                </div>
+
 
                                       </div> <!-- data-recipe-->
+
                                       <% } %>
             </a>
         </div> <!-- end recipe wrapper-->
       </div>
+      <!-- </div> -->
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
 
-
+    <span class="carousel-title">Lunch</span>
     <div class="lunchCarousel">
-      <span class="carousel-title">Lunch</span>
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Lunch recipes -->
       <!-- <h4>Lunch</h4> -->
@@ -211,16 +205,7 @@
                                                 <%=lunchRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[lunchRecipes[i]._id]; %>
-                                                <div class="creator-info">
-                                                  <% if (creatorDetails.profilePicture) { %>
-                                                    <img src="<%= creatorDetails.profilePicture %>"
-                                                      alt="<%= creatorDetails.name %> Thumbnail">
-                                                    <% } %>
-                                                      <p>
-                                                        <%= creatorDetails.firstName %>
-                                                          <%= creatorDetails.lastName %>
-                                                      </p>
-                                                </div>
+
 
                                       </div>
                                       <% } %>
@@ -234,10 +219,10 @@
       <!-- end of the lunch container-->
     </div>
 
-
+    <span class="carousel-title">Dinner</span>
 
     <div class="dinnerCarousel">
-      <span class="carousel-title">Dinner</span>
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Dinner recipes -->
       <!-- <h4>Dinner</h4> -->
@@ -288,16 +273,7 @@
                                                 <%=dinnerRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[dinnerRecipes[i]._id]; %>
-                                                <div class="creator-info">
-                                                  <% if (creatorDetails.profilePicture) { %>
-                                                    <img src="<%= creatorDetails.profilePicture %>"
-                                                      alt="<%= creatorDetails.name %> Thumbnail">
-                                                    <% } %>
-                                                      <p>
-                                                        <%= creatorDetails.firstName %>
-                                                          <%= creatorDetails.lastName %>
-                                                      </p>
-                                                </div>
+
 
                                       </div>
 
@@ -308,9 +284,9 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
-
+    <span class="carousel-title">Snacks</span>
     <div class="snacksCarousel">
-      <span class="carousel-title">Snacks</span>
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Snacks recipes -->
       <!-- <h4>Snacks</h4> -->
@@ -361,16 +337,7 @@
                                                 <%=snackRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[snackRecipes[i]._id]; %>
-                                                <div class="creator-info">
-                                                  <% if (creatorDetails.profilePicture) { %>
-                                                    <img src="<%= creatorDetails.profilePicture %>"
-                                                      alt="<%= creatorDetails.name %> Thumbnail">
-                                                    <% } %>
-                                                      <p>
-                                                        <%= creatorDetails.firstName %>
-                                                          <%= creatorDetails.lastName %>
-                                                      </p>
-                                                </div>
+
 
                                       </div>
                                       <% } %>
@@ -380,43 +347,6 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
-    <!-- <div class="bookmarkCarousel">
-      <span class="carousel-title">Bookmarked Recipes</span>
-      <button class="scroll-button left-scroll">&#10094;</button>
-      <div class="bookmarkContainer">
-        <div class="recipeWrapper">
-          <% bookmarkedRecipes.forEach((recipe)=> { %>
-            <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
-              <div class="recipeBookmark">
-                <% if (recipe.thumbnail==null) { %>
-                  <img src="plate.png" class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
-                  <% } else { %>
-                    <img src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
-                      class="recipeBookmarkPic" alt="<%= recipe.name %> Thumbnail">
-                    <% } %>
-                      <h7 class="bookmark-recipe-name">
-                        <%= recipe.name %>
-                      </h7>
-
-                     
-                      <% const creatorDetails=recipeMemberMap[recipe._id]; %>
-                        <% if (creatorDetails && creatorDetails.profilePicture) { %>
-                          <div class="creator-info">
-                            <img src="<%= creatorDetails.profilePicture %>"
-                              alt="<%= creatorDetails.firstName %> Thumbnail">
-                            <p>
-                              <%= creatorDetails.firstName %>
-                                <%= creatorDetails.lastName %>
-                            </p>
-                          </div>
-                          <% } %>
-              </div>
-            </a>
-            <% }); %>
-        </div>
-      </div>
-      <button class="scroll-button right-scroll">&#10095;</button>
-    </div>  -->
 
   </div> <!-- recipe container end-->
 </body>
@@ -495,21 +425,21 @@
       });
 
       // Search Bookmarks? Maybe?
-    //   $(".recipeBookmark").each(function (i, obj) {
-    //     $(this).css("display", "block");
-    //     for (let i = 0; i < filterArray.length; i++) {
-    //       let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
-    //       let upSearch = new RegExp(upText);
-    //       let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
-    //       let downSearch = new RegExp(downText);
-    //       if (
-    //         !upSearch.test($(this).attr("data-recipe")) &&
-    //         !downSearch.test($(this).attr("data-recipe"))
-    //       ) {
-    //         $(this).css("display", "none");
-    //       }
-    //     }
-    //   });
+      //   $(".recipeBookmark").each(function (i, obj) {
+      //     $(this).css("display", "block");
+      //     for (let i = 0; i < filterArray.length; i++) {
+      //       let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
+      //       let upSearch = new RegExp(upText);
+      //       let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
+      //       let downSearch = new RegExp(downText);
+      //       if (
+      //         !upSearch.test($(this).attr("data-recipe")) &&
+      //         !downSearch.test($(this).attr("data-recipe"))
+      //       ) {
+      //         $(this).css("display", "none");
+      //       }
+      //     }
+      //   });
     });
   });
 
