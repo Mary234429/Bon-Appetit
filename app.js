@@ -422,8 +422,7 @@ const upload = multer({ storage: storage });
 app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
-  }
-
+    }
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
@@ -435,7 +434,15 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-  let imageBuffer="";
+  let imageBuffer = "";
+  let calories = 0;
+    //FOR LOOP FOR CALORIE RECIPES
+    await Promise.all(ingredients.map(async (ingredientId, index) => {
+        const ingredient = await Ingredients.findById(ingredientId);
+        if (ingredient) {
+            calories += ingredient.caloriesPerUnit * ingredientAmounts[index];
+        }
+    }));
   const { originalname, mimetype, buffer } = req.file;
 
   imageBuffer = buffer;
@@ -453,11 +460,11 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
     mealType: mealType,
     publicity: privacy,
     thumbnail: imageBuffer,
+    calories: calories
   });
   //Save the recipe to the database
   recipe.save();
   console.log("Recipe created successfully!");
-
   //save who created the recipe & timestamp to the database
   let timestamp = new Date();
   let userID = req.user.id;
@@ -512,18 +519,27 @@ app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail
   let tags = req.body.recipeTags;
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
-  
+  let calories = 0;
+    await Promise.all(ingredients.map(async (ingredientId, index) => {
+        const ingredient = await Ingredients.findById(ingredientId);
+        if (ingredient) {
+            calories += ingredient.caloriesPerUnit * ingredientAmounts[index];
+        }
+    }));
+    console.log(calories)
   if(!req.file){
-    Recipes.findByIdAndUpdate(req.params.recipeID, {$set: {
-      name: recipeName,
-      description: recipeDescription,
-      toolsNeeded: tools,
-      ingredients: ingredients,
-      ingredientAmounts: ingredientAmounts,
-      instructions: instructions,
-      tags: tags,
-      mealType: mealType,
-      publicity: privacy,
+      Recipes.findByIdAndUpdate(req.params.recipeID, {
+          $set: {
+              name: recipeName,
+              description: recipeDescription,
+              toolsNeeded: tools,
+              ingredients: ingredients,
+              ingredientAmounts: ingredientAmounts,
+              instructions: instructions,
+              tags: tags,
+              mealType: mealType,
+              publicity: privacy,
+              calories: calories, 
     }});
   }else{
     const { originalname, mimetype, buffer } = req.file;
@@ -541,6 +557,7 @@ app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail
       mealType: mealType,
       publicity: privacy,
       thumbnail: imageBuffer,
+      calories: calories, 
     }});
   }
   //save who created the recipe & timestamp to the database
