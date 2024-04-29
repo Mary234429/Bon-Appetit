@@ -308,6 +308,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
       let lunchNames = [];
       let dinnerNames = [];
       let snackNames = [];
+      let calories = 0;
       for (let i = 0; i < tracker.length; i++) {
         if (tracker.at(i).timeOfDay == formatedDate) {
           if (tracker.at(i).typeOfMeal == "Breakfast") {
@@ -327,32 +328,36 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
       for (let i = 0; i < breakfastTracked.length; i++) {
         for (let j = 0; j < MealList.length; j++) {
           if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
-            breakfastNames.push(MealList.at(j).name);
+              breakfastNames.push(MealList.at(j).name);
+              calories += MealList.at(j).calories;
           }
         }
       }
       for (let i = 0; i < lunchTracked.length; i++) {
         for (let j = 0; j < MealList.length; j++) {
           if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
-            lunchNames.push(MealList.at(j).name);
+              lunchNames.push(MealList.at(j).name);
+              calories += MealList.at(j).calories;
           }
         }
       }
       for (let i = 0; i < dinnerTracked.length; i++) {
         for (let j = 0; j < MealList.length; j++) {
           if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
-            dinnerNames.push(MealList.at(j).name);
+              dinnerNames.push(MealList.at(j).name);
+              calories += MealList.at(j).calories;
           }
         }
       }
       for (let i = 0; i < snackTracked.length; i++) {
         for (let j = 0; j < MealList.length; j++) {
           if (snackTracked.at(i).recipe == MealList.at(j)._id) {
-            snackNames.push(MealList.at(j).name);
+              snackNames.push(MealList.at(j).name);
+              calories += MealList.at(j).calories;
           }
         }
       }
-      res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames });
+        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames, calories: parseInt(calories, 10)});
     });
   });
 });
@@ -442,8 +447,7 @@ const upload = multer({ storage: storage });
 app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async function (req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
-  }
-
+    }
   //retrieve variables from request
   let recipeName = req.body.recipeName;
   let recipeDescription = req.body.description;
@@ -456,6 +460,14 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
   let mealType = req.body.mealType;
   let privacy = req.body.privacyLevel;
   let imageBuffer = "";
+  let calories = 0;
+    //FOR LOOP FOR CALORIE RECIPES
+    await Promise.all(ingredients.map(async (ingredientId, index) => {
+        const ingredient = await Ingredients.findById(ingredientId);
+        if (ingredient) {
+            calories += ingredient.caloriesPerUnit * ingredientAmounts[index];
+        }
+    }));
   const { originalname, mimetype, buffer } = req.file;
 
   imageBuffer = buffer;
@@ -473,11 +485,11 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
     mealType: mealType,
     publicity: privacy,
     thumbnail: imageBuffer,
+    calories: calories
   });
   //Save the recipe to the database
   recipe.save();
   console.log("Recipe created successfully!");
-
   //save who created the recipe & timestamp to the database
   let timestamp = new Date();
   let userID = req.user.id;
@@ -532,6 +544,14 @@ app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail
     let recipeTags = req.body.recipeTags;
     let mealType = req.body.mealType;
     let privacyLevel = req.body.privacyLevel;
+    let calories = 0;
+      await Promise.all(ingredients.map(async (ingredientId, index) => {
+          const ingredient = await Ingredients.findById(ingredientId);
+          if (ingredient) {
+              calories += ingredient.caloriesPerUnit * ingredientAmounts[index];
+          }
+      }));
+    console.log(calories)
 
     let updateFields = {
       name: recipeName,
@@ -542,7 +562,8 @@ app.post('/recipe/edit/:recipeID', ensureAuthenticated, upload.single("thumbnail
       instructions: instructions,
       tags: recipeTags,
       mealType: mealType,
-      privacyLevel: privacyLevel
+      privacyLevel: privacyLevel,
+      calories: calories
     };
 
     if(req.file) {
