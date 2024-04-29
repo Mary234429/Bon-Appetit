@@ -1,12 +1,4 @@
-/* .black-rectangle-top {
-  width: 100%;
-  height: 20px; 
-  background-color: #6c8347;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-} */
+
 .black-rectangle-top {
 
   display: flex;
@@ -232,21 +224,17 @@ h3 {
 }
 
 .SearchTextBox {
-  background-image: url('search_icon.png');
-  background-size: 16px; /* Adjust the size of the icon */
-  background-repeat: no-repeat;
-  background-position: 30px center; /* Adjust the position of the icon */
-  padding-left: 55px;
-  width: 800px;
-  height: 45px;
-  background-color: #d9d9d9;
-  border-radius: 20px;
-  border: none;
-  padding: 20px;
-  box-sizing: border-box;
-  text-indent: 50px; /* Adjust to move the placeholder text to the right */
-  margin-left: -10px;
+  background-image: url('search_icon.png'); /* Confirm the path is correct */
+  background-size: 16px 16px; /* Sets the size of the icon */
+  background-position: 10px center; /* Positions the icon 10px from the left, vertically centered */
+  background-repeat: no-repeat; /* Ensures the icon does not repeat */
+  width: 78%; /* Sets the width of the input */
+  padding: 10px; /* Adds padding all around the input */
+  padding-left: 40px; /* Adds extra padding on the left to prevent text overlap */
+  border-radius: 20px; /* Rounds the corners */
+  border: 1px solid #ccc; /* Sets the border color and width */
 }
+
 
 
 
@@ -275,29 +263,30 @@ h3 {
 } */
 
 .carousel-title {
-  position: absolute;
-  top: -30px; /* Adjust this value as needed */
-  left: 20px;
-  color: #474747; /* Example text color */
-  padding: 5px 10px; /* Example padding */
-  border-radius: 0 0 0 5px; /* Rounded bottom-left corner */
-  font-size: 16px; /* Example font size */
-  z-index: 2; /* Ensure it's above other content */
- 
+  font-size: 20px;
+    width:60%;
+    color: #333;
+    margin-left:11%;
+    font-weight: bold; /* Makes the font thicker */
+    color: #333333;
+    margin-bottom: 0; /* Reduce or remove to decrease the gap */
+  margin-top: 5px;
 }
+
 .breakfastCarousel,
 .lunchCarousel,
 .dinnerCarousel,
 .bookmarkCarousel,
 .snacksCarousel {
+  margin-top: 0;
+  
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* This remains as is to spread children */
-  position: relative;
-  max-width: 860px; /* Adjust this value based on your layout's needs */
-  margin: auto;
-  /* margin-top: 60px; */
-  position: relative;
+  overflow: hidden; /* Keeps everything neat */
+  margin: 0 auto; /* Centering if necessary */
+  width: 87%; /* Maintain your width */
+  /* margin-left: 50px; Adjust if necessary */
  
 }
 
@@ -307,47 +296,47 @@ h3 {
 .bookmarkContainer,
 .snacksContainer {
   display: flex;
-  scroll-behavior: smooth;
-  position: relative;
   overflow-x: auto;
-  max-width: calc(230px * 3 + 30px * 3);
-  margin: 0 10px 0 10px; /* Adjusts horizontal margins; retains your current setting */
-  margin-bottom: 80px; 
-  flex-shrink: 0; 
-  flex-grow: 1;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  /* background-color: #cc8585; */
-  /* padding-bottom: 45px;  */
+  scroll-behavior: smooth;
+  width: 90%; /* Set width to 100% of its parent to avoid overflow */
+  padding: 10px 0;
+  margin: auto;
 }
 
 .scroll-button {
   cursor: pointer;
-  z-index: 2; /* Keep if needed for layering, but might not be necessary with flex */
-  width: 40px; /* Adjust as needed */
-  height: 40px;
-  margin-bottom:13%;
+  background: rgba(179, 176, 176, 0); /* Slightly transparent background */
   border: none;
+  font-size: 24px;
+  position: absolute; /* Positioned absolutely within the relative container */
+  top: 45%; /* Center vertically */
+  transform: translateY(-50%);
+  z-index: 10; /* Ensure it's above other content */
+  padding:10px;
+
 }
+
 .scroll-button:hover {
-  transform: scale(1.7); 
-
+  background-color: #ddddddc7;
 }
 
-.breakfastContainer .left-scroll,
-.lunchContainer .left-scroll {
-  left: 0; 
+.scroll-button.left-scroll {
+  left: 10px; /* Closer to the recipes, adjust as needed */
 }
 
-.breakfastContainer .right-scroll,
-.lunchContainer .right-scroll {
-  right: 0; 
+.scroll-button.right-scroll {
+  right: 1px; /* Closer to the recipes, adjust as needed */
 }
 
 .recipeWrapper {
   display: flex;
   /* flex-wrap: wrap; */
   margin: 50px -10px; 
+  flex: 0 0 calc((100% / 4) - 20px); /* Adjusts each card to be 1/4th of the container minus some margin */
+ 
+  text-align: center;
+  box-sizing: border-box;
+
 }
 
 
@@ -356,18 +345,10 @@ h3 {
 .recipeDinner,
 .recipeBookmark,
 .recipeSnacks {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 calc(35% - 25px); /* Adjust width for 3 recipes */
-  margin-right: 25px; 
-  margin-left: 25px;
-  flex: 0 0 calc(25% - 20px);
-  background-color: #d9d9d9;
-  border-radius: 5px;
-  padding: 10px;
-  width: 180px; /* Set a fixed width for all recipe containers */
-  height: 190px; /* Set a fixed height for all recipe containers */
-  /* position: relative;  */
+  flex: 0 0 23%; /* Sets the base width for each card */
+  margin: 0 10px; /* Provides spacing between cards */
+  min-width: 250px; /* Ensures cards do not get too small on narrower viewports */
+  box-sizing: border-box;
 }
 .recipeBreakfast:hover,
 .recipeLunch:hover,
@@ -380,7 +361,12 @@ h3 {
 -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 transition: all 0.4s ease 0s;
 }
-
+/* .recipe-card {
+  flex: 0 0 calc((100% / 4) - 20px); 
+  margin: 0 10px;
+  text-align: center;
+  box-sizing: border-box;
+} */
 .lunchContainer::-webkit-scrollbar ,
 .dinnerContainer::-webkit-scrollbar ,
 .snacksContainer::-webkit-scrollbar ,
@@ -396,11 +382,10 @@ transition: all 0.4s ease 0s;
 .recipeSnacksPic
 {
   
-background-color:white;
-margin-top:-30px;
-width:100%;
-height:70%;
-box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
+  width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
 
 }
 
@@ -410,37 +395,9 @@ box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
 .dinner-recipe-name,
 .bookmark-recipe-name,
 .snack-recipe-name {
-  color: rgb(0, 0, 0);
-  font-size: 21px;
-  font-family: Lustria;
-  background-color: #d9d9d9;
-  text-align: left; /* Align text to the left */
-  display: flex; /* Use flexbox */
-  /* justify-content: center;  */
-  align-items: center;
-  flex: 1; /* Allow the name to take up remaining space */
+  margin-top: 5px;
+    font-size: 16px;
+    font-weight: bold; /* Makes the font thicker */
+    color: #333333; 
+   margin-bottom:10px;
 }
-
-
-.creator-info {
-  display: flex;
-  /* justify-content: space-between; Align items at the ends of the container */
-  align-items: flex-end; /* Align items to the bottom of the container */
-  /* position: absolute; 
-  bottom: 10px;  */
-  width: 100%; /* Ensure it spans the entire width */
-}
-.creator-info p{
-  margin-right:10%;
-  margin-bottom:5%;
-  /* background-color: pink; */
-  font-size:13px;
-}
-
-.creator-info img {
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  margin-right: 10px; /* adjust as needed to create space between image and text */
-}
-
