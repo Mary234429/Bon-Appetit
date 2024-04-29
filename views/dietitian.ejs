@@ -10,9 +10,7 @@
   <title>Find Dietitian</title>
 </head>
 <body>
-    <form action="/dashboard" method="get">
-        <button type="submit">Dashboard</button>
-      </form>
+  <%- include('navbar') %>
     <div class="top-container">
         <h1>My Dietitian</h1>
         <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
