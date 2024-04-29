@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<link rel="icon" href="favicon.ico" type="image/x-icon">-->
-    
+
+      <!-- This is broken -->
+      <!-- <link rel="icon" href="favicon.ico" type="image/x-icon">-->
 
     <!-- we love math -- no touch -->
     <%function timeAgo(timestamp) {
@@ -52,6 +53,14 @@
         </form>
     <% } %>
 
+    <!-- Add a 'Bookmark Recipe' button on the recipe page -->
+    <form action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>" method="post">
+        <input type="hidden" name="recipeID" value="<%= recipe._id %>">
+        <input type="hidden" name="userGoogleID" value="<%= author %>">
+        <button type="submit"><% if (isBookmarked) { %>Remove Bookmark<% } else { %>Bookmark Recipe<% } %></button>
+    </form>
+
+
     <div class="image-container">
         <% if(recipe.thumbnail==null) { %>
             <img src="plate.png"
@@ -66,8 +75,6 @@
             <h1><%= recipe.name %></h1>
             <p><%= recipe.description %></p>
 
-   
-            
             <% members.forEach(function(members) { %>
                 <% if (members.googleID === createdRecipe[0].googleID) { %>
                     <p>Authored by: <img src="<%= members.profilePicture %>" alt="Profile Picture of recipe creator" class="author-profile-picture"> <%= members.firstName %> <%= members.lastName %></p>
@@ -167,3 +174,4 @@
         <% }; %>
 
 </body>
+</html>

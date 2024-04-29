@@ -63,7 +63,7 @@ let dietTrackerSchema = new mongoose.Schema({
   timeOfDay: { type: String },
   typeOfMeal: { type: String },
   recipe: { type: String },
-  user: { type: String },
+    user: { type: String },
 });
 let DietTracker = mongoose.model("diettracker", dietTrackerSchema);
 
@@ -93,6 +93,7 @@ let recipeSchema = new mongoose.Schema({
   mealType: { type: Array },
   publicity: { type: String },
   thumbnail: { type: Buffer },
+  calories: { type: Decimal128},
 });
 let Recipes = mongoose.model("recipe", recipeSchema);
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes Page</title>
+    <link rel="stylesheet" href="myRecipesPage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('navbar') %>
+        <div class="main-container">
+            <h1>Recipes</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for recipe" id="searchInput" onkeyup="filterRecipes()">
+            </div>
+
+            <!-- My Recipes Section -->
+            <div class="recipes-section">
+                <h2 class="section-header">My Recipes</h2>
+                <div class="recipes-carousel">
+                    <button class="scroll-button left-scroll">&#10094;</button>
+                    <div class="recipes-container" id="myRecipesContainer">
+                        <% recentRecipes.forEach(recipe=> { %>
+                            <div class="recipe-card" data-name="<%= recipe.name.toLowerCase() %>">
+                                <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <img src="<%= recipe.thumbnail ? `data:image/jpeg;base64,${recipe.thumbnail.toString('base64')}` : 'plate.png' %>"
+                                        alt="<%= recipe.name %> Thumbnail">
+                                    <div class="recipe-info">
+                                        <h3>
+                                            <%= recipe.name %>
+                                        </h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <button class="scroll-button right-scroll">&#10095;</button>
+                </div>
+            </div>
+
+            <!-- Saved Recipes Section -->
+            <div class="recipes-section">
+                <h2 class="section-header">Saved Recipes</h2>
+                <div class="recipes-carousel">
+                    <button class="scroll-button left-scroll">&#10094;</button>
+                    <div class="recipes-container" id="savedRecipesContainer">
+                        <% bookmarkedRecipes.forEach(recipe=> { %>
+                            <div class="recipe-card" data-name="<%= recipe.name.toLowerCase() %>">
+                                <a href="/recipe/<%= recipe._id %>" style="text-decoration:none; color:inherit;">
+                                    <img src="<%= recipe.thumbnail ? `data:image/jpeg;base64,${recipe.thumbnail.toString('base64')}` : 'plate.png' %>"
+                                        alt="<%= recipe.name %> Thumbnail">
+                                    <div class="recipe-info">
+                                        <h3>
+                                            <%= recipe.name %>
+                                        </h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <button class="scroll-button right-scroll">&#10095;</button>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Function to handle scrolling
+                function scrollContainer(direction, container) {
+                    const scrollAmount = 500; // Adjust the scroll amount (px) based on your design needs
+                    const currentScrollPosition = container.scrollLeft;
+                    const newScrollPosition = direction === 'left' ? currentScrollPosition - scrollAmount : currentScrollPosition + scrollAmount;
+                    container.scrollTo({
+                        top: 0,
+                        left: newScrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+
+                // Attach event listeners to scroll buttons
+                const leftScrollButtons = document.querySelectorAll('.left-scroll');
+                const rightScrollButtons = document.querySelectorAll('.right-scroll');
+
+                leftScrollButtons.forEach(button => {
+                    const container = button.nextElementSibling;
+                    button.addEventListener('click', () => scrollContainer('left', container));
+                });
+
+                rightScrollButtons.forEach(button => {
+                    const container = button.previousElementSibling;
+                    button.addEventListener('click', () => scrollContainer('right', container));
+                });
+
+                // Filtering recipes on search
+                function filterRecipes() {
+                    var input = document.getElementById('searchInput').value.toLowerCase();
+                    ['myRecipesContainer', 'savedRecipesContainer'].forEach(containerId => {
+                        var container = document.getElementById(containerId);
+                        var cards = container.getElementsByClassName('recipe-card');
+                        Array.from(cards).forEach(card => {
+                            var name = card.getAttribute('data-name');
+                            card.style.display = name.includes(input) ? '' : 'none';
+                        });
+                    });
+                }
+
+                // Link the filterRecipes function to the search input
+                document.getElementById('searchInput').addEventListener('keyup', filterRecipes);
+            });
+        </script>
+
+</body>
+
+</html>

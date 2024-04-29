@@ -45,7 +45,7 @@ h1{
     position: relative;
     margin: 0 auto;
     background-color: #6C8347;
-    max-height: 400px;
+    max-height: 55vh;
     top: 0;
     left: 0;
     width: 100%;
@@ -71,8 +71,9 @@ h1{
   }
   .left-container img{
     position: absolute;
-    width:20%;
-    height:70%;
-    padding-top: 5%;
+    width:25vw;
+    height:40vh;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
     
   }
