@@ -163,12 +163,14 @@ app.post("/addDiet", ensureAuthenticated, (req, res) => {
   let user = req.user.id;
   let mealType = req.body.mealType;
   let recipe = req.body.RecipeName;
+  let portion = req.body.portion;
   console.log(recipe);
   const diettracker = new DietTracker({
     user: user,
     timeOfDay: formatedDate,
     typeOfMeal: mealType,
     recipe: recipe,
+    portionSize: portion,
   });
   //Save the recipe to the database
   diettracker.save();
@@ -345,7 +347,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
               breakfastNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * breakfastTracked.at(i).portionSize);
           }
         }
       }
@@ -353,7 +355,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
               lunchNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * lunchTracked.at(i).portionSize);
           }
         }
       }
@@ -361,7 +363,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
               dinnerNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * dinnerTracked.at(i).portionSize);
           }
         }
       }
@@ -369,7 +371,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (snackTracked.at(i).recipe == MealList.at(j)._id) {
               snackNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * snackTracked.at(i).portionSize);
           }
         }
       }
