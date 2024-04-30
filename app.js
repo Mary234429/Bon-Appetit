@@ -176,6 +176,22 @@ app.post("/addDiet", ensureAuthenticated, (req, res) => {
   res.redirect("/dietTracker");
 });
 
+app.post("/removeFood", ensureAuthenticated, async (req, res) => {
+    let name = req.body.name;
+    try {
+        const deletedFood = await DietTracker.findByIdAndDelete(name);
+        if (!deletedFood) {
+            // If the food item was not found, respond with an error
+            return res.status(404).send("Food item not found");
+        }
+        // If the food item was deleted successfully, redirect to /dietTracker
+        res.redirect("/dietTracker");
+    } catch (error) {
+        console.error("Error deleting food:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 //Set up application port
 const PORT = 3000;
 app.listen(PORT, () => {
@@ -310,7 +326,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
       let snackNames = [];
       let calories = 0;
       for (let i = 0; i < tracker.length; i++) {
-        if (tracker.at(i).timeOfDay == formatedDate) {
+        if (tracker.at(i).timeOfDay == formatedDate && tracker.at(i).user == req.user.id) {
           if (tracker.at(i).typeOfMeal == "Breakfast") {
             breakfastTracked.push(tracker.at(i));
           }
@@ -357,7 +373,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
           }
         }
       }
-        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames, calories: parseInt(calories, 10)});
+        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames, calories: parseInt(calories, 10),breakfastTracked ,lunchTracked, dinnerTracked, snackTracked});
     });
   });
 });
@@ -481,6 +497,7 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
     ingredients: ingredients,
     ingredientAmounts: ingredientAmounts,
     instructions: instructions,
+    calories: calories,
     tags: tags,
     mealType: mealType,
     publicity: privacy,
