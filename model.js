@@ -64,7 +64,7 @@ let dietTrackerSchema = new mongoose.Schema({
   typeOfMeal: { type: String },
   recipe: { type: String },
   user: { type: String },
-  calories: {type: Decimal128},
+  portionSize: {type: Decimal128},
 });
 let DietTracker = mongoose.model("diettracker", dietTrackerSchema);
 
