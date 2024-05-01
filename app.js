@@ -624,7 +624,7 @@ app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
               }
             }
 
-            res.render("recipe.ejs", {
+            res.render("recipe", {
               recipe: theRecipe,
               ingredients: ingredients,
               map: commentMemberMap,
@@ -847,7 +847,7 @@ app.get("/comments", ensureAuthenticated, async function (req, res) {
       };
     }
   }
-  res.render("comments.ejs", {
+  res.render("comments", {
     map: commentMemberMap,
     comments: createdComments,
     picture: req.user.picture,
