@@ -19,7 +19,6 @@
     <!-- //Server-side code to calculate age -->
     <% const currentDate=new Date(); const diff=currentDate - loggedInMember.birthday; const ageDate=new Date(diff);
       const age=Math.abs(ageDate.getUTCFullYear() - 1970); %>
-  </div>
   <h1 class="title">P&nbsp;r&nbsp;o&nbsp;f&nbsp;i&nbsp;l&nbsp;e</h1>
   <div class="outer-container">
     <div class="left-container">
@@ -61,7 +60,7 @@
       </script>
     </div>
   </div>
-  <h1>Recent Recipes</h1>
+  <h1 class="recipe-head">Recent Recipes</h1>
   <br>
   <div class="recipe-container">
     <% if (recipes[0]) { %>
@@ -69,9 +68,6 @@
         <% } %>
           <!--<div class="left-recipe">-->
           <div class="left-box">
-            <p class="name">
-              <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
-            </p>
             <% if (recipes[0]==null) { %>
               <img src="plate.png" alt="Image of a plate" class="left-image" />
               <% } else { %>
@@ -82,6 +78,9 @@
                     <img src="plate.png" alt="<%= recipes[0].name %> Thumbnail" class="left-image" />
                     <% } %>
                       <% } %>
+                      <p class="name">
+                        <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
+                      </p>
           </div>
 
           <% if (recipes[0]) { %>
@@ -92,9 +91,6 @@
             <% } %>
               <!--<div class="left-recipe">-->
               <div class="middle-box">
-                <p class="name">
-                  <%= recipes[1] ? recipes[1].name : 'Create Another Recipe' %>
-                </p>
                 <% if (recipes[1]==null) { %>
                   <img src="plate.png" alt="Image of a plate" class="middle-image" />
                   <% } else { %>
@@ -106,6 +102,9 @@
                         <% } %>
                           <% } %>
 
+                          <p class="name">
+                            <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
+                          </p>
               </div>
 
               <% if (recipes[1]) { %>
@@ -116,9 +115,6 @@
                 <% } %>
                   <!--<div class="left-recipe">-->
                   <div class="right-box">
-                    <p class="name">
-                      <%= recipes[2] ? recipes[2].name : 'Create Another Recipe' %>
-                    </p>
                     <% if (recipes[2]==null) { %>
                       <img src="plate.png" alt="Image of a plate" class="right-image" />
                       <% } else { %>
@@ -129,6 +125,10 @@
                             <img src="plate.png" alt="<%= recipes[2].name %> Thumbnail" class="right-image" />
                             <% } %>
                               <% } %>
+                              
+                      <p class="name">
+                        <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
+                      </p>
                   </div>
 
                   <% if (recipes[2]) { %>

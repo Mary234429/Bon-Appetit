@@ -15,14 +15,13 @@
         <h1>My Dietitian</h1>
         <p><%= loggedInMember.firstName %>&nbsp;<%= loggedInMember.lastName %></p>
         <p id="currentActiveDietitian">Current Active Dietitian: <%= currentActiveDietitianName %></p>
-        
-        <input type="text" id="searchBar" class="SearchTextBox" placeholder="Search dietitians..." autocomplete="off">
+        <input type="text" id="searchBar" class="SearchTextBox" onkeyup="filterDietitians()" placeholder="Search dietitians..." autocomplete="off">
     </div>
     <div class="dietitianCarousel">
       <img src="leaf.png" alt="leaf" id = "leaf1"/>
       <img src="leaf.png" alt="leaf" id = "leaf2"/>
       <button class="scroll-button left-scroll" onclick=>&#10094;</button>
-      <div class="dietitianContainer">
+      <div class="dietitianContainer" id="container">
         <!-- Each dietitian in a box -->
         <% dietitians.forEach(function(dietitian) { %>
           <div class="box">
@@ -84,7 +83,22 @@
         // Scroll right
         dietitianContainer.scrollBy({ left: rightScroll, behavior: 'smooth' });
         });
-    });
+        // Filtering recipes on search
+        function filterDietitians() {
+                    var input = document.getElementById('searchInput').value.toLowerCase();
+                    ['container'].forEach(containerId => {
+                        var container = document.getElementById(containerId);
+                        var cards = container.getElementsByClassName('box');
+                        Array.from(cards).forEach(card => {
+                            var name = card.getAttribute('data-name');
+                            card.style.display = name.includes(input) ? '' : 'none';
+                        });
+                    });
+                }
+
+                // Link the filterDietitians function to the search input
+                document.getElementById('searchInput').addEventListener('keyup', filterDietitians);
+            });
     </script>
 </body>
 </html>
