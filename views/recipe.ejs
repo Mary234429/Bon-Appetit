@@ -101,10 +101,11 @@
             </tr>
         </thead>
         <tbody>
+            <% var reversedAmounts = recipe.ingredientAmounts.slice().reverse(); %>
             <% ingredients.forEach(function(ingredient, index) { %>
                 <tr>
                     <td><%= ingredient.name %></td>
-                    <td><%= recipe.ingredientAmounts[index] %>&nbsp;<%=ingredient.unit %></td>
+                    <td><%= reversedAmounts[index] %>&nbsp;<%=ingredient.unit %></td>
                 </tr>
             <% }); %>
         </tbody>
