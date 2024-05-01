@@ -501,7 +501,7 @@ app.get('/recipe/edit/:recipeID', ensureAuthenticated, async function (req, res)
   let edit = true;
   let recipe = await Recipes.findOne({ _id: req.params.recipeID });
   let ingredients = await Ingredients.find();
-  res.render("recipeEdit.ejs", {
+  res.render("recipeEdit", {
     edit: edit,
     recipe: recipe,
     ingredients: ingredients
@@ -569,7 +569,7 @@ app.get('/recipe/customize/:recipeID', ensureAuthenticated, async function (req,
   let edit = false;
   let recipe = await Recipes.findOne({ _id: req.params.recipeID });
   let ingredients = await Ingredients.find();
-  res.render("recipeEdit.ejs", {
+  res.render("recipeEdit", {
     edit: edit,
     recipe: recipe,
     ingredients: ingredients
@@ -605,7 +605,7 @@ app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
               }
             }
 
-            res.render("recipe.ejs", {
+            res.render("recipe", {
               recipe: theRecipe,
               ingredients: ingredients,
               map: commentMemberMap,
@@ -823,7 +823,7 @@ app.get("/comments", ensureAuthenticated, async function (req, res) {
       };
     }
   }
-  res.render("comments.ejs", {
+  res.render("comments", {
     map: commentMemberMap,
     comments: createdComments,
     picture: req.user.picture,
