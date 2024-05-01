@@ -45,35 +45,33 @@ h1{
     color:white;
   }
 
-  .date-picker {
-    margin-right: 10px; /* Adjust as needed */
-  }
-
+ 
   /* This will ensure that the h1 and h5 are on the same line and spaced apart */
   .date-header {
     display: flex;
-    background-color: #6c8347;
+    /* background-color: #6c8347; */
     justify-content: space-between;
     align-items: center;
-    width: 130%;
-    margin-bottom:50px;
-    height: 45%;
+    width: 57%;
+    /* margin-bottom:50px; */
+    /* height: 45%; */
   }
   .calorie-counter {
 
-    width: 200px; /* Diameter of the circle */
+    /* width: 200px; Diameter of the circle */
     height: 200px; /* Diameter of the circle */
-    border-radius: 50%; /* Makes it circular */
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: auto; /* Center the counter horizontally */
-    margin-bottom: 120px; /* Adjust the top margin to move it up a little bit */
+    /* margin-bottom: 80px; Adjust the top margin to move it up a little bit */
     background: #fff; /* Background color */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     background: linear-gradient(
-    to right,
+    to left,
     rgb(108, 131, 71),
     rgb(193, 233, 129),
     rgb(172, 223, 90)
@@ -102,16 +100,51 @@ h1{
   .calories-consumed {
     font-size: 1em; /* Smaller font size for the "consumed" text */
   }
+  .date-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;/* Adjust as needed */
+  }
 
   /* Style the input[type="date"] to make it less bulky */
   input[type="date"] {
-    padding: 5px;
-    border: 1px solid #ccc;
+    padding: 8px 10px;
+    border: 2px solid #ccc;
     border-radius: 4px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-  }
+    transition: border-color 0.3s;
+}
 
+input[type="date"]:hover, input[type="date"]:focus {
+    border-color: #134716;
+    outline: none;
+}
+.header-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+  justify-content: space-between; /* Positions the h2 on the left and the button on the right */
+  width: 95%; /* Ensures the container fills its parent, adjust as necessary */
+}
+.item-header {
+  display: flex;
+  justify-content: space-between; /* This will push the h7 to the left and the form to the right */
+  align-items: center; /* This will vertically center the items */
+  width: 95%; 
+}
+
+/* .Snack-recipe-name {
+  margin-right: 10%; 
+} */
+
+.form-delete button {
+  cursor: pointer; /* Changes cursor to pointer when hovering over the button */
+  padding: 5px 10px; /* Adjust padding to make button bigger or smaller */
+  border-radius: 5px; /* Optional: Rounds the corners of the button */
+}
+
+
+ 
   /* Media Query for Responsive adjustment */
   @media (max-width: 768px) {
     .date-header {
@@ -144,14 +177,19 @@ header h1 {
 }
 
 button {
-  background-color: #6c8347;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
+  background-color: #bfd1a1; /* Dark green background */
+  color: #ffffff; /* White text */
+  border: none; /* No border */
+  width: 40px; /* Fixed width */
+  height: 40px; /* Fixed height to make the button circular */
+  padding: 0; /* No padding */
+  margin: 10px 0; /* Margin around the button */
+  border-radius: 50%; /* Makes the button circular */
+  cursor: pointer; /* Cursor indicates clickable item */
+  font-weight: 600; /* Bold font weight */
+  font-size: 24px; /* Large font size for the plus symbol */
+  line-height: 40px; /* Centers text vertically */
+  text-align: center; /* Centers text horizontally */
 }
 
 button:hover {
@@ -163,12 +201,7 @@ form {
     margin: 20px 0;
 }
 
-input[type="date"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 10px;
-}
+
 
 label {
     font-weight: 600;
@@ -187,8 +220,9 @@ label {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    /* padding: 5px; */
     margin: 10px 0;
+
 }
 
 .breakfast-recipe-name,
@@ -196,8 +230,9 @@ label {
 .dinner-recipe-name,
 .snack-recipe-name {
     font-size: 1.1em;
-    font-weight: 600;
-    color: #333;
+    /* font-weight: 600; */
+    color: #acacac;
+    margin-left: 25px;
 }
 
 /* Calorie Display */
@@ -210,8 +245,8 @@ h1.calories {
 
 /* Meal Sections */
 h2 {
-  background-color: #6c8347;
-    color: #ffffff;
+  /* background-color: #000000; */
+    color: #000000;
     padding: 10px 20px;
     margin: 20px 0;
     border-radius: 5px;
