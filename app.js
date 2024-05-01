@@ -675,7 +675,7 @@ app.get("/contact", ensureAuthenticated, (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
-app.post("/contactSubmit", ensureAuthenticated, (req, res) => {
+app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
   //console.log("Received request at /contactSubmit with data:", req.body);
   let name = req.body.name;
   let email = req.body.email;
