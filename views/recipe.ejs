@@ -3,6 +3,8 @@
   <head>
     <title><%= recipe.name %> </title>
     <link rel="stylesheet" type="text/css" href="/recipe.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
@@ -39,28 +41,30 @@
 
 </head>
 <body>
-    <form action="/dashboard" method="get">
-        <button type="submit">Go to Main Page</button>
-    </form>
+    <nav class="navbar">
+    <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/about">About Us</a></li>
+  
+        <li class="dropdown">
+          <a href="/profile" class="dropbtn">
+  
+            Profile
+            <i class="fa fa-caret-down"></i>
+          </a>
+          <div class="dropdown-content">
+            <a href="/profile">Profile</a>
+            <a href="/myRecipesPage">Recipes</a>
+            <a href="/dietTracker">Diet Tracker</a>
+            
+            <a href="/mydietitian">My Dietitian</a>
+            <!-- <a href="/logout">Logout</a> -->
+          </div>
+        </li>
+      </ul>
+    </nav>
     
-    <% if (createdRecipe[0].googleID == author) { %>
-        <form action="/recipe/edit/<%= recipe.id %>" method="get">
-            <button type="submit">Edit Recipe</button>
-        </form>
-    <% } else { %> 
-        <form action="/recipe/customize/<%= recipe.id %>" method="get">
-            <button type="submit">Customize Recipe</button>
-        </form>
-    <% } %>
-
-    <!-- Add a 'Bookmark Recipe' button on the recipe page -->
-    <form action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>" method="post">
-        <input type="hidden" name="recipeID" value="<%= recipe._id %>">
-        <input type="hidden" name="userGoogleID" value="<%= author %>">
-        <button type="submit"><% if (isBookmarked) { %>Remove Bookmark<% } else { %>Bookmark Recipe<% } %></button>
-    </form>
-
-
     <div class="image-container">
         <% if(recipe.thumbnail==null) { %>
             <img src="plate.png"
@@ -123,6 +127,26 @@
     <p><%= recipe.mealType.join(", ") %></p>
     <hr>
 </div>
+    <div class="button-container">
+        <% if (createdRecipe[0].googleID == author) { %>
+            <form action="/recipe/edit/<%= recipe.id %>" method="get">
+                <button type="submit" class="button">Edit Recipe</button>
+            </form>
+        <% } else { %> 
+            <form action="/recipe/customize/<%= recipe.id %>" method="get">
+                <button type="submit" class="button">Customize Recipe</button>
+            </form>
+        <% } %>
+    
+        <!-- Add a 'Bookmark Recipe' button on the recipe page -->
+        <form action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>" method="post">
+            <input type="hidden" name="recipeID" value="<%= recipe._id %>">
+            <input type="hidden" name="userGoogleID" value="<%= author %>">
+            <button type="submit" class="bookmark-button <% if (isBookmarked) { %>bookmarked<% } %>">
+                <span class="icon"></span>
+            </button>
+        </form>
+</div>
 </div>
     <div class="comment-container">
         <% if (picture) { %>
@@ -166,12 +190,29 @@
                         <form action="/deleteComment/<%=recipe.id%>" method="post">
                             <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
                             <input type="hidden" name="commentID" value="<%= comments[i]._id %>">
-                            <button type="submit" class="button">Delete</button>
+                            <button type="submit" class="comment-button">Delete</button>
                         </form>
                     <% } %>
                     <br>
                 </div>
         <% }; %>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // JavaScript
+            $(document).ready(function() {
+                $('.bookmark-form').submit(function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    
+                    // Make an AJAX request to submit the form data
+                    var formData = $(this).serialize();
+                    var url = $(this).attr('action');
+                    
+                    $.post(url, formData, function(response) {
+                        // Toggle the 'bookmarked' class based on the response
+                        $('.bookmark-button', this).toggleClass('bookmarked', response.isBookmarked);
+                    });
+                });
+            });
+        </script>
 </body>
 </html>

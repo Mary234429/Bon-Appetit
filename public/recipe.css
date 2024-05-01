@@ -2,6 +2,88 @@ body {
   background-color: #D9D9D9;
   font-family: Lustria;
 }
+th{
+  text-align: left;
+}
+.navbar {
+  /* background-color: #f0f0f0; Navbar background color */
+  padding: 10px; /* Padding around navbar */
+  margin-top: 10px;
+  text-align: center;
+  /* position: fixed; */
+}
+
+.navbar ul {
+  list-style-type: none; 
+  margin-top: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  display: inline; /* Display list items horizontally */
+  margin-right: 15px; 
+}
+
+.navbar ul li a {
+  color: rgb(0, 0, 0); /* Text color of navbar links */
+  font-family: Lustria;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  padding:17px;
+}
+.navbar ul li a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 50%; */
+  /* background: #66655d; */
+  transition: .5s;
+  transform: scale(.9);
+  z-index: -1;
+}
+
+
+.navbar ul li a:hover {
+  color: white;
+  /* box-shadow: 0 5px 35px 0px white; */
+  text-shadow: 0 0 5px black;
+}
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 145%; /* Position the left edge of the menu at the center of the parent */
+  transform: translateX(-50%); /* Center the menu horizontally */
+  top: 150%; /* Position the top edge of the menu below the parent */
+  background-color: #f9f9f9f5;
+  min-width: 150px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0e0e0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 .comment{
   text-align: left;
   margin-top: 3vh;
@@ -18,8 +100,9 @@ body {
 }
 .inner-container {
   margin: 0 auto;
-  max-width: 60vw;
+  max-width: 55vw;
   max-height: 80vh;
+  height:55vh;
   display: flex;
   transform: translate(0, -8vh);
 }
@@ -34,13 +117,22 @@ body {
 }
 .right-container{
   padding-left: 5vw;
-  flex: 2;
+  flex: 1.5;
   position: relative;
   align-items: left;
   display: flex;
   flex-direction: column; /* Stack items vertically */
   background-color: #F0F0F0;
 }
+
+.button-container {
+  display: flex;
+  align-items: right;
+  background-color: #F0F0F0;
+  flex: 1;
+  position: relative;
+}
+
 .banner-image{
   width: 98vw; 
   height: 60vh; 
@@ -71,7 +163,8 @@ body {
   .comment-form {
     flex: 1; /* Take remaining space in the flex container */
   }
-  .button{
+
+  .comment-button{
     height:35px;
     max-width: 100px;
     font-family: Lustria;
@@ -80,6 +173,44 @@ body {
     font-size: 16px;
     background-color: #F0F0F0;
   }
-  .button:hover{
-   background-color: #dddd;
+
+  .comment-button:hover{
+   background-color: #e9e9e9dd;
   }
+
+  .button{
+    height:45px;
+    max-width: 150px;
+    font-family: Lustria;
+    border:none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F0F0F0;
+  }
+
+  .button:hover{
+    text-decoration: underline;
+  }
+
+.bookmark-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: inherit;
+    margin-left: 5px;
+
+}
+
+.bookmark-button .icon {
+  background-image: url('bookmark.png');
+  width: 45px;
+  height: 45px;
+}
+
+.bookmark-button.bookmarked .icon {
+  background-image: url('bookmark-filled.png');
+  width: 45px;
+  height: 45px;
+}
