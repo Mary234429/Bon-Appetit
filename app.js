@@ -671,7 +671,7 @@ app.get("/dietPlanCreate", ensureAuthenticated, function (req, res) {
 });
 
 //Contact Form
-app.get("/contact", (req, res) => {
+app.get("/contact", ensureAuthenticated, (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
@@ -680,6 +680,10 @@ app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let message = req.body.message;
+
+  if (!name || !email || !message) {
+    return res.status(400).send("All fields are required.");
+  }
 
   const contactForm = new Form({
     name: name,
