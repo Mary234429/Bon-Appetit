@@ -624,7 +624,6 @@ app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
               }
             }
 
-
             res.render("recipe.ejs", {
               recipe: theRecipe,
               ingredients: ingredients,
