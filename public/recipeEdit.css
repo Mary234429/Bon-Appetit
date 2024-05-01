@@ -1,0 +1,399 @@
+/* General styles to ensure the content fits the viewport width and padding */
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 60px;
+    margin-left:30px;
+    box-sizing: border-box;
+    font-family: 'Lustria', serif; /* Make sure the font is correctly quoted */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+    background-color: #ffffff; /* Example background color */
+  }
+    /* Navbar styles */
+/* Navbar centering */
+.navbar {
+    padding:20px;
+    position: absolute; /* Fixes the navbar at the top of the viewport */
+    top: 0; /* Aligns the navbar at the top */
+    width: 100%; /* Ensures the navbar extends full width */
+    text-align: center; /* Center text for inline elements */
+    background-color: #ffffff; /* Sets a background color */
+    /* z-index: 1000; Keeps the navbar on top of other content */
+    /* box-shad/ow: 0 2px 5px rgba(0,0,0,0.1); Optional: adds shadow for better visibility */
+}
+  
+  .navbar ul {
+    padding: 0;
+    display: inline-block; /* Align the entire list centrally */
+    margin: 0 auto;
+  }
+  
+  .navbar ul li {
+    display: inline;
+  }
+  
+  .navbar ul li a {
+    color: rgb(0, 0, 0); /* Text color of navbar links */
+    font-family: Lustria;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    padding:24px;
+  }
+  .navbar ul li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* border-radius: 50%; */
+    /* background: #66655d; */
+    transition: .5s;
+    transform: scale(.9);
+    z-index: -1;
+  }
+  
+  
+  .navbar ul li a:hover {
+    color: white;
+    /* box-shadow: 0 5px 35px 0px white; */
+    text-shadow: 0 0 5px black;
+  }
+  /* Dropdown Menu */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    left: 145%; /* Position the left edge of the menu at the center of the parent */
+    transform: translateX(-50%); /* Center the menu horizontally */
+    top: 150%; /* Position the top edge of the menu below the parent */
+    background-color: #f9f9f9f5;
+    min-width: 150px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+    
+    /* The container that holds both left and right sections */
+    .container {
+        width: 60%; /* Limiting max width to 90% of viewport width */
+        max-width: 1000px; /* Maximum width of the container */
+        margin: 20px auto; /* Centering the container with automatic margins */
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center-align the content */
+        gap: 20px;
+        padding: 20px;
+        /* background-color: #8a4f4f; Optional: background color for the container */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Optional: adding some shadow for depth */
+        border-radius: 15px; /* Optional: rounding corners */
+      }
+    
+    h1 {
+        /* font-family: 'Lustria'; */
+        font-size: 2.1rem; 
+        color: #333; 
+        text-align: left; 
+        margin-right: 290px; 
+        padding: 10px; 
+        /* background-color: #f0f0f0;  */
+        border-radius: 15px; 
+        /* box-shadow: 0 2px 4px rgba(0,0,0,0.1);  */
+      }
+    /* The left container styles for the image upload section */
+    .left-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 50%; /* Limits the maximum width to half of the container */
+    }
+    
+    /* The right container styles for form inputs */
+    .right-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 50%; /* Same as left container to maintain balance */
+    }
+    
+    /* Styles for form elements to make them full width within their containers */
+    input[type="text"],
+    textarea,
+    select {
+    width: 55%;
+    padding: 10px;
+    margin-bottom: 25px; /* Adds some space below each input */
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-family: Lustria;
+    }
+    textarea{
+      margin-bottom: -5px;
+    }
+    input[type="text"]{
+      margin-top: 80px;
+    
+    }
+    
+    
+    input[type="file"] {
+    margin-bottom: 20px;
+    font-family: Lustria;
+    
+    }
+    .custom-file-upload {
+        display: inline-block;
+        padding: 70px 90px;
+        cursor: pointer;
+        border-radius: 15px;
+        background: linear-gradient(45deg, #6c8347, #b0d674);
+        color: white;
+        margin-right:240px;
+        font-size: 16px;
+        text-shadow: 1px 1px #000;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        border: none;
+        outline: none;
+        text-align: center;
+        vertical-align: middle;
+        font-family: Lustria;
+    }
+    
+    .custom-file-upload:hover {
+        background: linear-gradient(45deg, #95b465, #dbffa1);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .custom-file-upload:active {
+        background: linear-gradient(45deg, #485730, #8aa55e);
+        box-shadow: inset 0 3px 4px rgba(0, 0, 0, 0.3);
+        transform: translateY(2px);
+    }
+    
+    .fa-cloud-upload {
+        margin-right: 10px;
+    }
+    #file-name {
+        margin-left: 10px;
+        font-size: 16px;
+        vertical-align: middle;
+      }
+    /* Button styles */
+    button, input[type="submit"] {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6c8347; /* Green background */
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 10px;
+    }
+    
+    button:hover, input[type="submit"]:hover {
+        background-color: #b0d674; /* Darker green on hover */
+        transform: translateY(-2px); /* Slight lift */
+    }
+    button:active {
+        transform: translateY(1px); /* Push down */
+      }
+      input[type="number"]{
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        font-family: Lustria;
+        padding:6px;
+      }
+     
+      /* Styling for ingredient amount input */
+    .ingredientAmount {
+        flex: 1; /* Takes up available space */
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        margin-right: 10px; /* Adds space between this input and the select dropdown */
+      }
+      
+      /* General styles for select dropdowns, enhancing the select2 plugin */
+      .select2-container--default .select2-selection--single {
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        height: 38px; /* Match height to other input fields */
+        line-height: 38px; /* Vertically center the text */
+        width:85%;
+        /* background-color: pink; */
+        
+      }
+      
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px; /* Ensure the arrow aligns with the height of the select box */
+        position: absolute;
+        right: 5px;
+        top: 1px; /* Adjust top position for centering */
+      }
+      
+      /* Specific styling for the ingredient select dropdown */
+      .ingredient.js-example-basic-single {
+        width: 60%; /* Takes up a portion of the space, adjust as needed */
+        display: inline-block; 
+        /* background-color: pink; */
+      }
+      
+      /* Responsive adjustments for smaller screens */
+      @media (max-width: 768px) {
+        .ingredientAmount, .ingredient.js-example-basic-single {
+          width: 100%; /* Full width on smaller screens for better accessibility */
+          margin-bottom: 10px; /* Adds space between stacked elements */
+        }
+      }
+      .meal-type-checkboxes {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: raw;
+      }
+      
+      .meal-type-checkboxes label {
+        margin-left: 15px;
+      }
+      
+      .meal-type-checkboxes input {
+        margin-bottom: 5px;
+      }
+      
+      /* Styling for instruction and tag input fields */
+    input[name="instructions[]"], input[name="recipeTags[]"] {
+        width: 88%; /* Full width to match the container */
+        padding: 8px 12px; /* Adequate padding for text entry */
+        border: 1px solid #ccc; /* Subtle border */
+        border-radius: 15px; /* Rounded corners */
+        margin-bottom: 10px; /* Space below each input for separation */
+        box-sizing: border-box; /* Include padding and border in the width */
+      }
+      
+      /* Hover and focus states to enhance user interaction */
+      input[name="instructions[]"]:hover, input[name="recipeTags[]"]:hover,
+      input[name="instructions[]"]:focus, input[name="recipeTags[]"]:focus {
+        border-color: #888; /* Darker border on hover/focus for visibility */
+        outline: none; /* Remove default focus outline */
+      }
+      
+      /* Button styling to match form controls */
+      #addInstruction, #addTag {
+        padding: 10px 20px;
+        background-color: #6c8347; /* Consistent button color */
+        color: white;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 5px; /* Slight space above the button */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+      }
+      
+      #addInstruction:hover, #addTag:hover {
+        background-color: #b0d674; /* Slightly darker on hover */
+      }
+      
+      /* Ensure buttons are full width on smaller screens for easier access */
+      @media (max-width: 768px) {
+        #addInstruction, #addTag {
+          width: 100%;
+        }
+      }
+      
+    
+    
+    #tools {
+        list-style: none; /* Removes default list styling */
+        padding: 0;
+        margin: 0 0 40px 0; /* Add some space below the list */
+        /* margin-right:200px; */
+    }
+    
+    #tools li {
+        margin-bottom: 10px; /* Space out individual tool inputs */
+    }
+    
+    #tools input {
+        width: calc(91% - 20px); /* Full width minus padding */
+        padding: 8px 10px; /* Comfortable padding around text */
+        border: 1px solid #ccc; /* Subtle border */
+        border-radius: 15px; /* Rounded corners */
+        box-sizing: border-box; /* Include padding in width calculation */
+       
+        margin-right: 210px;
+        font-family: Lustria;
+    }
+    
+    #addTool {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 410px;
+        background-color: #6c8347; /* A bright, noticeable color */
+        color: #fff; /* White text */
+        border: none; /* No border */
+        border-radius: 15px; /* Rounded corners for the button */
+        cursor: pointer; /* Change cursor to indicate it's clickable */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+    
+    #addTool:hover {
+        background-color: #b0d674; /* Darker shade on hover for feedback */
+    }
+    
+    
+    #addTool:focus {
+        outline: none; /* Remove focus outline to maintain styled look */
+        box-shadow: 0 0 0 2px #6c8347; /* Custom focus style */
+    }
+    .add-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6c8347; /* Green background */
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 10px;
+      }
+      
+      .add-button:hover {
+        background-color: #b0d674; /* Darker green on hover */
+        transform: translateY(-2px); /* Slight lift */
+      }
+      
+      .add-button:active {
+        transform: translateY(1px); /* Push down */
+      }
+      
+    

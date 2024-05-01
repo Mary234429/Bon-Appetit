@@ -1,46 +1,62 @@
 <!--recipe Create page-->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%if(edit){%>Edit<%}else{%>Customize<%}%> <%=recipe.name%></title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/recipeEdit.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/about">About us</a></li>
+      <li class="dropdown">
+        <a href="/profile" class="dropbtn">
+
+          Profile
+          <i class="fa fa-caret-down"></i>
+        </a>
+        <div class="dropdown-content">
+          <a href="/dietTracker">Diet Tracker</a>
+          <a href="/recipeCreate">Recipe Create</a>
+          <a href="/dietPlanCreate">Diet Plan Create</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <div class="container">
+
+
+
+    <title>
+      <%if(edit){%>Edit<%}else{%>Customize<%}%>
+            <%=recipe.name%>
+    </title>
     <div>
-      <h1><%if(edit){%>Edit<%}else{%>Customize<%}%> the <%=recipe.name%> Recipe</h1>
-      <a href="/dashboard">Go to Dashboard</a>
-      <p>Fill out the form below to create a custom recipe:</p>
-      <form
-        id="ingredientForm"
-        autocomplete="off"
-        action="/addIngredient"
-        method="post"
-        style="display: none"
-      >
-        <input
-          type="text"
-          placeholder="Ingredient Name"
-          name="ingredientName"
-          id="ingredientName"
-        />
-        <input
-          type="text"
-          list="ingredientUnitList"
-          name="ingredientUnit"
-          placeholder="Unit of Measurement"
-          id="ingredientUnit"
-        />
-        <input
-          type="number"
-          name="caloriesPerUnit"
-          placeholder="Calories Per Unit"
-          id="ingredientCalories"
-        />
+      <h1>
+        <%if(edit){%>Edit<%}else{%>Customize<%}%> the <%=recipe.name%> Recipe
+      </h1>
+      <!-- <a href="/dashboard">Go to Dashboard</a> -->
+      <!-- <p> Create a custom recipe</p> -->
+
+      <form id="ingredientForm" autocomplete="off" action="/addIngredient" method="post" style="display: none">
+
+        <input type="text" placeholder="Ingredient Name" name="ingredientName" id="ingredientName" />
+        <input type="text" list="ingredientUnitList" name="ingredientUnit" placeholder="Unit of Measurement"
+          id="ingredientUnit" />
+        <input type="number" name="caloriesPerUnit" placeholder="Calories Per Unit" id="ingredientCalories" />
         <datalist id="ingredientUnitList">
           <option value="cup"></option>
           <option value="oz"></option>
@@ -52,150 +68,128 @@
         </datalist>
         <button type="button" onclick="addIngredient()">Submit</button>
       </form>
-      <form
-        id="recipeForm"
-        autocomplete="off"
-        action="/recipe<% if(edit){%>/edit/<%=recipe._id%><%}else{%>Create<%}%>"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          name="recipeName"
-          id="recipeName"
-          value="<%=recipe.name%>"
-        /><br />
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Recipe Description"
-        ><%=recipe.description%></textarea
-        ><br />
-        <label for="thumbnail">Choose Image:</label>
-        <input
-          type="file"
-          id="thumbnail"
-          name="thumbnail"
-          <%if(!edit){%>required<%}%>
-          accept="image/*"
-          value="<%=recipe.thumbnail%>"
-        /><br />
 
-        <ul id="tools">
-          <%if(recipe.toolsNeeded != "undefined"){ for(let i = 0; i < recipe.toolsNeeded.length; i++){ %><li>
-            <% console.log(recipe.toolsNeeded); %>
-            <input 
-              class="recipeTools"
-              placeholder="Tools Required"
-              name="recipeTools[]"
-              value = <%=recipe.toolsNeeded.at(i)%>
-            />
-            <%if (i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
-          </li>
-        <%}}%>
-        </ul>
-        <button type="button" id="addTool">Add New Tool</button>
+      <form id="recipeForm" autocomplete="off" action="/recipe<% if(edit){%>/edit/<%=recipe._id%><%}else{%>Create<%}%>"
+        method="post" enctype="multipart/form-data">
 
-        <ul id="ingredientList">
-          <li>
-            <input
-              class="ingredientAmount"
-              placeholder="Amount"
-              name="ingredientAmounts[]"
-            />
-            <div style="display: inline"></div>
-            <select
-              class="ingredient js-example-basic-single"
-              name="ingredients[]"
-            >
-              <option selected value=""></option>
-              <option value="addIngredient">Add New Ingredient</option>
-              <% for(let i = 0; i < ingredients.length; i++){%>
-              <option
-                value="<%=ingredients.at(i)._id%>"
-                data-unit="<%=ingredients.at(i).unit%>"
-              >
-                <%=ingredients.at(i).name%>
-              </option>
+
+        <label for="thumbnail" class="custom-file-upload">
+          <i class="fa fa-upload"></i> Upload Image
+        </label>
+        <input type="file" id="thumbnail" name="thumbnail" style="display:none;" <%if(!edit){%>required<%}%>
+          accept="image/*">
+          <span id="file-name"></span>
+
+          <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName"
+            value="<%=recipe.name%>" /><br />
+          <textarea id="description" name="description"
+            placeholder="Recipe Description"><%=recipe.description%></textarea><br />
+          <label for="thumbnail"></label>
+
+
+          <ul id="tools">
+            <%if(recipe.toolsNeeded !="undefined" ){ for(let i=0; i < recipe.toolsNeeded.length; i++){ %>
+              <li>
+                <% console.log(recipe.toolsNeeded); %>
+                  <input class="recipeTools" placeholder="Tools Required" name="recipeTools[]"
+                    value=<%=recipe.toolsNeeded.at(i)%>
+                  />
+                  <%if (i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                    <%}%>
+              </li>
+              <%}}%>
+          </ul>
+          <button type="button" id="addTool">Add New Tool</button>
+
+          <ul id="ingredientList">
+            <li>
+              <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" />
+              <div style="display: inline"></div>
+              <select class="ingredient js-example-basic-single" name="ingredients[]">
+                <option selected value=""></option>
+                <option value="addIngredient">Add New Ingredient</option>
+                <% for(let i=0; i < ingredients.length; i++){%>
+                  <option value="<%=ingredients.at(i)._id%>" data-unit="<%=ingredients.at(i).unit%>">
+                    <%=ingredients.at(i).name%>
+                  </option>
+                  <%}%>
+              </select>
+            </li>
+            <% for(let j=0; j < recipe.ingredients.length; j++){%>
+              <li>
+                <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]"
+                  value=<%=recipe.ingredientAmounts.at(j)%>
+                />
+                <div style="display: inline"></div>
+                <select class="ingredient js-example-basic-single" name="ingredients[]">
+                  <option selected value=""></option>
+                  <option value="addIngredient">Add New Ingredient</option>
+                  <% for(let i=0; i < ingredients.length; i++){%>
+                    <option value="<%=ingredients.at(i)._id%>" data-unit="<%=ingredients.at(i).unit%>"
+                      <%if(ingredients.at(i)._id==recipe.ingredients.at(j)){%>selected<%}%>
+                        >
+                        <%=ingredients.at(i).name%>
+                    </option>
+                    <%}%>
+                </select>
+                <% if(j> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                  <%}%>
+              </li>
               <%}%>
-            </select>
-          </li>
-          <% for(let j = 0; j < recipe.ingredients.length; j++){%><li>
-            <input
-              class="ingredientAmount"
-              placeholder="Amount"
-              name="ingredientAmounts[]"
-              value = <%=recipe.ingredientAmounts.at(j)%>
-            />
-            <div style="display: inline"></div>
-            <select
-              class="ingredient js-example-basic-single"
-              name="ingredients[]"
-            >
-              <option selected value=""></option>
-              <option value="addIngredient">Add New Ingredient</option>
-              <% for(let i = 0; i < ingredients.length; i++){%>
-              <option
-                value="<%=ingredients.at(i)._id%>"
-                data-unit="<%=ingredients.at(i).unit%>"
-                <%if(ingredients.at(i)._id==recipe.ingredients.at(j)){%>selected<%}%>
-              >
-                <%=ingredients.at(i).name%>
-              </option>
+          </ul>
+          <button type="button" id="addIngredient">Add New Ingredient</button>
+
+          <ol id="instructions">
+            <% for(let i=0; i < recipe.instructions.length; i++){%>
+              <li>
+                <input name="instructions[]" placeholder="Instruction" value="<%=recipe.instructions.at(i)%>" />
+                <% if(i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                  <%}%>
+              </li>
               <%}%>
-            </select>
-            <% if(j > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
-          </li>
-          <%}%>
-        </ul>
-        <button type="button" id="addIngredient">Add New Ingredient</button>
+          </ol>
+          <button type="button" id="addInstruction">Add New Instruction</button>
 
-        <ol id="instructions">
-          <% for(let i = 0; i < recipe.instructions.length; i++){%>
-          <li>
-            <input name="instructions[]" placeholder="Instruction" value="<%=recipe.instructions.at(i)%>"/>
-            <% if(i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
-          </li>
-          <%}%>
-        </ol>
-        <button type="button" id="addInstruction">Add New Instruction</button>
+          <ul id="recipeTags">
+            <% for(let i=0; i < recipe.tags.size; i++){%>
+              <li>
+                <input name="recipeTags[]" placeholder="Recipe Tag" value=<%=recipe.tags.at(i)%>/>
+                <%if(i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                  <%}%>
+              </li>
+              <%}%>
+          </ul>
+          <button type="button" id="addTag">Add New Tag</button>
+          <label for="breakfast">Breakfast</label>
+          <input id="breakfast" type="checkbox" value="Breakfast" name="mealType[]"
+            <%if(/Breakfast/.test(recipe.mealType)){%>checked<%}%>
+            />
+            <label for="lunch">Lunch</label>
+            <input type="checkbox" id="lunch" value="Lunch" name="mealType[]"
+              <%if(/Lunch/.test(recipe.mealType)){%>checked<%}%>/>
+              <label for="dinner">Dinner</label>
+              <input type="checkbox" id="dinner" value="Dinner" name="mealType[]"
+                <%if(/Dinner/.test(recipe.mealType)){%>checked<%}%>/>
+                <label for="snack">Snack</label>
+                <input type="checkbox" id="snack" value="Snack" name="mealType[]"
+                  <%if(/Snack/.test(recipe.mealType)){%>checked<%}%>/>
+                  <br />
+                  <select id="privacyLevel" name="privacyLevel">
+                    <option value="Public" <%if(recipe.privacyLevel=="Public" ){%>selected<%}%>>Public</option>
+                    <option value="Private" <%if(!recipe.privacyLevel=="Public" ){%>selected<%}%>>Private</option>
+                  </select>
 
-        <ul id="recipeTags">
-          <% for(let i = 0; i < recipe.tags.size; i++){%>
-          <li>
-            <input name="recipeTags[]" placeholder="Recipe Tag" value = <%=recipe.tags.at(i)%>/>
-            <%if(i > 0){%><button type="button" onClick="deleteParent($(this))">Delete</button><%}%>
-          </li>
-          <%}%>
-        </ul>
-        <button type="button" id="addTag">Add New Tag</button>
-        <label for="breakfast">Breakfast</label>
-        <input
-          id="breakfast"
-          type="checkbox"
-          value="Breakfast"
-          name="mealType[]"
-          <%if(/Breakfast/.test(recipe.mealType)){%>checked<%}%>
-        />
-        <label for="lunch">Lunch</label>
-        <input type="checkbox" id="lunch" value="Lunch" name="mealType[]" <%if(/Lunch/.test(recipe.mealType)){%>checked<%}%>/>
-        <label for="dinner">Dinner</label>
-        <input type="checkbox" id="dinner" value="Dinner" name="mealType[]" <%if(/Dinner/.test(recipe.mealType)){%>checked<%}%>/>
-        <label for="snack">Snack</label>
-        <input type="checkbox" id="snack" value="Snack" name="mealType[]" <%if(/Snack/.test(recipe.mealType)){%>checked<%}%>/>
-        <br />
-        <select id="privacyLevel" name="privacyLevel">
-          <option value="Public"<%if(recipe.privacyLevel=="Public"){%>selected<%}%>>Public</option>
-          <option value="Private" <%if(!recipe.privacyLevel=="Public"){%>selected<%}%>>Private</option>
-        </select>
-
-        <input type="submit" value="Submit" />
+                  <input type="submit" value="Submit" />
       </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+      document.getElementById('thumbnail').addEventListener('change', function () {
+        var fileName = this.files[0].name;  // Get the file name
+        document.getElementById('file-name').textContent = fileName;  // Set the file name into the span
+      });
+
       //delete parent element
       function deleteParent(element) {
         element.parent().remove();
@@ -215,12 +209,12 @@
             $("#ingredientForm").css("display", "none");
             let newIngredient = new Option(ingredient.name, ingredient._id, false, false);
             let newSelectedIngredient = new Option(ingredient.name, ingredient._id, false, true);
-            $('#ingredientList li .js-example-basic-single').each(function(){
-              if($(this).select2('data').at(0).element.value == "addIngredient"){
+            $('#ingredientList li .js-example-basic-single').each(function () {
+              if ($(this).select2('data').at(0).element.value == "addIngredient") {
                 $(this).append(newSelectedIngredient).trigger('change');
                 $(this).siblings("div").text(" " + $(this).select2().find(':selected').data("unit") + " ");
               }
-              else{
+              else {
                 $(this).append(newIngredient).trigger('change');
               }
             });
@@ -230,9 +224,9 @@
       }
 
       $(document).ready(function () {
-        
+
         let ingredient = $("#ingredientList").children("li").children("select").eq(0).prop("outerHTML");
-        if($('#ingredientList').children('li').length > 1){
+        if ($('#ingredientList').children('li').length > 1) {
           $("#ingredientList").children('li').eq(0).remove();
         }
         let deleteButton = '<button type="button" onClick="deleteParent($(this))">Delete</button>';
@@ -283,5 +277,7 @@
         });
       });
     </script>
-  </body>
+  </div>
+</body>
+
 </html>
