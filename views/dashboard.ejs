@@ -48,7 +48,7 @@
           <a href="/profile">Profile</a>
           <a href="/myRecipesPage">Recipes</a>
           <a href="/dietTracker">Diet Tracker</a>
-          <a href="/dietPlanCreate">Diet Plan Create</a>
+          
           <a href="/mydietitian">My Dietitian</a>
           <!-- <a href="/logout">Logout</a> -->
         </div>
@@ -81,9 +81,9 @@
 
   <!-- Recipe container -->
   <div class="recipeContainer">
-
+    <span class="carousel-title">Breakfast</span>
     <div class="breakfastCarousel">
-      <span class="carousel-title">Breakfast</span>
+      
       <!-- Left scroll button -->
       <button class="scroll-button left-scroll" onclick=>&#10094;</button>
       <!-- breakfast container -->
@@ -138,7 +138,7 @@
                                                 <%= breakfastRecipes.at(i).name %>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[breakfastRecipes[i]._id]; %>
-                                                <div class="creator-info">
+                                                <!-- <div class="creator-info">
                                                   <% if (creatorDetails.profilePicture) { %>
                                                     <img src="<%= creatorDetails.profilePicture %>"
                                                       alt="<%= creatorDetails.name %> Thumbnail">
@@ -147,7 +147,7 @@
                                                         <%= creatorDetails.firstName %>
                                                           <%= creatorDetails.lastName %>
                                                       </p>
-                                                </div>
+                                                </div> -->
 
                                       </div> <!-- data-recipe-->
                                       <% } %>
@@ -158,9 +158,9 @@
     </div>
 
 
-
+    <span class="carousel-title">Lunch</span>
     <div class="lunchCarousel">
-      <span class="carousel-title">Lunch</span>
+      
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Lunch recipes -->
       <!-- <h4>Lunch</h4> -->
@@ -211,7 +211,7 @@
                                                 <%=lunchRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[lunchRecipes[i]._id]; %>
-                                                <div class="creator-info">
+                                                <!-- <div class="creator-info">
                                                   <% if (creatorDetails.profilePicture) { %>
                                                     <img src="<%= creatorDetails.profilePicture %>"
                                                       alt="<%= creatorDetails.name %> Thumbnail">
@@ -220,7 +220,7 @@
                                                         <%= creatorDetails.firstName %>
                                                           <%= creatorDetails.lastName %>
                                                       </p>
-                                                </div>
+                                                </div> -->
 
                                       </div>
                                       <% } %>
@@ -235,9 +235,9 @@
     </div>
 
 
-
+    <span class="carousel-title">Dinner</span>
     <div class="dinnerCarousel">
-      <span class="carousel-title">Dinner</span>
+      
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Dinner recipes -->
       <!-- <h4>Dinner</h4> -->
@@ -288,7 +288,7 @@
                                                 <%=dinnerRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[dinnerRecipes[i]._id]; %>
-                                                <div class="creator-info">
+                                                <!-- <div class="creator-info">
                                                   <% if (creatorDetails.profilePicture) { %>
                                                     <img src="<%= creatorDetails.profilePicture %>"
                                                       alt="<%= creatorDetails.name %> Thumbnail">
@@ -297,7 +297,7 @@
                                                         <%= creatorDetails.firstName %>
                                                           <%= creatorDetails.lastName %>
                                                       </p>
-                                                </div>
+                                                </div> -->
 
                                       </div>
 
@@ -308,9 +308,9 @@
       <button class="scroll-button right-scroll">&#10095;</button>
     </div>
 
-
+    <span class="carousel-title">Snacks</span>
     <div class="snacksCarousel">
-      <span class="carousel-title">Snacks</span>
+      
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Snacks recipes -->
       <!-- <h4>Snacks</h4> -->
@@ -361,7 +361,7 @@
                                                 <%=snackRecipes.at(i).name%>
                                               </h7>
                                               <% const creatorDetails=recipeMemberMap[snackRecipes[i]._id]; %>
-                                                <div class="creator-info">
+                                                <!-- <div class="creator-info">
                                                   <% if (creatorDetails.profilePicture) { %>
                                                     <img src="<%= creatorDetails.profilePicture %>"
                                                       alt="<%= creatorDetails.name %> Thumbnail">
@@ -370,7 +370,7 @@
                                                         <%= creatorDetails.firstName %>
                                                           <%= creatorDetails.lastName %>
                                                       </p>
-                                                </div>
+                                                </div> -->
 
                                       </div>
                                       <% } %>

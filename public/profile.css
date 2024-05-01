@@ -1,7 +1,7 @@
 h1{
   font-family: Lustria;
   text-align: center;
-  margin-top: 6%;
+  margin-top: 5%;
 }
 p{
   margin-bottom: 0;
@@ -41,10 +41,14 @@ p{
   .editButton:hover{
    background-color: #D2D2D2;
   }
+  .recipe-head{
+    margin-top: 13vh;
+    margin-bottom: 2vh;
+  }
   .recipe-container{
     position: relative;
     display: flex;
-    max-width: 57%; /* Adjust to desired maximum width */
+    max-width: 65%; /* Adjust to desired maximum width */
     max-height: 100%;
     justify-content: space-between; /* Ensure equal spacing between items */
     flex-wrap: wrap; /* Allow items to wrap to the next row */
@@ -56,30 +60,34 @@ p{
     margin-right: auto;
   }
   .left-box,.right-box,.middle-box {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 calc(33.33% - 20px); /* Set flex basis to evenly distribute items */
-    margin-bottom: 20px; /* Add spacing between rows */
-    border-radius: 5px;
-    padding: 10px;
-    width: 180px; /* Set a fixed width for all recipe containers */
-    max-width: 180px;
-    height: 190px; /* Set a fixed height for all recipe containers */
-    background: #D9D9D9;
-  }
+    flex: 0 0 23%; /* Sets the base width for each card */
+    margin: 0 10px; /* Provides spacing between cards */
+    min-width: 250px; /* Ensures cards do not get too small on narrower viewports */
+    box-sizing: border-box;
+    }
 
 .left-image,.right-image,.middle-image {
-  background-color:white;
-  margin-top:-190px;
-  width: 180px;
-  height:170px;
-  box-shadow: 0 4px 6px rgba(0.2, 0.2, 0.2, 0.4);
-
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 .name{
-  margin-top: 170px;
-  margin-left: 5%;
+  margin-top: 5px;
+    font-size: 16px;
+    font-weight: bold; /* Makes the font thicker */
+    color: #333333; 
+   margin-bottom: 7vh;
 }
 .about{
   line-height: 1.25;
+}
+.left-box:hover,
+.middle-box:hover,
+.right-box:hover{
+  transform: scale(1.1); 
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
 }

@@ -163,17 +163,35 @@ app.post("/addDiet", ensureAuthenticated, (req, res) => {
   let user = req.user.id;
   let mealType = req.body.mealType;
   let recipe = req.body.RecipeName;
+  let portion = req.body.portion;
   console.log(recipe);
   const diettracker = new DietTracker({
     user: user,
     timeOfDay: formatedDate,
     typeOfMeal: mealType,
     recipe: recipe,
+    portionSize: portion,
   });
   //Save the recipe to the database
   diettracker.save();
   console.log("Diet Added Successfully!");
   res.redirect("/dietTracker");
+});
+
+app.post("/removeFood", ensureAuthenticated, async (req, res) => {
+    let name = req.body.name;
+    try {
+        const deletedFood = await DietTracker.findByIdAndDelete(name);
+        if (!deletedFood) {
+            // If the food item was not found, respond with an error
+            return res.status(404).send("Food item not found");
+        }
+        // If the food item was deleted successfully, redirect to /dietTracker
+        res.redirect("/dietTracker");
+    } catch (error) {
+        console.error("Error deleting food:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 //Set up application port
@@ -310,7 +328,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
       let snackNames = [];
       let calories = 0;
       for (let i = 0; i < tracker.length; i++) {
-        if (tracker.at(i).timeOfDay == formatedDate) {
+        if (tracker.at(i).timeOfDay == formatedDate && tracker.at(i).user == req.user.id) {
           if (tracker.at(i).typeOfMeal == "Breakfast") {
             breakfastTracked.push(tracker.at(i));
           }
@@ -329,7 +347,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (breakfastTracked.at(i).recipe == MealList.at(j)._id) {
               breakfastNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * breakfastTracked.at(i).portionSize);
           }
         }
       }
@@ -337,7 +355,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (lunchTracked.at(i).recipe == MealList.at(j)._id) {
               lunchNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * lunchTracked.at(i).portionSize);
           }
         }
       }
@@ -345,7 +363,7 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (dinnerTracked.at(i).recipe == MealList.at(j)._id) {
               dinnerNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * dinnerTracked.at(i).portionSize);
           }
         }
       }
@@ -353,11 +371,11 @@ app.get("/dietTracker", ensureAuthenticated, function (req, res) {
         for (let j = 0; j < MealList.length; j++) {
           if (snackTracked.at(i).recipe == MealList.at(j)._id) {
               snackNames.push(MealList.at(j).name);
-              calories += MealList.at(j).calories;
+              calories += (MealList.at(j).calories * snackTracked.at(i).portionSize);
           }
         }
       }
-        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames, calories: parseInt(calories, 10)});
+        res.render("dietTracker", { title: "Diet Tracker", formatedDate, breakfastNames, lunchNames, dinnerNames, snackNames, calories: parseInt(calories, 10),breakfastTracked ,lunchTracked, dinnerTracked, snackTracked});
     });
   });
 });
@@ -481,6 +499,7 @@ app.post("/recipeCreate", ensureAuthenticated, upload.single("thumbnail"), async
     ingredients: ingredients,
     ingredientAmounts: ingredientAmounts,
     instructions: instructions,
+    calories: calories,
     tags: tags,
     mealType: mealType,
     publicity: privacy,
