@@ -65,7 +65,9 @@
   <div class="recipe-container">
     <% if (recipes[0]) { %>
       <a href="/recipe/<%= recipes[0]._id %>" style="text-decoration:none; color:inherit;">
-        <% } %>
+        <% } else { %>
+          <a href="/recipeCreate" style="text-decoration:none; color:inherit;">
+          <% } %>
           <!--<div class="left-recipe">-->
           <div class="left-box">
             <% if (recipes[0]==null) { %>
@@ -82,13 +84,13 @@
                         <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
                       </p>
           </div>
-
-          <% if (recipes[0]) { %>
       </a>
-      <% } %>
+      
         <% if (recipes[1]) { %>
           <a href="/recipe/<%= recipes[1]._id %>" style="text-decoration:none; color:inherit;">
-            <% } %>
+            <% } else { %>
+              <a href="/recipeCreate" style="text-decoration:none; color:inherit;">
+              <% } %>
               <!--<div class="left-recipe">-->
               <div class="middle-box">
                 <% if (recipes[1]==null) { %>
@@ -106,13 +108,13 @@
                             <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
                           </p>
               </div>
-
-              <% if (recipes[1]) { %>
           </a>
-          <% } %>
+          
             <% if (recipes[2]) { %>
               <a href="/recipe/<%= recipes[2]._id %>" style="text-decoration:none; color:inherit;">
-                <% } %>
+                <% } else { %>
+                  <a href="/recipeCreate" style="text-decoration:none; color:inherit;">
+                  <% } %>
                   <!--<div class="left-recipe">-->
                   <div class="right-box">
                     <% if (recipes[2]==null) { %>
@@ -130,10 +132,8 @@
                         <%= recipes[0] ? recipes[0].name : 'Create Your First Recipe' %>
                       </p>
                   </div>
-
-                  <% if (recipes[2]) { %>
               </a>
-              <% } %>
+
                 <script>
                   function edit() {
                     window.location.href = "/profileEdit";

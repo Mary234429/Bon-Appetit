@@ -235,32 +235,10 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
     }
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
-    // Map to store member names for each recipe
-    const recipeMemberMap = {};
-    for (const createdRecipe of createdRecipes) {
-      const { recipeID, googleID } = createdRecipe;
-      const member = members.find(member => member.googleID === googleID);
-      if (member) {
-        recipeMemberMap[recipeID] = {
-          firstName: member.firstName,
-          lastName: member.lastName,
-          profilePicture: member.profilePicture,
-        };
-      }
-    }
 
     const joke = await getJoke();
 
     const userGoogleID = req.user.id; // Google ID of the logged-in user
-
-    // Get all documents with the logged-in user's googleID from SavedRecipes
-    const savedRecipesDocs = await SavedRecipes.find({ googleID: userGoogleID });
-
-    // Extract the recipeID from each document and store in an array
-    const bookmarkedRecipeIDs = savedRecipesDocs.map((doc) => doc.recipeID);
-
-    // Fetch recipe details from Recipes collection using the recipeIDs
-    const bookmarkedRecipes = await Recipes.find({ _id: { $in: bookmarkedRecipeIDs } });
 
     res.render("dashboard", {
       member: members,
@@ -270,9 +248,7 @@ app.get("/dashboard", ensureAuthenticated, async function (req, res) {
       lunchRecipes,
       dinnerRecipes,
       snackRecipes,
-      bookmarkedRecipes,
       joke,
-      recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
 
   } catch (error) {
@@ -648,7 +624,6 @@ app.get('/recipe/:recipeId', ensureAuthenticated, async function (req, res) {
               }
             }
 
-
             res.render("recipe.ejs", {
               recipe: theRecipe,
               ingredients: ingredients,
@@ -695,7 +670,7 @@ app.get("/dietPlanCreate", ensureAuthenticated, function (req, res) {
 });
 
 //Contact Form
-app.get("/contact", (req, res) => {
+app.get("/contact", ensureAuthenticated, (req, res) => {
   res.render("contact", { title: "Contact Page" });
 });
 
@@ -704,6 +679,10 @@ app.post("/contactSubmit", ensureAuthenticated, async (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let message = req.body.message;
+
+  if (!name || !email || !message) {
+    return res.status(400).send("All fields are required.");
+  }
 
   const contactForm = new Form({
     name: name,
@@ -750,38 +729,20 @@ app.get("/myRecipesPage", ensureAuthenticated, async function (req, res) {
       recipeIDs.push(privateRecipes.at(i).recipeID);
     }
     const ingredients = await Ingredients.find();
-    const recipes = await Recipes.find({ $or: [{ _id: { $in: recipeIDs } }, { publicity: /Public/ }] });
-    const loggedInMember = await Member.findOne({ googleID: req.user.id });
+    //const recipes = await Recipes.find({ $or: [{ _id: { $in: recipeIDs } }, { publicity: /Public/ }] });
+    //const loggedInMember = await Member.findOne({ googleID: req.user.id });
     const usercreatedRecipes = await CreatedRecipes.find({ googleID: req.user.id });
     const recipeIds = usercreatedRecipes.map((recipe) => recipe.recipeID);
     const recentRecipes = await Recipes.find({ _id: { $in: recipeIds } })
 
-
-
     const members = await Member.find();
     const createdRecipes = await CreatedRecipes.find();
-    // Map to store member names for each recipe
-    const recipeMemberMap = {};
-    for (const createdRecipe of createdRecipes) {
-      const { recipeID, googleID } = createdRecipe;
-      const member = members.find(member => member.googleID === googleID);
-      if (member) {
-        recipeMemberMap[recipeID] = {
-          firstName: member.firstName,
-          lastName: member.lastName,
-          profilePicture: member.profilePicture,
-        };
-      }
-    }
-
     const userGoogleID = req.user.id; // Google ID of the logged-in user
 
     // Get all documents with the logged-in user's googleID from SavedRecipes
     const savedRecipesDocs = await SavedRecipes.find({ googleID: userGoogleID });
-
     // Extract the recipeID from each document and store in an array
     const bookmarkedRecipeIDs = savedRecipesDocs.map((doc) => doc.recipeID);
-
     // Fetch recipe details from Recipes collection using the recipeIDs
     const bookmarkedRecipes = await Recipes.find({ _id: { $in: bookmarkedRecipeIDs } });
 
@@ -792,7 +753,6 @@ app.get("/myRecipesPage", ensureAuthenticated, async function (req, res) {
       ingredients,
       recentRecipes,
       bookmarkedRecipes,
-      recipeMemberMap, // Pass the map of recipe IDs to member names to the template
     });
 
   } catch (error) {
