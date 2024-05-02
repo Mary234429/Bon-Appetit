@@ -17,49 +17,50 @@
 </head>
 
 <body>
-    <h1>
-        <%=mealType%>
+    <%- include('navbar') %>
+        <h1>
+            <%=mealType%>
 
-    </h1>
-    <f>
-        <%=formatedDate%>
-    </f>
-    <!-- <a href="/recipeCreate">Create a Recipe Thats Not Found</a> -->
+        </h1>
+        <f>
+            <%=formatedDate%>
+        </f>
+        <!-- <a href="/recipeCreate">Create a Recipe Thats Not Found</a> -->
 
-    <form action="/addDiet" method="post">
-        <input type="hidden" value="<%=formatedDate %>" name="date" id="date" />
-        <input type="hidden" value="<%=mealType%>" name="mealType" id="mealType" />
-        <p>Portion Size:
-            <select name="portion" id="portion">
-                <option value=0.125>1/8</option>
-                <option value=0.25>1/4</option>
-                <option value=0.33>1/3</option>
-                <option value=0.375>3/8</option>
-                <option value=0.5>1/2</option>
-                <option value=0.6>2/3</option>
-                <option value=0.625>5/8</option>
-                <option value=0.75>3/4</option>
-                <option value=0.875>7/8</option>
-                <!-- Add more options as needed -->
-            </select>
-        </p>
-        <p>Recipe Name to add:</p>
-        <ul style="list-style-type: none; padding: 0;"> <!-- Removes bullet points and padding -->
-            <li>
-                <div style="display: inline"></div>
-                <select class="Recipe js-example-basic-single" name="RecipeName">
-                    <option selected value=""></option>
-                    <% for(let i=0; i < Recipes.length; i++){%>
-                        <option value="<%=Recipes.at(i)._id%>" data-unit="<%=Recipes.at(i)._id%>">
-                            <%=Recipes.at(i).name%> (<%=Recipes.at(i).calories%> Cals)
-                        </option>
-                        <%}%>
+        <form action="/addDiet" method="post">
+            <input type="hidden" value="<%=formatedDate %>" name="date" id="date" />
+            <input type="hidden" value="<%=mealType%>" name="mealType" id="mealType" />
+            <p>Portion Size:
+                <select name="portion" id="portion">
+                    <option value=0.125>1/8</option>
+                    <option value=0.25>1/4</option>
+                    <option value=0.33>1/3</option>
+                    <option value=0.375>3/8</option>
+                    <option value=0.5>1/2</option>
+                    <option value=0.6>2/3</option>
+                    <option value=0.625>5/8</option>
+                    <option value=0.75>3/4</option>
+                    <option value=0.875>7/8</option>
+                    <!-- Add more options as needed -->
                 </select>
-            </li>
-        </ul>
+            </p>
+            <p>Recipe Name to add:</p>
+            <ul style="list-style-type: none; padding: 0;"> <!-- Removes bullet points and padding -->
+                <li>
+                    <div style="display: inline"></div>
+                    <select class="Recipe js-example-basic-single" name="RecipeName">
+                        <option selected value=""></option>
+                        <% for(let i=0; i < Recipes.length; i++){%>
+                            <option value="<%=Recipes.at(i)._id%>" data-unit="<%=Recipes.at(i)._id%>">
+                                <%=Recipes.at(i).name%> (<%=Recipes.at(i).calories%> Cals)
+                            </option>
+                            <%}%>
+                    </select>
+                </li>
+            </ul>
 
-        <input type="submit" value="Submit" />
-    </form>
+            <input type="submit" value="Submit" />
+        </form>
 </body>
 
 </html>
