@@ -35,7 +35,7 @@
   <nav class="navbar">
     <ul>
       <li><a href="/contact">Contact</a></li>
-      <li><a href="/about">About Us</a></li>
+      <li><a href="/about">About us</a></li>
       <li><a href="/recipeCreate">Create a Recipe</a></li>
 
       <li class="dropdown">
@@ -45,7 +45,7 @@
         </a>
         <div class="dropdown-content">
           <a href="/profile">Profile</a>
-          <a href="/myRecipesPage">Recipes</a>
+          <a href="/myRecipesPage">My Recipes</a>
           <a href="/dietTracker">Diet Tracker</a>
           <a href="/mydietitian">My Dietitian</a>
           <!-- <a href="/logout">Logout</a> -->
@@ -80,7 +80,7 @@
   <div class="recipeContainer">
     <span class="carousel-title">Breakfast</span>
     <div class="breakfastCarousel">
-      
+
       <!-- Left scroll button -->
       <button class="scroll-button left-scroll" onclick=>&#10094;</button>
       <!-- breakfast container -->
@@ -144,7 +144,7 @@
 
     <span class="carousel-title">Lunch</span>
     <div class="lunchCarousel">
-      
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Lunch recipes -->
       <!-- <h4>Lunch</h4> -->
@@ -209,7 +209,7 @@
 
     <span class="carousel-title">Dinner</span>
     <div class="dinnerCarousel">
-      
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Dinner recipes -->
       <!-- <h4>Dinner</h4> -->
@@ -270,7 +270,7 @@
 
     <span class="carousel-title">Snacks</span>
     <div class="snacksCarousel">
-      
+
       <button class="scroll-button left-scroll">&#10094;</button>
       <!-- Snacks recipes -->
       <!-- <h4>Snacks</h4> -->
@@ -404,6 +404,22 @@
         }
       });
 
+      // Search Bookmarks? Maybe?
+      //   $(".recipeBookmark").each(function (i, obj) {
+      //     $(this).css("display", "block");
+      //     for (let i = 0; i < filterArray.length; i++) {
+      //       let upText = filterArray.at(i).charAt(0).toUpperCase() + filterArray.at(i).substring(1);
+      //       let upSearch = new RegExp(upText);
+      //       let downText = filterArray.at(i).charAt(0).toLowerCase() + filterArray.at(i).substring(1);
+      //       let downSearch = new RegExp(downText);
+      //       if (
+      //         !upSearch.test($(this).attr("data-recipe")) &&
+      //         !downSearch.test($(this).attr("data-recipe"))
+      //       ) {
+      //         $(this).css("display", "none");
+      //       }
+      //     }
+      //   });
     });
   });
 

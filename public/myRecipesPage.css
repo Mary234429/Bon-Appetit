@@ -6,8 +6,14 @@
 .search-bar input[type="text"] {
     width: 78%;
     padding: 10px;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     border: 1px solid #ccc;
+    padding-left: 40px; /* Adds extra padding on the left to prevent text overlap */
+    border-radius: 20px; /* Rounds the corners */
+    background-image: url('search_icon.png'); /* Confirm the path is correct */
+    background-size: 16px 16px; /* Sets the size of the icon */
+    background-position: 10px center; /* Positions the icon 10px from the left, vertically centered */
+    background-repeat: no-repeat; /* Ensures the icon does not repeat */
 }
 
 .recipes-section {

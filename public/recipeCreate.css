@@ -1,10 +1,16 @@
 /* General styles to ensure the content fits the viewport width and padding */
 body {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: Lustria;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lustria', serif; 
+  background-image: url('create_recipe_1.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  min-height: 100vh; 
 }
+
 
 /* The container that holds both left and right sections */
 .container {
@@ -14,6 +20,9 @@ justify-content: center;
 align-items: flex-start;
 gap: 20px; /* Adds some space between the two containers */
 padding: 20px;
+
+/* box-shadow: 0 2px 10px rgba(0,0,0,0.1); */
+
 }
 
 h1 {
@@ -35,6 +44,7 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 max-width: 50%; /* Limits the maximum width to half of the container */
+border-radius: 15px;
 }
 
 /* The right container styles for form inputs */
@@ -44,6 +54,11 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 max-width: 50%; /* Same as left container to maintain balance */
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+gap: 20px;
+padding: 20px;
+border-radius: 15px;
+background-color: white;
 }
 
 /* Styles for form elements to make them full width within their containers */
@@ -76,14 +91,15 @@ font-family: Lustria;
     padding: 70px 90px;
     cursor: pointer;
     border-radius: 15px;
-    background: linear-gradient(45deg, #6c8347, #b0d674);
-    color: white;
+    /* background: linear-gradient(45deg, #dcddda, #ffffff); */
+    color: rgb(243, 243, 243);
+    border-color: grey;
     margin-right:240px;
     font-size: 16px;
     text-shadow: 1px 1px #000;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); */
     transition: all 0.3s ease;
-    border: none;
+    border: 1px solid grey;
     outline: none;
     text-align: center;
     vertical-align: middle;
@@ -91,7 +107,7 @@ font-family: Lustria;
 }
 
 .custom-file-upload:hover {
-    background: linear-gradient(45deg, #95b465, #dbffa1);
+  background-color: #8da862;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     transform: translateY(-2px);
 }
@@ -109,8 +125,8 @@ font-family: Lustria;
 /* Button styles */
 button, input[type="submit"] {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #6c8347; /* Green background */
+    padding: 5px 15px;
+    background-color: #8da862; /* Green background */
     color: white;
     font-size: 16px;
     border: none;
@@ -206,7 +222,7 @@ input[name="instructions[]"], input[name="recipeTags[]"] {
   /* Button styling to match form controls */
   #addInstruction, #addTag {
     padding: 10px 20px;
-    background-color: #6c8347; /* Consistent button color */
+    background-color: #8da862;/* Consistent button color */
     color: white;
     border: none;
     border-radius: 15px;
@@ -254,7 +270,7 @@ input[name="instructions[]"], input[name="recipeTags[]"] {
     display: inline-block;
     padding: 10px 20px;
     margin-right: 410px;
-    background-color: #6c8347; /* A bright, noticeable color */
+    background-color: #8da862;/* A bright, noticeable color */
     color: #fff; /* White text */
     border: none; /* No border */
     border-radius: 15px; /* Rounded corners for the button */
@@ -269,12 +285,12 @@ input[name="instructions[]"], input[name="recipeTags[]"] {
 
 #addTool:focus {
     outline: none; /* Remove focus outline to maintain styled look */
-    box-shadow: 0 0 0 2px #6c8347; /* Custom focus style */
+    box-shadow: 0 0 0 2px #8da862;; /* Custom focus style */
 }
 .add-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #6c8347; /* Green background */
+    background-color: #8da862;; /* Green background */
     color: white;
     font-size: 16px;
     border: none;

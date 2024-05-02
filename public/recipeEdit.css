@@ -2,15 +2,13 @@
 body {
     margin: 0;
     padding: 0;
-    padding-top: 60px;
-    margin-left:30px;
     box-sizing: border-box;
-    font-family: 'Lustria', serif; /* Make sure the font is correctly quoted */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
-    background-color: #ffffff; /* Example background color */
+    font-family: 'Lustria', serif; 
+    background-image: url('create_recipe_3.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    min-height: 100vh; 
   }
     /* Navbar styles */
 /* Navbar centering */
@@ -99,7 +97,7 @@ body {
     
     /* The container that holds both left and right sections */
     .container {
-        width: 60%; /* Limiting max width to 90% of viewport width */
+        width: 50%; /* Limiting max width to 90% of viewport width */
         max-width: 1000px; /* Maximum width of the container */
         margin: 20px auto; /* Centering the container with automatic margins */
         display: flex;
@@ -107,6 +105,7 @@ body {
         align-items: center; /* Center-align the content */
         gap: 20px;
         padding: 20px;
+        background-color: white;
         /* background-color: #8a4f4f; Optional: background color for the container */
         box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Optional: adding some shadow for depth */
         border-radius: 15px; /* Optional: rounding corners */
@@ -172,25 +171,27 @@ body {
         padding: 70px 90px;
         cursor: pointer;
         border-radius: 15px;
-        background: linear-gradient(45deg, #6c8347, #b0d674);
-        color: white;
+        /* background: linear-gradient(45deg, #dcddda, #ffffff); */
+        color: rgb(243, 243, 243);
+        border-color: grey;
         margin-right:240px;
         font-size: 16px;
         text-shadow: 1px 1px #000;
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); */
         transition: all 0.3s ease;
-        border: none;
+        border: 1px solid grey;
         outline: none;
         text-align: center;
         vertical-align: middle;
         font-family: Lustria;
     }
     
+    
     .custom-file-upload:hover {
-        background: linear-gradient(45deg, #95b465, #dbffa1);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        transform: translateY(-2px);
-    }
+        background-color: #8da862;
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+          transform: translateY(-2px);
+      }
     
     .custom-file-upload:active {
         background: linear-gradient(45deg, #485730, #8aa55e);
@@ -209,8 +210,8 @@ body {
     /* Button styles */
     button, input[type="submit"] {
         display: inline-block;
-        padding: 10px 20px;
-        background-color: #6c8347; /* Green background */
+        padding: 5px 15px;
+        background-color: #8da862; ;/* Green background */
         color: white;
         font-size: 16px;
         border: none;
@@ -309,7 +310,7 @@ body {
       /* Button styling to match form controls */
       #addInstruction, #addTag {
         padding: 10px 20px;
-        background-color: #6c8347; /* Consistent button color */
+        background-color: #8da862;  /* Consistent button color */
         color: white;
         border: none;
         border-radius: 15px;
@@ -357,7 +358,7 @@ body {
         display: inline-block;
         padding: 10px 20px;
         margin-right: 410px;
-        background-color: #6c8347; /* A bright, noticeable color */
+        background-color: #8da862; 
         color: #fff; /* White text */
         border: none; /* No border */
         border-radius: 15px; /* Rounded corners for the button */
@@ -376,8 +377,8 @@ body {
     }
     .add-button {
         display: inline-block;
-        padding: 10px 20px;
-        background-color: #6c8347; /* Green background */
+        padding: 5px 10px;
+        background-color: #8da862; 
         color: white;
         font-size: 16px;
         border: none;

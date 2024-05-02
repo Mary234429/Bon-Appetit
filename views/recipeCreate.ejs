@@ -55,6 +55,7 @@
           <label for="thumbnail" class="custom-file-upload">
             <i class="fa fa-upload"></i> Upload Image
           </label>
+
           <input type="file" id="thumbnail" name="thumbnail" style="display:none;" required accept="image/*" />
           <span id="file-name"></span>
           <input type="text" placeholder="Recipe Name" name="recipeName" id="recipeName" /><br />
@@ -178,14 +179,14 @@
         $("#addTool").click(function () {
           $("#tools").append(
             $(
-              '<li><input  class="recipeTools" placeholder="Tools Required" name="recipeTools[]"/><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+              '<li><input  class="recipeTools" placeholder="Tools Required" name="recipeTools[]"/><button type="button" onClick="deleteParent($(this))">-</button></li>'
             )
           );
         });
 
         //Add an Ingredient field
         $("#addIngredient").click(function () {
-          let toAdd = '<li> <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <div style="display: inline"></div>' + ingredient + '<button type="button" onclick="deleteParent($(this))">Delete</button></li>'
+          let toAdd = '<li> <input class="ingredientAmount" placeholder="Amount" name="ingredientAmounts[]" /> <div style="display: inline"></div>' + ingredient + '<button type="button" onclick="deleteParent($(this))">-</button></li>'
           $("#ingredientList").append($(toAdd));
           $(".js-example-basic-single").select2();
         });
@@ -204,7 +205,7 @@
         $("#addInstruction").click(function () {
           $("#instructions").append(
             $(
-              '<li> <input  name="instructions[]" placeholder="Instruction" /><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+              '<li> <input  name="instructions[]" placeholder="Instruction" /><button type="button" onClick="deleteParent($(this))">-</button></li>'
             )
           );
         });
@@ -212,7 +213,7 @@
         $("#addTag").click(function () {
           $("#recipeTags").append(
             $(
-              '<li> <input  name="recipeTags[]" placeholder="Recipe Tag" /><button type="button" onClick="deleteParent($(this))">Delete</button></li>'
+              '<li> <input  name="recipeTags[]" placeholder="Recipe Tag" /><button type="button" onClick="deleteParent($(this))">-</button></li>'
             )
           );
         });
