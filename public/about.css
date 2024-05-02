@@ -66,7 +66,8 @@ h1{
     position: relative;
     align-items: center;
     padding-right: 5%;
-    margin-top: 5%;
+    margin-top: 2%;
+    line-height: 2; /* Double spacing */
     /*background-color: purple;*/
   }
   .left-container img{

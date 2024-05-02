@@ -21,6 +21,7 @@
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/contact">Contact</a></li>
       <li><a href="/about">About us</a></li>
+      <li><a href="/recipeCreate">Create a Recipe</a></li>
       <li class="dropdown">
         <a href="/profile" class="dropbtn">
 
@@ -28,9 +29,10 @@
           <i class="fa fa-caret-down"></i>
         </a>
         <div class="dropdown-content">
+          <a href="/profile">Profile</a>
+          <a href="/myRecipesPage">My Recipes</a>
           <a href="/dietTracker">Diet Tracker</a>
-          <a href="/recipeCreate">Recipe Create</a>
-          <a href="/dietPlanCreate">Diet Plan Create</a>
+          <a href="/mydietitian">My Dietitian</a>
           <a href="/logout">Logout</a>
         </div>
       </li>
@@ -94,7 +96,7 @@
                   <input class="recipeTools" placeholder="Tools Required" name="recipeTools[]"
                     value=<%=recipe.toolsNeeded.at(i)%>
                   />
-                  <%if (i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                  <%if (i> 0){%><button type="button" onClick="deleteParent($(this))">-</button>
                     <%}%>
               </li>
               <%}}%>
@@ -132,7 +134,7 @@
                     </option>
                     <%}%>
                 </select>
-                <% if(j> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                <% if(j> 0){%><button type="button" onClick="deleteParent($(this))">-</button>
                   <%}%>
               </li>
               <%}%>
@@ -143,23 +145,23 @@
             <% for(let i=0; i < recipe.instructions.length; i++){%>
               <li>
                 <input name="instructions[]" placeholder="Instruction" value="<%=recipe.instructions.at(i)%>" />
-                <% if(i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                <% if(i> 0){%><button type="button" onClick="deleteParent($(this))">-</button>
                   <%}%>
               </li>
               <%}%>
           </ol>
           <button type="button" id="addInstruction">Add New Instruction</button>
-
           <ul id="recipeTags">
-            <% for(let i=0; i < recipe.tags.size; i++){%>
+            <% for(let i=0; i < recipe.tags.length; i++){%>
               <li>
-                <input name="recipeTags[]" placeholder="Recipe Tag" value=<%=recipe.tags.at(i)%>/>
-                <%if(i> 0){%><button type="button" onClick="deleteParent($(this))">Delete</button>
+                <input name="recipeTags[]" placeholder="Recipe Tag" value=<%=recipe.tags.at(i)%>>
+                <%if(i> 0){%><button type="button" onClick="deleteParent($(this))">-</button>
                   <%}%>
               </li>
               <%}%>
           </ul>
           <button type="button" id="addTag">Add New Tag</button>
+          </br>
           <label for="breakfast">Breakfast</label>
           <input id="breakfast" type="checkbox" value="Breakfast" name="mealType[]"
             <%if(/Breakfast/.test(recipe.mealType)){%>checked<%}%>

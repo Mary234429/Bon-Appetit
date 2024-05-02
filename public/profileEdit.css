@@ -82,7 +82,7 @@ input[type="text"]:focus,input[type="email"]:focus {
   background-size: contain;
   background: url("wheat_1.png") center center/cover no-repeat;
   background-size: cover;
-  margin-left:38%;
+  margin-left:36%;
   margin-top: 1%;
 }
 .wheat_2 {
@@ -92,7 +92,7 @@ input[type="text"]:focus,input[type="email"]:focus {
   background: url("wheat_2.png") center center no-repeat;
   background-size: cover;
   background-size: contain;
-  margin-left:56%;
+  margin-left:57%;
   margin-top: 1%;
 }
 .button{
