@@ -1,101 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title><%= recipe.name %> </title>
+
+<head>
+    <title>
+        <%= recipe.name %>
+    </title>
     <link rel="stylesheet" type="text/css" href="/recipe.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lustria&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <!-- This is broken -->
-      <!-- <link rel="icon" href="favicon.ico" type="image/x-icon">-->
+    <!-- This is broken -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon">-->
 
     <!-- we love math -- no touch -->
-    <%function timeAgo(timestamp) {
-        const currentDate = new Date();
-        const commentDate = new Date(timestamp);
-        const timeDifference = currentDate.getTime() - commentDate.getTime();
-        const minutesAgo = Math.floor(timeDifference / (1000 * 60));
-        const hoursAgo = Math.floor(minutesAgo / 60);
-        const daysAgo = Math.floor(hoursAgo / 24);
-        
-        if (daysAgo >= 2) {
-            // If more than 48 hours, specify the date the comment was posted
-            const options = { month: 'short', day: 'numeric' };
-            return commentDate.toLocaleDateString('en-US', options);
+    <%function timeAgo(timestamp) { const currentDate=new Date(); const commentDate=new Date(timestamp); const
+        timeDifference=currentDate.getTime() - commentDate.getTime(); const minutesAgo=Math.floor(timeDifference / (1000
+        * 60)); const hoursAgo=Math.floor(minutesAgo / 60); const daysAgo=Math.floor(hoursAgo / 24); if (daysAgo>= 2) {
+        // If more than 48 hours, specify the date the comment was posted
+        const options = { month: 'short', day: 'numeric' };
+        return commentDate.toLocaleDateString('en-US', options);
         } else if (hoursAgo > 0) {
-            return hoursAgo === 1 ? `${hoursAgo} hour ago` : `${hoursAgo} hours ago`;
+        return hoursAgo === 1 ? `${hoursAgo} hour ago` : `${hoursAgo} hours ago`;
         } else if (minutesAgo > 0) {
-            return minutesAgo === 1 ? `${minutesAgo} minute ago` : `${minutesAgo} minutes ago`;
+        return minutesAgo === 1 ? `${minutesAgo} minute ago` : `${minutesAgo} minutes ago`;
         } else {
-            return 'Just now';
+        return 'Just now';
         }
-    } %>
-    <% const formattedDate = createdRecipe[0].timestamp.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); %>
-    <% const formattedTime = createdRecipe[0].timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' }); %>
-    <!-- ok you can touch below here :) -->
+        } %>
+        <% const formattedDate=createdRecipe[0].timestamp.toLocaleDateString('en-US', { year: 'numeric' , month: 'short'
+            , day: 'numeric' }); %>
+            <% const formattedTime=createdRecipe[0].timestamp.toLocaleTimeString('en-US', { hour: 'numeric' ,
+                minute: '2-digit' , second: '2-digit' }); %>
+                <!-- ok you can touch below here :) -->
 
 </head>
+
 <body>
     <nav class="navbar">
-    <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/about">About Us</a></li>
-  
-        <li class="dropdown">
-          <a href="/profile" class="dropbtn">
-  
-            Profile
-            <i class="fa fa-caret-down"></i>
-          </a>
-          <div class="dropdown-content">
-            <a href="/profile">Profile</a>
-            <a href="/myRecipesPage">Recipes</a>
-            <a href="/dietTracker">Diet Tracker</a>
-            
-            <a href="/mydietitian">My Dietitian</a>
-            <!-- <a href="/logout">Logout</a> -->
-          </div>
-        </li>
-      </ul>
+        <ul>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/about">About us</a></li>
+            <li><a href="/recipeCreate">Create a Recipe</a></li>
+            <li class="dropdown">
+                <a href="/profile" class="dropbtn">
+
+                    Profile
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-content">
+                    <a href="/profile">Profile</a>
+                    <a href="/myRecipesPage">My Recipes</a>
+                    <a href="/dietTracker">Diet Tracker</a>
+                    <a href="/mydietitian">My Dietitian</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </li>
+        </ul>
     </nav>
-    
+
     <div class="image-container">
         <% if(recipe.thumbnail==null) { %>
-            <img src="plate.png"
-              alt="<%= recipe.name %> Thumbnail">
+            <img src="plate.png" alt="<%= recipe.name %> Thumbnail">
             <% } else { %>
-              <img
-                src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
-                alt="<%= recipe.name %> Thumbnail"
-                class="banner-image">
-              <% } %>
-        <div class="text">
-            <h1><%= recipe.name %></h1>
-            <p><%= recipe.description %></p>
-
-            <% members.forEach(function(members) { %>
-                <% if (members.googleID === createdRecipe[0].googleID) { %>
-                    <p>Authored by: <img src="<%= members.profilePicture %>" alt="Profile Picture of recipe creator" class="author-profile-picture"> <%= members.firstName %> <%= members.lastName %></p>
-                    
+                <img src="data:image/jpeg;base64,<%= recipe.thumbnail.toString('base64') %>"
+                    alt="<%= recipe.name %> Thumbnail" class="banner-image">
                 <% } %>
-            <% }); %>
-            <p>Posted at <%= formattedTime %> on <%= formattedDate %></p>
-        </div>
+                    <div class="text">
+                        <h1>
+                            <%= recipe.name %>
+                        </h1>
+                        <p>
+                            <%= recipe.description %>
+                        </p>
+
+                        <% members.forEach(function(members) { %>
+                            <% if (members.googleID===createdRecipe[0].googleID) { %>
+                                <p>Authored by: <img src="<%= members.profilePicture %>"
+                                        alt="Profile Picture of recipe creator" class="author-profile-picture">
+                                    <%= members.firstName %>
+                                        <%= members.lastName %>
+                                </p>
+
+                                <% } %>
+                                    <% }); %>
+                                        <p>Posted at <%= formattedTime %> on <%= formattedDate %>
+                                        </p>
+                    </div>
     </div>
-    
-<div class="inner-container">
-    <div class="left-container">
-    <hr>
-    <h2>Recipe Details:</h2>
-    <% if (recipe.toolsNeeded != "") { %>
-        <h3>Tools Needed:</h3>
-        <p><%= recipe.toolsNeeded.join(", ") %></p>
+
+    <div class="inner-container">
+        <div class="left-container">
+            <hr>
+            <h2>Recipe Details:</h2>
+            <% if (recipe.toolsNeeded !="" ) { %>
+                <h3>Tools Needed:</h3>
+                <p>
+                    <%= recipe.toolsNeeded.join(", ") %></p>
     <% } %>
     <table>
         <thead>
@@ -115,105 +121,118 @@
         </tbody>
     </table>
     </div>
-    <div class="right-container">
-    <h3>Instructions:</h3>
-    <ol>
-        <% for (let i = 0; i < recipe.instructions.length; i++) { %>
-            <li><%= recipe.instructions[i] %></li>
-        <% } %>
-    </ol>
-    <h3>Tags:</h3>
-    <p><%= recipe.tags.join(", ") %></p>
+    <div class=" right-container">
+                        <h3>Instructions:</h3>
+                        <ol>
+                            <% for (let i=0; i < recipe.instructions.length; i++) { %>
+                                <li>
+                                    <%= recipe.instructions[i] %>
+                                </li>
+                                <% } %>
+                        </ol>
+                        <h3>Tags:</h3>
+                        <p>
+                            <%= recipe.tags.join(", ") %></p>
     <h3>Meal Type:</h3>
-    <p><%= recipe.mealType.join(", ") %></p>
+    <p><%= recipe.mealType.join(" , ") %></p>
     <hr>
 </div>
-    <div class="button-container">
-        <% if (createdRecipe[0].googleID == author) { %>
-            <form action="/recipe/edit/<%= recipe.id %>" method="get">
-                <button type="submit" class="button">Edit Recipe</button>
-            </form>
-        <% } else { %> 
-            <form action="/recipe/customize/<%= recipe.id %>" method="get">
-                <button type="submit" class="button">Customize Recipe</button>
-            </form>
-        <% } %>
-    
-        <!-- Add a 'Bookmark Recipe' button on the recipe page -->
-        <form action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>" method="post">
-            <input type="hidden" name="recipeID" value="<%= recipe._id %>">
-            <input type="hidden" name="userGoogleID" value="<%= author %>">
-            <button type="submit" class="bookmark-button <% if (isBookmarked) { %>bookmarked<% } %>">
-                <span class="icon"></span>
-            </button>
-        </form>
-</div>
-</div>
+    <div class=" button-container">
+                                <% if (createdRecipe[0].googleID==author) { %>
+                                    <form action="/recipe/edit/<%= recipe.id %>" method="get">
+                                        <button type="submit" class="button">Edit Recipe</button>
+                                    </form>
+                                    <% } else { %>
+                                        <form action="/recipe/customize/<%= recipe.id %>" method="get">
+                                            <button type="submit" class="button">Customize Recipe</button>
+                                        </form>
+                                        <% } %>
+
+                                            <!-- Add a 'Bookmark Recipe' button on the recipe page -->
+                                            <form
+                                                action="<% if (isBookmarked) { %>/removeBookmark/<%= recipe._id %><% } else { %>/bookmarkRecipe/<%= recipe._id %><% } %>"
+                                                method="post">
+                                                <input type="hidden" name="recipeID" value="<%= recipe._id %>">
+                                                <input type="hidden" name="userGoogleID" value="<%= author %>">
+                                                <button type="submit"
+                                                    class="bookmark-button <% if (isBookmarked) { %>bookmarked<% } %>">
+                                                    <span class="icon"></span>
+                                                </button>
+                                            </form>
+        </div>
+    </div>
     <div class="comment-container">
         <% if (picture) { %>
             <img src="<%= picture %>" alt="Profile Picture" class="profile-picture">
-        <% } else { %>
-            <!-- picture should always exist but who knows -->
-            <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
-        <% } %> 
-        <form action="/commentSubmit/<%=recipe.id%>" method="post" class="comment-form">
-            <!-- edit below line to actually use recipe ID -->
-            <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
-            <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
-            <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
-            <input type="submit" class="button"value="Submit">
-        </form>
+            <% } else { %>
+                <!-- picture should always exist but who knows -->
+                <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
+                <% } %>
+                    <form action="/commentSubmit/<%=recipe.id%>" method="post" class="comment-form">
+                        <!-- edit below line to actually use recipe ID -->
+                        <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
+                        <input type="hidden" name="authorID" id="authorID" value="<%= author %>"><br>
+                        <textarea id="message" name="message" cols="50" placeholder="Comment"></textarea><br>
+                        <input type="submit" class="button" value="Submit">
+                    </form>
     </div>
-</br>
+    </br>
 
-        <% for(let i = comments.length-1; i >= 0; i--) { %>
-            <% const authorDetails = map[comments[i]._id]; %>
+    <% for(let i=comments.length-1; i>= 0; i--) { %>
+        <% const authorDetails=map[comments[i]._id]; %>
             <div class="comment"></div>
-                    <% if (authorDetails && authorDetails.profilePicture) { %>
-                        <img src="<%= authorDetails.profilePicture %>" alt="Profile Picture" class="profile-picture">
-                    <% } else { %>
-                        <!-- picture should always exist but who knows -->
-                        <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
-                    <% } %> 
-                    <% if (authorDetails) { %>
-                        <b><%= authorDetails.firstName %> <%= authorDetails.lastName %></b>
-                    <% } else { %>
-                        Unknown User
+            <% if (authorDetails && authorDetails.profilePicture) { %>
+                <img src="<%= authorDetails.profilePicture %>" alt="Profile Picture" class="profile-picture">
+                <% } else { %>
+                    <!-- picture should always exist but who knows -->
+                    <img src="/default-profile-picture.png" alt="Default Profile Picture" class="profile-picture">
                     <% } %>
-                    &emsp;
-                <%= timeAgo(comments[i].timestamp) %>
-                <br>
-                <br>
-                &emsp;&emsp;&emsp;<%= comments[i].message %>
-              
-                    <% if (author && comments[i].authorID === author) { %>
-                        <!-- Show delete button if the current user is the author of the comment -->
-                        <form action="/deleteComment/<%=recipe.id%>" method="post">
-                            <input type="hidden" name="recipeID" id="recipeID" value="<%=recipe.id %>"><br>
-                            <input type="hidden" name="commentID" value="<%= comments[i]._id %>">
-                            <button type="submit" class="comment-button">Delete</button>
-                        </form>
-                    <% } %>
-                    <br>
-                </div>
-        <% }; %>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            // JavaScript
-            $(document).ready(function() {
-                $('.bookmark-form').submit(function(event) {
-                    event.preventDefault(); // Prevent the default form submission
-                    
-                    // Make an AJAX request to submit the form data
-                    var formData = $(this).serialize();
-                    var url = $(this).attr('action');
-                    
-                    $.post(url, formData, function(response) {
-                        // Toggle the 'bookmarked' class based on the response
-                        $('.bookmark-button', this).toggleClass('bookmarked', response.isBookmarked);
-                    });
-                });
-            });
-        </script>
+                        <% if (authorDetails) { %>
+                            <b>
+                                <%= authorDetails.firstName %>
+                                    <%= authorDetails.lastName %>
+                            </b>
+                            <% } else { %>
+                                Unknown User
+                                <% } %>
+                                    &emsp;
+                                    <%= timeAgo(comments[i].timestamp) %>
+                                        <br>
+                                        <br>
+                                        &emsp;&emsp;&emsp;<%= comments[i].message %>
+
+                                            <% if (author && comments[i].authorID===author) { %>
+                                                <!-- Show delete button if the current user is the author of the comment -->
+                                                <form action="/deleteComment/<%=recipe.id%>" method="post">
+                                                    <input type="hidden" name="recipeID" id="recipeID"
+                                                        value="<%=recipe.id %>"><br>
+                                                    <input type="hidden" name="commentID"
+                                                        value="<%= comments[i]._id %>">
+                                                    <button type="submit" class="comment-button">Delete</button>
+                                                </form>
+                                                <% } %>
+                                                    <br>
+                                                    </div>
+                                                    <% }; %>
+                                                        <script
+                                                            src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                        <script>
+                                                            // JavaScript
+                                                            $(document).ready(function () {
+                                                                $('.bookmark-form').submit(function (event) {
+                                                                    event.preventDefault(); // Prevent the default form submission
+
+                                                                    // Make an AJAX request to submit the form data
+                                                                    var formData = $(this).serialize();
+                                                                    var url = $(this).attr('action');
+
+                                                                    $.post(url, formData, function (response) {
+                                                                        // Toggle the 'bookmarked' class based on the response
+                                                                        $('.bookmark-button', this).toggleClass('bookmarked', response.isBookmarked);
+                                                                    });
+                                                                });
+                                                            });
+                                                        </script>
 </body>
+
 </html>

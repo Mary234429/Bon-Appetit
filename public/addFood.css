@@ -7,7 +7,7 @@ body {
     min-height: 100vh; /* Minimum height to take full viewport height */
     margin: 0; /* Removes default margin */
     padding: 10px; /* Adds some padding around the content */
-    background-color: #f4f4f4; /* Sets a background color */
+    /* background-color: #f4f4f4; Sets a background color */
     background-image: url('add_food_7.jpg'); 
     background-size: cover; 
     background-position: center; 
@@ -18,7 +18,8 @@ body {
 
 h1, f {
     text-align: center; /* Centers the text horizontally */
-    width: 100%; /* Ensures the width takes up 100% of the container */
+    width: 100%;
+    margin-top: -17px;; /* Ensures the width takes up 100% of the container */
     /* margin: auto; Centers the block itself if needed */
 }
 
@@ -46,7 +47,7 @@ form {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     max-width: 500px; /* Max width to keep form size manageable on large screens */
     margin: auto; /* Centering the form */
-    margin-top:30px;
+    margin-top:5px;
 }
 
 p {
